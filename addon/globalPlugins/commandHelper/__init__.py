@@ -21,6 +21,7 @@ import globalPluginHandler
 import scriptHandler
 import tones
 import ui
+import re
 # import wx
 import gui
 import inputCore
@@ -64,7 +65,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 	def getScript(self, gesture):
 		#6 Allow the use of the navigation keys for braille displays
-		if not self.toggling: # or "br:" in gesture
+		if not self.toggling or re.match("br(\(.+\))?", gesture.normalizedIdentifiers[0]):
 			return globalPluginHandler.GlobalPlugin.getScript(self, gesture)
 		script = globalPluginHandler.GlobalPlugin.getScript(self, gesture)
 		if not script:
