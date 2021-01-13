@@ -9,7 +9,7 @@ The keyboard command layer takes code from the Instant Translate addon by Alexy 
 Provides a virtual menu where you can select any command to be executed without having to press its gesture.
 """
 
-# from keyboardHandler import KeyboardInputGesture
+from keyboardHandler import KeyboardInputGesture
 import addonHandler
 import api
 import appModuleHandler
@@ -147,9 +147,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			raise
 			return
 		try:
-			g = commandInfo.gestures[0]
+			g = inputCore._getGestureClsForIdentifier(commandInfo.gestures[0])
 		except:
-			g = None
+			g = KeyboardInputGesture
 		try:
 			scriptHandler.executeScript(script, g)
 		except:
