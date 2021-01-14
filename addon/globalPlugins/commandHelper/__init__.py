@@ -28,7 +28,7 @@ import inputCore
 import globalPlugins
 import appModules
 import globalCommands
-# import speech
+import speech
 from functools import wraps
 
 addonHandler.initTranslation()
@@ -156,12 +156,19 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		except:
 			raise
 		else:
+			if gesture.modifierNames == ["shift"]:
+				speech.cancelSpeech()
+				scriptHandler.executeScript(script, g)
+			elif gesture.modifierNames == ["control"]:
+				speech.cancelSpeech()
+				scriptHandler.executeScript(script, g)
+				speech.cancelSpeech()
+				scriptHandler.executeScript(script, g)
 			if self.commands[self.commandIndex] not in self.recentCommands:
 				key = self.commands[self.commandIndex]
 				if commandInfo.className == "AppModule":
 					key = "%s: %s" % (self.categories[self.catIndex], key)
 				self.recentCommands[key] = commandInfo
-		#4 Implement support for scripts with getLastScriptRepeatCount
 		self.finish()
 
 	def script_AnnounceGestures(self, gesture):
@@ -184,6 +191,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	"kb:downArrow": "nextCommand",
 	"kb:upArrow": "previousCommand",
 	"kb:enter": "executeCommand",
+	"kb:control+enter": "executeCommand",
+	"kb:shift+enter": "executeCommand",
 	"kb:F1": "AnnounceGestures"
 	}
 
