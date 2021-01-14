@@ -150,6 +150,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			g = inputCore._getGestureClsForIdentifier(commandInfo.gestures[0])
 		except:
 			g = KeyboardInputGesture
+		print (g.script)
 		try:
 			scriptHandler.executeScript(script, g)
 		except:
@@ -163,6 +164,17 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		#4 Implement support for scripts with getLastScriptRepeatCount
 		self.finish()
 
+	def script_AnnounceGestures(self, gesture):
+		commandInfo = self.gestures[self.categories[self.catIndex]][self.commands[self.commandIndex]]
+		if commandInfo.gestures:
+			try:
+				ui.message(".\n".join([": ".join(KeyboardInputGesture.getDisplayTextForIdentifier(g)) for g in commandInfo.gestures]))
+			except:
+				ui.message("\n".join(commandInfo.gestures))
+		else:
+			ui.message(_("There is no gesture"))
+		#9 Search for keyboard conflicts and announce them
+
 	def script_exit(self, gesture):
 		ui.message(_("Leaving the command hhelper"))
 
@@ -171,8 +183,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	"kb:leftArrow": "previousCategory",
 	"kb:downArrow": "nextCommand",
 	"kb:upArrow": "previousCommand",
-	"kb:enter": "executeCommand"
-	#5 Implement F1 to announce the gesture corresponding to the selected command
+	"kb:enter": "executeCommand",
+	"kb:F1": "AnnounceGestures"
 	}
 
 	__gestures = {
