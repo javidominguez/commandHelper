@@ -1,0 +1,64 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: commandHelper\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-01-16 18:39+0100\n"
+"PO-Revision-Date: 2021-01-16 19:00+0100\n"
+"Last-Translator: \n"
+"Language-Team: Javi Domínguez\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.8\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: __init__.py:47
+msgid "Command helper"
+msgstr "Ayudante de órdenes"
+
+#: __init__.py:82
+msgid "Available commands"
+msgstr "Órdenes disponibles"
+
+#: __init__.py:84
+msgid ""
+"Use right and left arrows to navigate categories, up and down arrows to "
+"select a script and enter to run the selected."
+msgstr ""
+"Use flechas derecha e izquierda para navegar por categorías, flechas "
+"arriba y abajo para seleccionar una órden y Enter para ejecutar la "
+"órden seleccionada."
+
+#: __init__.py:89 __init__.py:143
+msgid "Failed to retrieve scripts."
+msgstr "Error al recuperar el script"
+
+#: __init__.py:93 __init__.py:94
+msgid "Recents"
+msgstr "Recientes"
+
+#: __init__.py:99
+msgid ""
+"Provides a virtual menu where you can select any command to be executed "
+"without having to press its gesture."
+msgstr ""
+"Proporciona un menú virtual donde puede seleccionar cualquier órden y "
+"ejecutarla sin tener que presionar su gesto."
+
+#: __init__.py:123 __init__.py:171
+msgid "Select a command using up or down arrows"
+msgstr "Seleccione una órden con flechas arriba y abajo"
+
+#: __init__.py:136
+msgid "Can't run this script here"
+msgstr "No se puede ejecutar esta órden aquí"
+
+#: __init__.py:180
+msgid "There is no gesture"
+msgstr "No tiene gesto"
+
+#: __init__.py:184
+msgid "Leaving the command hhelper"
+msgstr "Saliendo del ayudante de órdenes"

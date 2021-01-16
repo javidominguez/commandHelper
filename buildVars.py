@@ -19,7 +19,7 @@ addon_info = {
 	# Translators: Long description to be shown for this add-on on add-on information from add-ons manager
 	"addon_description" : _("""Provides a alternative method for executing scripts for people who have difficulty pressing complicated key combinations."""),
 	# version
-	"addon_version" : "dev20200110",
+	"addon_version" : "dev20210116",
 	# Author(s)
 	"addon_author" : u"Javi Dominguez <fjavids@gmail.com>",
 	# URL for the add-on documentation support
@@ -27,9 +27,9 @@ addon_info = {
 	# Documentation file name
 	"addon_docFileName" : "readme.html",
 	# Minimum NVDA version supported (e.g. "2018.3.0")
-	"addon_minimumNVDAVersion" : "2020.2.0",
+	"addon_minimumNVDAVersion" : "2018.1.0",
 	# Last NVDA version supported/tested (e.g. "2018.4.0", ideally more recent than minimum version)
-	"addon_lastTestedNVDAVersion" : "2020.3.0",
+	"addon_lastTestedNVDAVersion" : "2020.4.0",
 	# Add-on update channel (default is stable or None)
 	"addon_updateChannel" : None,
 }

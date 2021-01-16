@@ -9,27 +9,22 @@ The keyboard command layer takes code from the Instant Translate addon by Alexy 
 Provides a virtual menu where you can select any command to be executed without having to press its gesture.
 """
 
+from functools import wraps
 from keyboardHandler import KeyboardInputGesture
 import addonHandler
 import api
 import appModuleHandler
-# import collections
-import globalPluginHandler
-# import globalVars
-# import os
-# import pickle
-import scriptHandler
-import tones
-import ui
-import re
-# import wx
-import gui
-import inputCore
-import globalPlugins
 import appModules
 import globalCommands
+import globalPluginHandler
+import globalPlugins
+import gui
+import inputCore
+import re
+import scriptHandler
 import speech
-from functools import wraps
+import tones
+import ui
 
 addonHandler.initTranslation()
 
@@ -59,12 +54,12 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.commands = []
 		self.commandIndex = 0
 		self.recentCommands = {}
+		self.firstTime = True
 
 	def terminate(self):
 		pass #1 store recents Upon leaving
 
 	def getScript(self, gesture):
-		#6 Allow the use of the navigation keys for braille displays
 		if not self.toggling or re.match("br(\(.+\))?", gesture.normalizedIdentifiers[0]):
 			return globalPluginHandler.GlobalPlugin.getScript(self, gesture)
 		script = globalPluginHandler.GlobalPlugin.getScript(self, gesture)
@@ -85,12 +80,13 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.bindGestures(self.__CHGestures)
 		self.toggling = True
 		ui.message(_("Available commands"))
-		#2 Say this help message only the first time, implement in config.
-		ui.message(_("Use right and left arrows to navigate categories, up and down arrows to select a script and enter to run the selected."))
+		if self.firstTime:
+			ui.message(_("Use right and left arrows to navigate categories, up and down arrows to select a script and enter to run the selected."))
+			self.firstTime = False
 		try:
 			self.gestures = inputCore.manager.getAllGestureMappings(obj=gui.mainFrame.prevFocus, ancestors=gui.mainFrame.prevFocusAncestors)
 		except:
-			ui.message("fallo al recuperar los scripts")
+			ui.message(_("Failed to retrieve scripts."))
 		self.categories = sorted(self.gestures)
 		self.categories.remove(self.scriptCategory)
 		if self.recentCommands:
@@ -124,7 +120,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 	def script_executeCommand(self, gesture):
 		if self.commandIndex < 0:
-			ui.message(self.categories[self.catIndex])
+			ui.message(_("Select a command using up or down arrows"))
 			return
 		commandInfo = self.gestures[self.categories[self.catIndex]][self.commands[self.commandIndex]]
 		try:
@@ -141,16 +137,15 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 					return
 			else:
 				self.finish()
-				return
+				raise RuntimeError("Failed to retrieve scripts. Not found in known modules.")
 		except:
 			self.finish()
+			ui.message(_("Failed to retrieve scripts."))
 			raise
-			return
 		try:
 			g = inputCore._getGestureClsForIdentifier(commandInfo.gestures[0])
 		except:
 			g = KeyboardInputGesture
-		print (g.script)
 		try:
 			scriptHandler.executeScript(script, g)
 		except:
@@ -172,6 +167,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.finish()
 
 	def script_AnnounceGestures(self, gesture):
+		if self.commandIndex < 0:
+			ui.message(_("Select a command using up or down arrows"))
+			return
 		commandInfo = self.gestures[self.categories[self.catIndex]][self.commands[self.commandIndex]]
 		if commandInfo.gestures:
 			try:
