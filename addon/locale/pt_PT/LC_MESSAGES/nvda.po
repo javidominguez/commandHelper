@@ -1,0 +1,65 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: commandHelper\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-01-16 18:39+0100\n"
+"PO-Revision-Date: 2021-01-16 21:58+0000\n"
+"Last-Translator: Ângelo Abrantes <ampa4374@gmail.com>\n"
+"Language-Team: Equipa portuguesa do NVDA\n"
+"Language: pt_PT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.2\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: __init__.py:47
+msgid "Command helper"
+msgstr "Ajuda de comandos"
+
+#: __init__.py:82
+msgid "Available commands"
+msgstr "Comandos disponíveis"
+
+#: __init__.py:84
+msgid ""
+"Use right and left arrows to navigate categories, up and down arrows to "
+"select a script and enter to run the selected."
+msgstr ""
+"Use seta direita e esquerda para navegar por categorias, setas para "
+"cima e para baixo para seleccionar um comando e Enter para executar o "
+"script seleccionado."
+
+#: __init__.py:89 __init__.py:143
+msgid "Failed to retrieve scripts."
+msgstr "Erro ao recuperar o script"
+
+#: __init__.py:93 __init__.py:94
+msgid "Recents"
+msgstr "Recentes"
+
+#: __init__.py:99
+msgid ""
+"Provides a virtual menu where you can select any command to be executed "
+"without having to press its gesture."
+msgstr ""
+"Fornece um menu virtual onde pode seleccionar qualquer comando a ser "
+"executado sem ter que pressionar o seu atalho."
+
+#: __init__.py:123 __init__.py:171
+msgid "Select a command using up or down arrows"
+msgstr "Seleccione um comando com setas para cima e para baixo."
+
+#: __init__.py:136
+msgid "Can't run this script here"
+msgstr "Não se pode executar este script aqui."
+
+#: __init__.py:180
+msgid "There is no gesture"
+msgstr "Sem atalho"
+
+#: __init__.py:184
+msgid "Leaving the command hhelper"
+msgstr "A sair da ajuda de comandos"
