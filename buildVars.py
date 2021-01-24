@@ -19,7 +19,7 @@ addon_info = {
 	# Translators: Long description to be shown for this add-on on add-on information from add-ons manager
 	"addon_description" : _("""Provides a alternative method for executing scripts for people who have difficulty pressing complicated key combinations."""),
 	# version
-	"addon_version" : "dev20210116",
+	"addon_version" : "dev20210124",
 	# Author(s)
 	"addon_author" : u"Javi Dominguez <fjavids@gmail.com>",
 	# URL for the add-on documentation support
@@ -39,7 +39,7 @@ import os.path
 
 # Define the python files that are the sources of your add-on.
 # You can use glob expressions here, they will be expanded.
-pythonSources = []
+pythonSources = [os.path.join("addon", "globalPlugins", "commandHelper", "*.py"),]
 
 # Files that contain strings for translation. Usually your python sources
 i18nSources = pythonSources + ["buildVars.py"]

@@ -2,45 +2,44 @@ msgid ""
 msgstr ""
 "Project-Id-Version: commandHelper\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
-"POT-Creation-Date: 2021-01-23 11:55+0100\n"
-"PO-Revision-Date: 2021-01-23 11:57+0100\n"
+"POT-Creation-Date: 2021-01-23 11:37+0100\n"
+"PO-Revision-Date: 2021-01-23 11:40+0100\n"
 "Last-Translator: Rémy Ruiz <remyruiz@gmail.com>\n"
-"Language-Team: وفيق <wafiqtaher@gmail.com>\n"
-"Language: ar\n"
+"Language-Team: \n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.8.12\n"
 "X-Poedit-Basepath: .\n"
-"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
-"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: addon\globalPlugins\commandHelper\__init__.py:47
 msgid "Command helper"
-msgstr "مساعدةللأوامر"
+msgstr "Assistant de commandes"
 
 #: addon\globalPlugins\commandHelper\__init__.py:82
 msgid "Available commands"
-msgstr "الأوامر المتوفرة"
+msgstr "Commandes disponibles"
 
 #: addon\globalPlugins\commandHelper\__init__.py:84
 msgid ""
 "Use right and left arrows to navigate categories, up and down arrows to "
 "select a script and enter to run the selected."
 msgstr ""
-"استخدم الأسهم لليمين ولليسار للتنقل بين الفئات ولأعلى ولأسفل لتحديد الإختصار "
-"ومفتاح الدخول لتشغيل الإختصار المحدد."
+"Utiliser les flèches droite et gauche pour naviguer par catégories, flèches "
+"haut et bas pour sélectionner une commande et Entrée pour exécuter  la "
+"commande sélectionnée."
 
 #: addon\globalPlugins\commandHelper\__init__.py:89
 #: addon\globalPlugins\commandHelper\__init__.py:143
 msgid "Failed to retrieve scripts."
-msgstr "فشل تشغيل الإختصار."
+msgstr "Erreur lors de la récupération du script"
 
 #: addon\globalPlugins\commandHelper\__init__.py:93
 #: addon\globalPlugins\commandHelper\__init__.py:94
 msgid "Recents"
-msgstr "الأخيرة"
+msgstr "Récents"
 
 #. TRANSLATORS: message shown in Input gestures dialog for this script
 #: addon\globalPlugins\commandHelper\__init__.py:99
@@ -48,31 +47,31 @@ msgid ""
 "Provides a virtual menu where you can select any command to be executed "
 "without having to press its gesture."
 msgstr ""
-"يوفر قائمة افتراضية حيث يمكنك تحديد أي أمر ليتم تنفيذه دون الحاجة إلى الضغط "
-"على إيماءته."
+"fournit un menu virtuel où vous pouvez sélectionner n'importe quelle "
+"commande et l'exécuter sans avoir à appuyer sur  son geste."
 
 #: addon\globalPlugins\commandHelper\__init__.py:123
 #: addon\globalPlugins\commandHelper\__init__.py:171
 msgid "Select a command using up or down arrows"
-msgstr "حدد أمرًا باستخدام الأسهم لأعلى أو لأسفل"
+msgstr "Sélectionner une commande avec les flèches haut et bas"
 
 #: addon\globalPlugins\commandHelper\__init__.py:136
 msgid "Can't run this script here"
-msgstr "لا يمكن تشغيل هذا الإختصارهنا"
+msgstr "Impossible d'exécuter cette commande ici"
 
 #: addon\globalPlugins\commandHelper\__init__.py:180
 msgid "There is no gesture"
-msgstr "لا يوجد إختصار."
+msgstr "Il n'y a aucun geste"
 
 #: addon\globalPlugins\commandHelper\__init__.py:184
 msgid "Leaving the command hhelper"
-msgstr "الخروج من مساعدة الأوامر"
+msgstr "Sortie en cours de l'assistant de commandes"
 
 #. Add-on summary, usually the user visible name of the addon.
 #. Translators: Summary for this add-on to be shown on installation and add-on information.
 #: buildVars.py:17
 msgid "Command Helper"
-msgstr "مساعدةللأوامر"
+msgstr "Assistant de commandes"
 
 #. Add-on description
 #. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
@@ -81,5 +80,5 @@ msgid ""
 "Provides a alternative method for executing scripts for people who have "
 "difficulty pressing complicated key combinations."
 msgstr ""
-"أداة إضافية ل NVDA توفر طريقة بديلة لتنفيذ البرامج النصية للأشخاص الذين "
-"يجدون صعوبة في الضغط على مجموعات مفاتيح معقدة."
+"Fournit une autre méthode d'exécution de scripts pour les personnes qui ont "
+"des difficultés à appuyer sur des combinaisons de clavier compliquées."
