@@ -9,7 +9,7 @@ En appuyant sur NVDA+h une couche de commandes clavier est activée avec les opt
 * Flèches gauche et droite pour choisir une catégorie
 * Flèches haut et bas pour sélectionner une commande de la catégorie choisie
 * Entrée pour exécuter la commande
-* F1 pour informer du geste correspondant à la commande sélectionnée
 * Shift+entrée exécute le script comme si sa combinaison de touches avait été appuyée deux fois rapidement.
 * Control+entrée exécute le script comme si sa combinaison de touches avait été appuyée trois fois.
+* F1 pour informer du geste correspondant à la commande sélectionnée
 * Toute autre touche abandonne la couche de commandes et restaure la fonctionnalité normale du clavier.
