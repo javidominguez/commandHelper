@@ -16,7 +16,7 @@ msgstr ""
 
 #: addon\globalPlugins\commandHelper\__init__.py:47
 msgid "Command helper"
-msgstr "命令輔助器"
+msgstr "指令協助員"
 
 #: addon\globalPlugins\commandHelper\__init__.py:82
 msgid "Available commands"
@@ -27,13 +27,13 @@ msgid ""
 "Use right and left arrows to navigate categories, up and down arrows to "
 "select a script and enter to run the selected."
 msgstr ""
-"使用左右方向鍵來切換分類，上下方向鍵選擇指令碼，然後按 Enter 鍵來執行選"
-"取的項目。"
+"使用左右方向鍵來切換分類，上下方向鍵選擇指令碼（script），然後"
+"按 Enter 鍵來執行選取的項目。"
 
 #: addon\globalPlugins\commandHelper\__init__.py:89
 #: addon\globalPlugins\commandHelper\__init__.py:143
 msgid "Failed to retrieve scripts."
-msgstr "無法取得指令碼。"
+msgstr "無法取得指令碼（scripts）。"
 
 #: addon\globalPlugins\commandHelper\__init__.py:93
 #: addon\globalPlugins\commandHelper\__init__.py:94
@@ -45,7 +45,7 @@ msgstr "最近的項目"
 msgid ""
 "Provides a virtual menu where you can select any command to be executed "
 "without having to press its gesture."
-msgstr "提供一個虛擬選單來讓你選擇任何想要執行的命令，而無須定操作。"
+msgstr "提供一個虛擬選單來讓你選擇任何想要執行的命令，而無須特定操作。"
 
 #: addon\globalPlugins\commandHelper\__init__.py:123
 #: addon\globalPlugins\commandHelper\__init__.py:171
@@ -54,21 +54,21 @@ msgstr "使用上下方向鍵來選擇命令"
 
 #: addon\globalPlugins\commandHelper\__init__.py:136
 msgid "Can't run this script here"
-msgstr "無法在此處執行指令碼"
+msgstr "無法在此處執行指令碼（script）"
 
 #: addon\globalPlugins\commandHelper\__init__.py:180
 msgid "There is no gesture"
 msgstr "沒有操作按鍵（gesture）"
 
 #: addon\globalPlugins\commandHelper\__init__.py:184
-msgid "Leaving the command hhelper"
-msgstr "離開命令輔助器"
+msgid "Leaving the command helper"
+msgstr "離開指令協助員"
 
 #. Add-on summary, usually the user visible name of the addon.
 #. Translators: Summary for this add-on to be shown on installation and add-on information.
 #: buildVars.py:17
 msgid "Command Helper"
-msgstr "命令輔助器"
+msgstr "指令協助員"
 
 #. Add-on description
 #. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
@@ -76,4 +76,4 @@ msgstr "命令輔助器"
 msgid ""
 "Provides a alternative method for executing scripts for people who have "
 "difficulty pressing complicated key combinations."
-msgstr "提供另一個方法來執行指令碼，以便讓不方便按複雜按鍵的人使用。"
+msgstr "提供另一個方法來執行指令碼（scripts），以便讓不方便按複雜按鍵的人使用。"

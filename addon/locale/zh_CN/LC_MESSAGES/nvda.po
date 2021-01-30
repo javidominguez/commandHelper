@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: commandHelper\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
 "POT-Creation-Date: 2021-01-23 11:41+0100\n"
-"PO-Revision-Date: 2021-01-29 23:30+0800\n"
+"PO-Revision-Date: 2021-01-29 23:22+0800\n"
 "Language-Team: Javi Domínguez\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -12,11 +12,11 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "Last-Translator: Michael Tsai <huanlin.tsai@gmail.com>\n"
-"Language: zh_CN\n"
+"Language: zh_TW\n"
 
 #: addon\globalPlugins\commandHelper\__init__.py:47
 msgid "Command helper"
-msgstr "命令辅助器"
+msgstr "指令协助员"
 
 #: addon\globalPlugins\commandHelper\__init__.py:82
 msgid "Available commands"
@@ -27,13 +27,13 @@ msgid ""
 "Use right and left arrows to navigate categories, up and down arrows to "
 "select a script and enter to run the selected."
 msgstr ""
-"使用左右箭头来切换分类，上下箭头选择脚本，然后按 Enter 键来执行选"
-"取的项目。"
+"使用左右箭头来切换分类，上下箭头选择脚本（script），然后"
+"按 Enter 键来执行选取的项目。"
 
 #: addon\globalPlugins\commandHelper\__init__.py:89
 #: addon\globalPlugins\commandHelper\__init__.py:143
 msgid "Failed to retrieve scripts."
-msgstr "无法取得脚本。"
+msgstr "无法取得脚本（scripts）。"
 
 #: addon\globalPlugins\commandHelper\__init__.py:93
 #: addon\globalPlugins\commandHelper\__init__.py:94
@@ -45,7 +45,7 @@ msgstr "最近的项目"
 msgid ""
 "Provides a virtual menu where you can select any command to be executed "
 "without having to press its gesture."
-msgstr "提供一个虚拟选单来让你选择任何想要执行的命令，而无须定操作。"
+msgstr "提供一个虚拟选单来让你选择任何想要执行的命令，而无须特定操作。"
 
 #: addon\globalPlugins\commandHelper\__init__.py:123
 #: addon\globalPlugins\commandHelper\__init__.py:171
@@ -54,21 +54,21 @@ msgstr "使用上下箭头来选择命令"
 
 #: addon\globalPlugins\commandHelper\__init__.py:136
 msgid "Can't run this script here"
-msgstr "无法在此处执行脚本"
+msgstr "无法在此处执行脚本（script）"
 
 #: addon\globalPlugins\commandHelper\__init__.py:180
 msgid "There is no gesture"
 msgstr "没有操作按键（gesture）"
 
 #: addon\globalPlugins\commandHelper\__init__.py:184
-msgid "Leaving the command hhelper"
-msgstr "离开命令辅助器"
+msgid "Leaving the command helper"
+msgstr "离开指令协助员"
 
 #. Add-on summary, usually the user visible name of the addon.
 #. Translators: Summary for this add-on to be shown on installation and add-on information.
 #: buildVars.py:17
 msgid "Command Helper"
-msgstr "命令辅助器"
+msgstr "指令协助员"
 
 #. Add-on description
 #. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
@@ -76,4 +76,4 @@ msgstr "命令辅助器"
 msgid ""
 "Provides a alternative method for executing scripts for people who have "
 "difficulty pressing complicated key combinations."
-msgstr "提供另一个方法来执行脚本，以便让不方便按复杂按键的人使用。"
+msgstr "提供另一个方法来执行脚本（scripts），以便让不方便按复杂按键的人使用。"
