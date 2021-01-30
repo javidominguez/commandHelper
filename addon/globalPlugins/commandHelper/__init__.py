@@ -11,6 +11,7 @@ Provides a virtual menu where you can select any command to be executed without 
 
 from functools import wraps
 from keyboardHandler import KeyboardInputGesture
+from string import ascii_uppercase
 import addonHandler
 import api
 import appModuleHandler
@@ -78,6 +79,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			self.finish()
 			return
 		self.bindGestures(self.__CHGestures)
+		for c in ascii_uppercase:
+			self.bindGesture("kb:"+c, "skipToCategory")
 		self.toggling = True
 		ui.message(_("Available commands"))
 		if self.firstTime:
@@ -109,6 +112,15 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		ui.message(self.categories[self.catIndex])
 		self.commandIndex = -1
 		self.commands = sorted(self.gestures[self.categories[self.catIndex]])
+
+	def script_skipToCategory(self, gesture):
+		categories = (self.categories[self.catIndex+1:] if self.catIndex+1 < len(self.categories) else []) + (self.categories[:self.catIndex])
+		try:
+			self.catIndex = self.categories.index(filter(lambda i: i[0].lower() == gesture.mainKeyName, categories).__next__())-1
+		except StopIteration:
+			if self.categories[self.catIndex][0].lower() == gesture.mainKeyName: ui.message(self.categories[self.catIndex])
+		else:
+			self.script_nextCategory(None)
 
 	def script_nextCommand(self, gesture):
 		self.commandIndex = self.commandIndex + 1 if self.commandIndex < len(self.commands)-1 else 0

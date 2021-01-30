@@ -10,5 +10,6 @@ Pressing NVDA + H activates a layer of keyboard commands with the following opti
 * Enter to execute the command 
 * Shift+enter executes the script as twice pressed gesture. 
 * Control+enter executes the script as triple pressed gesture. 
+* Any letter A-Z to jump to the category with that initial letter. 
 * F1 announces the gesture corresponding to the selected command. 
 * Any other key   leaves the command layer and restores normal keyboard operation.
