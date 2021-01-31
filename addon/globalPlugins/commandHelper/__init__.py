@@ -1,4 +1,4 @@
-	#-coding: UTF-8 -*-
+#-coding: UTF-8 -*-
 """
 command helper- NVDA addon
 This file is covered by the GNU General Public License.
@@ -24,6 +24,7 @@ import inputCore
 import re
 import scriptHandler
 import speech
+import time
 import tones
 import ui
 
@@ -43,6 +44,43 @@ def finally_(func, final):
 		return new
 	return wrap(final)
 
+class Trigger():
+	def __init__(self, keyNames, repetitions=3, timelapse=0.25):
+		self.keyNames = keyNames
+		self.repetitions = repetitions-1
+		self.timelapse = timelapse
+		self.keystrokesCount = 0
+		self.keystrokeTime = 0
+		self.lastKey = ""
+
+	def __call__(self, gesture):
+		return self.check(gesture)
+
+	def check(self, gesture):
+		if gesture.isModifier and gesture.mainKeyName in self.keyNames:
+			if self.lastKey and gesture.mainKeyName != self.lastKey:
+				self.restart()
+				return False
+			else:
+				self.lastKey = gesture.mainKeyName
+			self.keystrokesCount = self.keystrokesCount+1
+			if self.keystrokesCount < self.repetitions: return False
+			if self.keystrokeTime == 0:
+				self.keystrokeTime = time.time()
+				return False
+			if time.time()-self.keystrokeTime > self.timelapse:
+				self.restart()
+				return False
+			self.restart()
+			return True
+		self.restart()
+		return False
+
+	def restart(self):
+		self.keystrokeTime = 0
+		self.keystrokesCount = 0
+		self.lastKey = ""
+
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 	scriptCategory = _("Command helper")
@@ -56,16 +94,21 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.commandIndex = 0
 		self.recentCommands = {}
 		self.firstTime = True
+		self.__trigger__ = Trigger(("rightControl","leftControl"))
 
 	def terminate(self):
 		pass #1 store recents Upon leaving
 
 	def getScript(self, gesture):
+		if not self.toggling and self.__trigger__(gesture):
+			speech.cancelSpeech()
+			gesture.speechEffectWhenExecuted = None
+			script = self.script_commandsHelper(gesture)
 		if not self.toggling or re.match("br(\(.+\))?", gesture.normalizedIdentifiers[0]):
 			return globalPluginHandler.GlobalPlugin.getScript(self, gesture)
 		script = globalPluginHandler.GlobalPlugin.getScript(self, gesture)
 		if not script:
-			script = finally_(self.script_exit, self.finish)
+			script = finally_(self.script_exit, self.finish) if "kb:escape" in gesture.identifiers else finally_(self.script_speechHelp, lambda: None) 
 		return script
 
 	def finish(self):
@@ -84,7 +127,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.toggling = True
 		ui.message(_("Available commands"))
 		if self.firstTime:
-			ui.message(_("Use right and left arrows to navigate categories, up and down arrows to select a script and enter to run the selected."))
+			self.script_speechHelp(None)
 			self.firstTime = False
 		try:
 			self.gestures = inputCore.manager.getAllGestureMappings(obj=gui.mainFrame.prevFocus, ancestors=gui.mainFrame.prevFocusAncestors)
@@ -118,7 +161,10 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		try:
 			self.catIndex = self.categories.index(filter(lambda i: i[0].lower() == gesture.mainKeyName, categories).__next__())-1
 		except StopIteration:
-			if self.categories[self.catIndex][0].lower() == gesture.mainKeyName: ui.message(self.categories[self.catIndex])
+			if self.categories[self.catIndex][0].lower() == gesture.mainKeyName:
+				ui.message(self.categories[self.catIndex])
+			else:
+				tones.beep(200, 30)
 		else:
 			self.script_nextCategory(None)
 
@@ -192,6 +238,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			ui.message(_("There is no gesture"))
 		#9 Search for keyboard conflicts and announce them
 
+	def script_speechHelp(self, gesture):
+		ui.message(_("Use right and left arrows to navigate categories, up and down arrows to select a script and enter to run the selected. Escape to exit."))
+
 	def script_exit(self, gesture):
 		ui.message(_("Leaving the command hhelper"))
 
@@ -206,6 +255,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	"kb:F1": "AnnounceGestures"
 	}
 
-	__gestures = {
-	"kb:NVDA+H": "commandsHelper"
-	}
+	__gestures = {}
+	
+	
