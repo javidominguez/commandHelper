@@ -3,7 +3,7 @@ An addon for NVDA that provides a alternative method for executing scripts for p
 
 ### USAGE
 
-Pressing NVDA + H activates a layer of keyboard commands with the following options:
+Pressing control key five times[^1] activates a layer of keyboard commands with the following options:
 
 * Right and left arrows to select a category 
 * Up and down arrows to select a command from the selected category 
@@ -12,4 +12,6 @@ Pressing NVDA + H activates a layer of keyboard commands with the following opti
 * Control+enter executes the script as triple pressed gesture. 
 * Any letter A-Z to jump to the category with that initial letter. 
 * F1 announces the gesture corresponding to the selected command. 
-* Any other key   leaves the command layer and restores normal keyboard operation.
+* Escape   leaves the command layer and restores normal keyboard operation. 
+
+[^1] Additionally, a key combination can be customized in NVDA preferences> gestures. 

@@ -45,41 +45,27 @@ def finally_(func, final):
 	return wrap(final)
 
 class Trigger():
-	def __init__(self, keyNames, repetitions=3, timelapse=0.25):
-		self.keyNames = keyNames
-		self.repetitions = repetitions-1
+
+	def __init__(self, keyNames, repetitions=5, timelapse=1.0):
+		self.gestures = [KeyboardInputGesture.fromName(g).identifiers for g in keyNames]
+		self.repetitions = repetitions
 		self.timelapse = timelapse
-		self.keystrokesCount = 0
-		self.keystrokeTime = 0
-		self.lastKey = ""
+		self.buffer = []
 
 	def __call__(self, gesture):
 		return self.check(gesture)
 
 	def check(self, gesture):
-		if gesture.isModifier and gesture.mainKeyName in self.keyNames:
-			if self.lastKey and gesture.mainKeyName != self.lastKey:
-				self.restart()
-				return False
-			else:
-				self.lastKey = gesture.mainKeyName
-			self.keystrokesCount = self.keystrokesCount+1
-			if self.keystrokesCount < self.repetitions: return False
-			if self.keystrokeTime == 0:
-				self.keystrokeTime = time.time()
-				return False
-			if time.time()-self.keystrokeTime > self.timelapse:
-				self.restart()
-				return False
-			self.restart()
+		print (gesture.identifiers)
+		setattr(gesture, "timestamp", time.time())
+		self.buffer.append(gesture)
+		if len(self.buffer) < self.repetitions: return False
+		if len(self.buffer) > self.repetitions: self.buffer.pop(0)
+		if self.buffer[0].identifiers in self.gestures\
+		and self.buffer[-1].timestamp-self.buffer[0].timestamp < self.timelapse\
+		and len(set([g.identifiers for g in self.buffer])) == 1:
 			return True
-		self.restart()
 		return False
-
-	def restart(self):
-		self.keystrokeTime = 0
-		self.keystrokesCount = 0
-		self.lastKey = ""
 
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
