@@ -16,6 +16,7 @@ import addonHandler
 import api
 import appModuleHandler
 import appModules
+import config
 import globalCommands
 import globalPluginHandler
 import globalPlugins
@@ -27,6 +28,11 @@ import speech
 import time
 import tones
 import ui
+
+confspec = {
+	"controlKey":"boolean(default=False)"
+}
+config.conf.spec["commandHelper"]=confspec
 
 addonHandler.initTranslation()
 
@@ -56,7 +62,6 @@ class Trigger():
 		return self.check(gesture)
 
 	def check(self, gesture):
-		print (gesture.identifiers)
 		setattr(gesture, "timestamp", time.time())
 		self.buffer.append(gesture)
 		if len(self.buffer) < self.repetitions: return False
@@ -82,11 +87,19 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.firstTime = True
 		self.__trigger__ = Trigger(("rightControl","leftControl"))
 
+	def script_switchTrigger(self, gesture):
+		if config.conf["commandHelper"]["controlKey"]:
+			config.conf["commandHelper"]["controlKey"] = False
+			ui.message(_("control key disabled"))
+		else:
+			config.conf["commandHelper"]["controlKey"] = True
+			ui.message(_("control key enabled"))
+
 	def terminate(self):
 		pass #1 store recents Upon leaving
 
 	def getScript(self, gesture):
-		if not self.toggling and self.__trigger__(gesture):
+		if config.conf["commandHelper"]["controlKey"] and not self.toggling and self.__trigger__(gesture):
 			speech.cancelSpeech()
 			gesture.speechEffectWhenExecuted = None
 			script = self.script_commandsHelper(gesture)
@@ -238,9 +251,12 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	"kb:enter": "executeCommand",
 	"kb:control+enter": "executeCommand",
 	"kb:shift+enter": "executeCommand",
-	"kb:F1": "AnnounceGestures"
+	"kb:F1": "AnnounceGestures",
+	"kb:F2": "switchTrigger"
 	}
 
-	__gestures = {}
+	__gestures = {
+	"kb:NVDA+H": "commandsHelper"
+	}
 	
 	
