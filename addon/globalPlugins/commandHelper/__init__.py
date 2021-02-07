@@ -102,6 +102,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.recentCommands = {}
 		self.firstTime = True
 		self.__trigger__ = Trigger(("rightControl","leftControl"))
+		self.cancelSpeech = True
 
 	def script_switchTrigger(self, gesture):
 		if config.conf["commandHelper"]["controlKey"]:
@@ -126,8 +127,11 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			pass
 
 	def getScript(self, gesture):
+		if self.toggling and gesture.identifiers in self.__trigger__.gestures and self.cancelSpeech:
+			# Prevents the voice from being muted when launching the helper. Otherwise nothing is spoken if the activation key is being pressed and the user does not know if the helper has been launched.
+			gesture.speechEffectWhenExecuted = None
 		if config.conf["commandHelper"]["controlKey"] and not self.toggling and self.__trigger__(gesture):
-			speech.cancelSpeech()
+			# Launch of the helper by repeating a modifier key (in this case control).
 			gesture.speechEffectWhenExecuted = None
 			script = self.script_commandsHelper(gesture)
 		if not self.toggling or re.match("br(\(.+\))?", gesture.normalizedIdentifiers[0]):
@@ -139,6 +143,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 	def finish(self):
 		self.toggling = False
+		self.cancelSpeech = False
 		self.clearGestureBindings()
 		self.bindGestures(self.__gestures)
 
@@ -167,22 +172,26 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		#3 Implement another category with a list of the most used commands in order of frequency.
 		self.catIndex = -1
 		self.script_nextCategory(None)
+		self.cancelSpeech = True
 	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_commandsHelper.__doc__ = _("Provides a virtual menu where you can select any command to be executed without having to press its gesture.")
 
 	def script_nextCategory(self, gesture):
+		self.cancelSpeech = False
 		self.catIndex = self.catIndex+1 if self.catIndex < len(self.categories)-1 else 0
 		ui.message(self.categories[self.catIndex])
 		self.commandIndex = -1
 		self.commands = sorted(self.gestures[self.categories[self.catIndex]])
 
 	def script_previousCategory(self, gesture):
+		self.cancelSpeech = False
 		self.catIndex = self.catIndex -1 if self.catIndex > 0 else len(self.categories)-1
 		ui.message(self.categories[self.catIndex])
 		self.commandIndex = -1
 		self.commands = sorted(self.gestures[self.categories[self.catIndex]])
 
 	def script_skipToCategory(self, gesture):
+		self.cancelSpeech = False
 		categories = (self.categories[self.catIndex+1:] if self.catIndex+1 < len(self.categories) else []) + (self.categories[:self.catIndex])
 		try:
 			self.catIndex = self.categories.index(filter(lambda i: i[0].lower() == gesture.mainKeyName, categories).__next__())-1
@@ -195,10 +204,12 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			self.script_nextCategory(None)
 
 	def script_nextCommand(self, gesture):
+		self.cancelSpeech = False
 		self.commandIndex = self.commandIndex + 1 if self.commandIndex < len(self.commands)-1 else 0
 		ui.message(self.commands[self.commandIndex])
 
 	def script_previousCommand(self, gesture):
+		self.cancelSpeech = False
 		self.commandIndex = self.commandIndex-1 if self.commandIndex > 0 else len(self.commands)-1
 		ui.message(self.commands[self.commandIndex])
 
@@ -251,6 +262,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.finish()
 
 	def script_AnnounceGestures(self, gesture):
+		self.cancelSpeech = False
 		if self.commandIndex < 0:
 			ui.message(_("Select a command using up or down arrows"))
 			return
