@@ -28,9 +28,18 @@ import speech
 import time
 import tones
 import ui
+import wx
+
+# Settings compatibility with older versions of NVDA
+from gui import settingsDialogs
+try:
+	from gui import NVDASettingsDialog
+	from gui.settingsDialogs import SettingsPanel
+except:
+	SettingsPanel = object
 
 confspec = {
-	"controlKey":"boolean(default=False)"
+	"controlKey":"boolean(default=True)"
 }
 config.conf.spec["commandHelper"]=confspec
 
@@ -78,6 +87,13 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 	def __init__(self, *args, **kwargs):
 		super(GlobalPlugin, self).__init__(*args, **kwargs)
+		if hasattr(settingsDialogs, 'SettingsPanel'):
+			NVDASettingsDialog.categoryClasses.append(CommandHelperPanel)
+		else:
+			self.prefsMenu = gui.mainFrame.sysTrayIcon.preferencesMenu
+			#TRANSLATORS: The configuration option in NVDA Preferences menu
+			self.CommandHelperSettingsItem = self.prefsMenu.Append(wx.ID_ANY, u"Command Helper...", _("Command Helper settings"))
+			gui.mainFrame.sysTrayIcon.Bind(wx.EVT_MENU, self.onCommandHelperMenu, self.CommandHelperSettingsItem)
 		self.toggling = False
 		self.categories = []
 		self.catIndex = 0
@@ -90,13 +106,24 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	def script_switchTrigger(self, gesture):
 		if config.conf["commandHelper"]["controlKey"]:
 			config.conf["commandHelper"]["controlKey"] = False
-			ui.message(_("control key disabled"))
+			ui.message("control key disabled")
 		else:
 			config.conf["commandHelper"]["controlKey"] = True
-			ui.message(_("control key enabled"))
+			ui.message("control key enabled")
+
+	def onCommandHelperMenu(self, evt):
+		# Compatibility with older versions of NVDA
+		gui.mainFrame._popupSettingsDialog(CommandHelperSettings)
 
 	def terminate(self):
-		pass #1 store recents Upon leaving
+		#1 store recents Upon leaving
+		try:
+			if hasattr(settingsDialogs, 'SettingsPanel'):
+				NVDASettingsDialog.categoryClasses.remove(CommandHelperPanel)
+			else:
+				self.prefsMenu.RemoveItem(self.CommandHelperSettingsItem)
+		except:
+			pass
 
 	def getScript(self, gesture):
 		if config.conf["commandHelper"]["controlKey"] and not self.toggling and self.__trigger__(gesture):
@@ -258,5 +285,32 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	__gestures = {
 	"kb:NVDA+H": "commandsHelper"
 	}
-	
-	
+
+class CommandHelperSettings(settingsDialogs.SettingsDialog):
+	#TRANSLATORS: Settings dialog title
+	title=_("Command Helper settings")
+	def makeSettings(self, sizer):
+		#TRANSLATORS: Checkbox to enable or disable helper launching by control key
+		self.controlKeyEnabled=wx.CheckBox(self, wx.NewId(), label=_("Control key launches the helper"))
+		self.controlKeyEnabled.SetValue(config.conf["commandHelper"]["controlKey"])
+		sizer.Add(self.controlKeyEnabled,border=10,flag=wx.BOTTOM)
+
+	def postInit(self):
+		self.controlKeyEnabled.SetFocus()
+
+	def onOk(self, evt):
+		config.conf["commandHelper"]["controlKey"] = self.controlKeyEnabled.GetValue()
+		super(CommandHelperSettings, self).onOk(evt)
+
+class CommandHelperPanel(SettingsPanel):
+	#TRANSLATORS: Settings panel title
+	title=_("Command Helper")
+	def makeSettings(self, sizer):
+		#TRANSLATORS: Checkbox to enable or disable helper launching by control key
+		self.controlKeyEnabled=wx.CheckBox(self, wx.NewId(), label=_("Control key launches the helper"))
+		self.controlKeyEnabled.SetValue(config.conf["commandHelper"]["controlKey"])
+		sizer.Add(self.controlKeyEnabled,border=10,flag=wx.BOTTOM)
+
+	def onSave(self):
+		config.conf["commandHelper"]["controlKey"] = self.controlKeyEnabled.GetValue()
+
