@@ -25,6 +25,7 @@ import inputCore
 import re
 import scriptHandler
 import speech
+import subprocess
 import time
 import tones
 import ui
@@ -303,26 +304,53 @@ class CommandHelperSettings(settingsDialogs.SettingsDialog):
 	title=_("Command Helper settings")
 	def makeSettings(self, sizer):
 		#TRANSLATORS: Checkbox to enable or disable helper launching by control key
-		self.controlKeyEnabled=wx.CheckBox(self, wx.NewId(), label=_("Control key launches the helper"))
-		self.controlKeyEnabled.SetValue(config.conf["commandHelper"]["controlKey"])
-		sizer.Add(self.controlKeyEnabled,border=10,flag=wx.BOTTOM)
+		self.controlKeyEnabledCheckBox=wx.CheckBox(self, wx.NewId(), label=_("Control key launches the helper"))
+		self.controlKeyEnabledCheckBox.SetValue(config.conf["commandHelper"]["controlKey"])
+		sizer.Add(self.controlKeyEnabledCheckBox,border=10,flag=wx.BOTTOM)
 
 	def postInit(self):
-		self.controlKeyEnabled.SetFocus()
+		self.controlKeyEnabledCheckBox.SetFocus()
 
 	def onOk(self, evt):
-		config.conf["commandHelper"]["controlKey"] = self.controlKeyEnabled.GetValue()
+		config.conf["commandHelper"]["controlKey"] = self.controlKeyEnabledCheckBox.GetValue()
 		super(CommandHelperSettings, self).onOk(evt)
 
 class CommandHelperPanel(SettingsPanel):
 	#TRANSLATORS: Settings panel title
 	title=_("Command Helper")
+	warningMessageFlag = True
+
 	def makeSettings(self, sizer):
+		controlKeySizer = gui.guiHelper.BoxSizerHelper(self, orientation=wx.HORIZONTAL)
 		#TRANSLATORS: Checkbox to enable or disable helper launching by control key
-		self.controlKeyEnabled=wx.CheckBox(self, wx.NewId(), label=_("Control key launches the helper"))
-		self.controlKeyEnabled.SetValue(config.conf["commandHelper"]["controlKey"])
-		sizer.Add(self.controlKeyEnabled,border=10,flag=wx.BOTTOM)
+		self.controlKeyEnabledCheckBox=wx.CheckBox(self, wx.NewId(), label=_("Control key launches the helper"))
+		self.controlKeyEnabledCheckBox.Bind(wx.EVT_CHECKBOX, self.onControlKeyEnabledCheckBoxChanged)
+		self.controlKeyEnabledCheckBox.SetValue(config.conf["commandHelper"]["controlKey"])
+		self.warningMessage= _("With the control key activated, it is recommended to reduce the keyboard repetition speed. See more information in the addon documentation.")
+		self.controlKeyEnabledCheckBox.SetToolTipString(self.warningMessage)
+		controlKeySizer.addItem(self.controlKeyEnabledCheckBox,border=10,flag=wx.BOTTOM)
+		self.windowSettingsButton = wx.Button(self, label=_("Windows keyboard settings"))
+		self.windowSettingsButton.Bind(wx.EVT_BUTTON, self.onWindowsSettingsButton)
+		self.windowSettingsButton.SetToolTipString(_("Open the Windows control panel to adjust keyboard parameters"))
+		controlKeySizer.addItem(self.windowSettingsButton)
+		sizer.Add(controlKeySizer.	sizer)
+		otherKeysSizer = gui.guiHelper.BoxSizerHelper(self, orientation=wx.HORIZONTAL)
+		self.exitKeyRadioBox = wx.RadioBox(self,label=_("Key to leave the keyboard command layer"), choices=(_("escape"),_("backspace")))
+		otherKeysSizer.addItem(self.exitKeyRadioBox)
+		self.reportGestureKeyRadioBox = wx.RadioBox(self,label=_("Key to report the gesture assigned to a command"), choices=(_("F1"),_("F12")))
+		otherKeysSizer.addItem(self.reportGestureKeyRadioBox)
+		self.numpadKeysEnabledCheckBox=wx.CheckBox(self, wx.NewId(), label=_("Use numpad in the keyboard command layer"))
+		otherKeysSizer.addItem(self.numpadKeysEnabledCheckBox)
+		sizer.Add(otherKeysSizer.sizer)
+
+	def onWindowsSettingsButton(self, evt):
+		subprocess.run(("control.exe", "keyboard"))
+
+	def onControlKeyEnabledCheckBoxChanged(self, evt):
+		if self.controlKeyEnabledCheckBox.GetValue() and self.warningMessageFlag:
+			ui.message(self.warningMessage)
+			self.warningMessageFlag = False
 
 	def onSave(self):
-		config.conf["commandHelper"]["controlKey"] = self.controlKeyEnabled.GetValue()
+		config.conf["commandHelper"]["controlKey"] = self.controlKeyEnabledCheckBox.GetValue()
 
