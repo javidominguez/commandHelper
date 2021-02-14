@@ -299,25 +299,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	"kb:NVDA+H": "commandsHelper"
 	}
 
-class CommandHelperSettings(settingsDialogs.SettingsDialog):
-	#TRANSLATORS: Settings dialog title
-	title=_("Command Helper settings")
-	def makeSettings(self, sizer):
-		#TRANSLATORS: Checkbox to enable or disable helper launching by control key
-		self.controlKeyEnabledCheckBox=wx.CheckBox(self, wx.NewId(), label=_("Control key launches the helper"))
-		self.controlKeyEnabledCheckBox.SetValue(config.conf["commandHelper"]["controlKey"])
-		sizer.Add(self.controlKeyEnabledCheckBox,border=10,flag=wx.BOTTOM)
-
-	def postInit(self):
-		self.controlKeyEnabledCheckBox.SetFocus()
-
-	def onOk(self, evt):
-		config.conf["commandHelper"]["controlKey"] = self.controlKeyEnabledCheckBox.GetValue()
-		super(CommandHelperSettings, self).onOk(evt)
-
-class CommandHelperPanel(SettingsPanel):
-	#TRANSLATORS: Settings panel title
-	title=_("Command Helper")
+class Settings():
 	warningMessageFlag = True
 
 	def makeSettings(self, sizer):
@@ -344,13 +326,46 @@ class CommandHelperPanel(SettingsPanel):
 		sizer.Add(otherKeysSizer.sizer)
 
 	def onWindowsSettingsButton(self, evt):
-		subprocess.run(("control.exe", "keyboard"))
+		try:
+			if hasattr(subprocess, "run"):
+				subprocess.run(("control.exe", "keyboard"))
+			else: # Old versions of NVDA
+				subprocess.call(("control.exe", "keyboard"))
+		except:
+			raise
+		else:
+			pass
+			#10 Bring the control panel window to the front
+			# windowClassName = "#32770"
 
 	def onControlKeyEnabledCheckBoxChanged(self, evt):
 		if self.controlKeyEnabledCheckBox.GetValue() and self.warningMessageFlag:
 			ui.message(self.warningMessage)
 			self.warningMessageFlag = False
 
+class CommandHelperPanel(SettingsPanel, Settings):
+	#TRANSLATORS: Settings panel title
+	title=_("Command Helper")
+
+	def makeSettings(self, sizer):
+		Settings.makeSettings(self, sizer)
+
 	def onSave(self):
 		config.conf["commandHelper"]["controlKey"] = self.controlKeyEnabledCheckBox.GetValue()
+		self.exitKeyRadioBox.GetSelection()
+		self.reportGestureKeyRadioBox.GetStringSelection()
+		self.numpadKeysEnabledCheckBox.GetValue()
 
+class CommandHelperSettings(settingsDialogs.SettingsDialog, Settings):
+	#TRANSLATORS: Settings dialog title
+	title=_("Command Helper settings")
+
+	def makeSettings(self, sizer):
+		Settings.makeSettings(self, sizer)
+
+	def postInit(self):
+		self.controlKeyEnabledCheckBox.SetFocus()
+
+	def onOk(self, evt):
+		config.conf["commandHelper"]["controlKey"] = self.controlKeyEnabledCheckBox.GetValue()
+		super(CommandHelperSettings, self).onOk(evt)
