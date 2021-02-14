@@ -389,4 +389,7 @@ class CommandHelperSettings(settingsDialogs.SettingsDialog, Settings):
 
 	def onOk(self, evt):
 		config.conf["commandHelper"]["controlKey"] = self.controlKeyEnabledCheckBox.GetValue()
+		config.conf["commandHelper"]["exitKey"] = ("escape", "backspace")[self.exitKeyRadioBox.GetSelection()]
+		config.conf["commandHelper"]["reportGestureKey"] = self.reportGestureKeyRadioBox.GetStringSelection()
+		config.conf["commandHelper"]["numpad"] = self.numpadKeysEnabledCheckBox.GetValue()
 		super(CommandHelperSettings, self).onOk(evt)
