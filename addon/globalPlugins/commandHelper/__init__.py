@@ -40,7 +40,10 @@ except:
 	SettingsPanel = object
 
 confspec = {
-	"controlKey":"boolean(default=True)"
+	"controlKey":"boolean(default=True)",
+	"exitKey":"string(default=escape)",
+	"reportGestureKey":"string(default=F1)",
+	"numpad":"boolean(default=False)"
 }
 config.conf.spec["commandHelper"]=confspec
 
@@ -139,7 +142,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			return globalPluginHandler.GlobalPlugin.getScript(self, gesture)
 		script = globalPluginHandler.GlobalPlugin.getScript(self, gesture)
 		if not script:
-			script = finally_(self.script_exit, self.finish) if "kb:escape" in gesture.identifiers else finally_(self.script_speechHelp, lambda: None) 
+			script = finally_(self.script_exit, self.finish) if "kb:"+config.conf["commandHelper"]["exitKey"] in gesture.identifiers else finally_(self.script_speechHelp, lambda: None) 
 		return script
 
 	def finish(self):
@@ -154,8 +157,12 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			self.finish()
 			return
 		self.bindGestures(self.__CHGestures)
+		if config.conf["commandHelper"]["numpad"]:
+			self.bindGestures(self.__numpadGestures)
+			#11 Solve problem with key 2. Prioritize this bind over other addons.
 		for c in ascii_uppercase:
 			self.bindGesture("kb:"+c, "skipToCategory")
+		self.bindGesture("kb:"+config.conf["commandHelper"]["reportGestureKey"], "AnnounceGestures")
 		self.toggling = True
 		ui.message(_("Available commands"))
 		if self.firstTime:
@@ -278,7 +285,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		#9 Search for keyboard conflicts and announce them
 
 	def script_speechHelp(self, gesture):
-		ui.message(_("Use right and left arrows to navigate categories, up and down arrows to select a script and enter to run the selected. Escape to exit."))
+		ui.message(_("Use right and left arrows to navigate categories, up and down arrows to select a script and enter to run the selected. %s to exit.") % _(config.conf["commandHelper"]["exitKey"]))
 
 	def script_exit(self, gesture):
 		ui.message(_("Leaving the command hhelper"))
@@ -291,8 +298,18 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	"kb:enter": "executeCommand",
 	"kb:control+enter": "executeCommand",
 	"kb:shift+enter": "executeCommand",
-	"kb:F1": "AnnounceGestures",
 	"kb:F2": "switchTrigger"
+	}
+
+	__numpadGestures = {
+	"kb:numpad6": "nextCategory",
+	"kb:numpad4": "previousCategory",
+	"kb:numpad2": "nextCommand",
+	"kb:numpad8": "previousCommand",
+	"kb:numpadEnter": "executeCommand",
+	"kb:control+numpadEnter": "executeCommand",
+	"kb:shift+numpadEnter": "executeCommand",
+	"kb:numpad5": "AnnounceGestures"
 	}
 
 	__gestures = {
@@ -318,10 +335,14 @@ class Settings():
 		sizer.Add(controlKeySizer.	sizer)
 		otherKeysSizer = gui.guiHelper.BoxSizerHelper(self, orientation=wx.HORIZONTAL)
 		self.exitKeyRadioBox = wx.RadioBox(self,label=_("Key to leave the keyboard command layer"), choices=(_("escape"),_("backspace")))
+		self.exitKeyRadioBox .SetSelection(("escape", "backspace").index(config.conf["commandHelper"]["exitKey"]))
+		self.exitKeyRadioBox.SetToolTipString(_("Choose which key to use to exit the helper."))
 		otherKeysSizer.addItem(self.exitKeyRadioBox)
 		self.reportGestureKeyRadioBox = wx.RadioBox(self,label=_("Key to report the gesture assigned to a command"), choices=(_("F1"),_("F12")))
+		self.reportGestureKeyRadioBox .SetStringSelection(config.conf["commandHelper"]["reportGestureKey"])
 		otherKeysSizer.addItem(self.reportGestureKeyRadioBox)
 		self.numpadKeysEnabledCheckBox=wx.CheckBox(self, wx.NewId(), label=_("Use numpad in the keyboard command layer"))
+		self.numpadKeysEnabledCheckBox.SetValue(config.conf["commandHelper"]["numpad"])
 		otherKeysSizer.addItem(self.numpadKeysEnabledCheckBox)
 		sizer.Add(otherKeysSizer.sizer)
 
@@ -352,9 +373,9 @@ class CommandHelperPanel(SettingsPanel, Settings):
 
 	def onSave(self):
 		config.conf["commandHelper"]["controlKey"] = self.controlKeyEnabledCheckBox.GetValue()
-		self.exitKeyRadioBox.GetSelection()
-		self.reportGestureKeyRadioBox.GetStringSelection()
-		self.numpadKeysEnabledCheckBox.GetValue()
+		config.conf["commandHelper"]["exitKey"] = ("escape", "backspace")[self.exitKeyRadioBox.GetSelection()]
+		config.conf["commandHelper"]["reportGestureKey"] = self.reportGestureKeyRadioBox.GetStringSelection()
+		config.conf["commandHelper"]["numpad"] = self.numpadKeysEnabledCheckBox.GetValue()
 
 class CommandHelperSettings(settingsDialogs.SettingsDialog, Settings):
 	#TRANSLATORS: Settings dialog title
