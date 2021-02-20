@@ -96,7 +96,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		else:
 			self.prefsMenu = gui.mainFrame.sysTrayIcon.preferencesMenu
 			#TRANSLATORS: The configuration option in NVDA Preferences menu
-			self.CommandHelperSettingsItem = self.prefsMenu.Append(wx.ID_ANY, u"Command Helper...", _("Command Helper settings"))
+			self.CommandHelperSettingsItem = self.prefsMenu.Append(wx.ID_ANY, u"Command helper...", _("Command Helper settings"))
 			gui.mainFrame.sysTrayIcon.Bind(wx.EVT_MENU, self.onCommandHelperMenu, self.CommandHelperSettingsItem)
 		self.toggling = False
 		self.categories = []
@@ -108,20 +108,11 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.__trigger__ = Trigger(("rightControl","leftControl"))
 		self.cancelSpeech = True
 
-	def script_switchTrigger(self, gesture):
-		if config.conf["commandHelper"]["controlKey"]:
-			config.conf["commandHelper"]["controlKey"] = False
-			ui.message("control key disabled")
-		else:
-			config.conf["commandHelper"]["controlKey"] = True
-			ui.message("control key enabled")
-
 	def onCommandHelperMenu(self, evt):
 		# Compatibility with older versions of NVDA
 		gui.mainFrame._popupSettingsDialog(CommandHelperSettings)
 
 	def terminate(self):
-		#1 store recents Upon leaving
 		try:
 			if hasattr(settingsDialogs, 'SettingsPanel'):
 				NVDASettingsDialog.categoryClasses.remove(CommandHelperPanel)
@@ -129,6 +120,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				self.prefsMenu.RemoveItem(self.CommandHelperSettingsItem)
 		except:
 			pass
+		#1 store recents Upon leaving
 
 	def getScript(self, gesture):
 		if self.toggling and gesture.identifiers in self.__trigger__.gestures and self.cancelSpeech:
@@ -254,10 +246,10 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		except:
 			raise
 		else:
-			if gesture.modifierNames == ["shift"]:
+			if gesture.modifierNames == ["shift"] or gesture.mainKeyName == "numpadPlus":
 				speech.cancelSpeech()
 				scriptHandler.executeScript(script, g)
-			elif gesture.modifierNames == ["control"]:
+			elif gesture.modifierNames == ["control"]  or gesture.mainKeyName == "numpadMinus":
 				speech.cancelSpeech()
 				scriptHandler.executeScript(script, g)
 				speech.cancelSpeech()
@@ -298,7 +290,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	"kb:enter": "executeCommand",
 	"kb:control+enter": "executeCommand",
 	"kb:shift+enter": "executeCommand",
-	"kb:F2": "switchTrigger"
+	"kb:numpadEnter": "executeCommand",
+	"kb:control+numpadEnter": "executeCommand",
+	"kb:shift+numpadEnter": "executeCommand",
 	}
 
 	__numpadGestures = {
@@ -306,10 +300,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	"kb:numpad4": "previousCategory",
 	"kb:numpad2": "nextCommand",
 	"kb:numpad8": "previousCommand",
-	"kb:numpadEnter": "executeCommand",
-	"kb:control+numpadEnter": "executeCommand",
-	"kb:shift+numpadEnter": "executeCommand",
-	"kb:numpad5": "AnnounceGestures"
+	"kb:numpad5": "AnnounceGestures",
+	"kb:numpadPlus": "executeCommand",
+	"kb:numpadMinus": "executeCommand"
 	}
 
 	__gestures = {
@@ -340,9 +333,11 @@ class Settings():
 		otherKeysSizer.addItem(self.exitKeyRadioBox)
 		self.reportGestureKeyRadioBox = wx.RadioBox(self,label=_("Key to report the gesture assigned to a command"), choices=(_("F1"),_("F12")))
 		self.reportGestureKeyRadioBox .SetStringSelection(config.conf["commandHelper"]["reportGestureKey"])
+		self.reportGestureKeyRadioBox.SetToolTipString(_("Choose which key to use to announce the gesture assigned to the command."))
 		otherKeysSizer.addItem(self.reportGestureKeyRadioBox)
 		self.numpadKeysEnabledCheckBox=wx.CheckBox(self, wx.NewId(), label=_("Use numpad in the keyboard command layer"))
 		self.numpadKeysEnabledCheckBox.SetValue(config.conf["commandHelper"]["numpad"])
+		self.numpadKeysEnabledCheckBox.SetToolTipString(_("Use the numeric keyboard in the command layer."))
 		otherKeysSizer.addItem(self.numpadKeysEnabledCheckBox)
 		sizer.Add(otherKeysSizer.sizer)
 
