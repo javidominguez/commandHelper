@@ -107,6 +107,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.firstTime = True
 		self.__trigger__ = Trigger(("rightControl","leftControl"))
 		self.cancelSpeech = True
+		self.oldGestureBindings = {}
 
 	def onCommandHelperMenu(self, evt):
 		# Compatibility with older versions of NVDA
@@ -134,24 +135,38 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			return globalPluginHandler.GlobalPlugin.getScript(self, gesture)
 		script = globalPluginHandler.GlobalPlugin.getScript(self, gesture)
 		if not script:
-			script = finally_(self.script_exit, self.finish) if "kb:"+config.conf["commandHelper"]["exitKey"] in gesture.identifiers else finally_(self.script_speechHelp, lambda: None) 
+			if "kb:"+config.conf["commandHelper"]["exitKey"] in gesture.identifiers or (
+			config.conf["commandHelper"]["numpad"] and "kb:numpadDelete" in gesture.identifiers):
+				script = finally_(self.script_exit, self.finish)
+			else:
+				script = finally_(self.script_speechHelp, lambda: None) 
 		return script
 
 	def finish(self):
 		self.toggling = False
 		self.cancelSpeech = False
 		self.clearGestureBindings()
+		# Restore old bindings
 		self.bindGestures(self.__gestures)
+		for key in self.oldGestureBindings:
+			script = self.oldGestureBindings[key]
+			if hasattr(script.__self__, script.__name__):
+				script.__self__.bindGesture(key, script.__name__[7:])
 
 	def script_commandsHelper(self, gesture):
 		if self.toggling:
 			self.script_exit(gesture)
 			self.finish()
 			return
+		for k in ("upArrow", "downArrow", "leftArrow", "rightArrow", "enter", "shift+enter", "control+enter", "numpadEnter", "shift+numpadEnter", "control+numpadEnter", "escape", "backspace", "F1", "F12", "numpad2", "numpad4", "numpad5", "numpad6", "numpad8", "numpadPlus", "numpadMinus", "numpadDelete"):
+			# Save binds (to restore them later) and remove then before binding the new ones to avoid keyboard conflicts.
+			script = KeyboardInputGesture.fromName(k).script
+			if script and self != script.__self__:
+				self.oldGestureBindings["kb:"+k] = script
+				script.__self__.removeGestureBinding("kb:"+k)
 		self.bindGestures(self.__CHGestures)
 		if config.conf["commandHelper"]["numpad"]:
 			self.bindGestures(self.__numpadGestures)
-			#11 Solve problem with key 2. Prioritize this bind over other addons.
 		for c in ascii_uppercase:
 			self.bindGesture("kb:"+c, "skipToCategory")
 		self.bindGesture("kb:"+config.conf["commandHelper"]["reportGestureKey"], "AnnounceGestures")
@@ -195,6 +210,17 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		categories = (self.categories[self.catIndex+1:] if self.catIndex+1 < len(self.categories) else []) + (self.categories[:self.catIndex])
 		try:
 			self.catIndex = self.categories.index(filter(lambda i: i[0].lower() == gesture.mainKeyName, categories).__next__())-1
+		# Compatibility with Python 2
+		except AttributeError:
+			try:
+				self.catIndex = self.categories.index(filter(lambda i: i[0].lower() == gesture.mainKeyName, categories)[0])-1
+				self.script_nextCategory(None)
+			except IndexError:
+				if self.categories[self.catIndex][0].lower() == gesture.mainKeyName:
+					ui.message(self.categories[self.catIndex])
+				else:
+					tones.beep(200, 30)
+		# End of compatibility with Python 2
 		except StopIteration:
 			if self.categories[self.catIndex][0].lower() == gesture.mainKeyName:
 				ui.message(self.categories[self.catIndex])
