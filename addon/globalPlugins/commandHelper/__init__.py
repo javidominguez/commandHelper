@@ -160,10 +160,17 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			return
 		for k in ("upArrow", "downArrow", "leftArrow", "rightArrow", "enter", "shift+enter", "control+enter", "numpadEnter", "shift+numpadEnter", "control+numpadEnter", "escape", "backspace", "F1", "F12", "numpad2", "numpad4", "numpad5", "numpad6", "numpad8", "numpadPlus", "numpadMinus", "numpadDelete"):
 			# Save binds (to restore them later) and remove then before binding the new ones to avoid keyboard conflicts.
-			script = KeyboardInputGesture.fromName(k).script
+			try:
+				script = KeyboardInputGesture.fromName(k).script
+			except KeyError:
+				script = None
 			if script and self != script.__self__:
-				self.oldGestureBindings["kb:"+k] = script
-				script.__self__.removeGestureBinding("kb:"+k)
+				try:
+					script.__self__.removeGestureBinding("kb:"+k)
+				except KeyError:
+					pass
+				else:
+					self.oldGestureBindings["kb:"+k] = script
 		self.bindGestures(self.__CHGestures)
 		if config.conf["commandHelper"]["numpad"]:
 			self.bindGestures(self.__numpadGestures)
