@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: commandHelper\n"
-"Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
-"POT-Creation-Date: 2021-01-23 11:55+0100\n"
-"PO-Revision-Date: 2021-01-23 11:57+0100\n"
+"Report-Msgid-Bugs-To: nvda-translations@groups.io\n"
+"POT-Creation-Date: 2021-02-21 23:29+0200\n"
+"PO-Revision-Date: 2021-02-22 02:05+0200\n"
 "Last-Translator: Rémy Ruiz <remyruiz@gmail.com>\n"
 "Language-Team: وفيق <wafiqtaher@gmail.com>\n"
 "Language: ar\n"
@@ -16,34 +16,33 @@ msgstr ""
 "&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: addon\globalPlugins\commandHelper\__init__.py:47
+#: addon\globalPlugins\commandHelper\__init__.py:90
 msgid "Command helper"
-msgstr "مساعدةللأوامر"
+msgstr "مساعد للأوامر"
 
-#: addon\globalPlugins\commandHelper\__init__.py:82
+#. TRANSLATORS: The configuration option in NVDA Preferences menu
+#. TRANSLATORS: Settings dialog title
+#: addon\globalPlugins\commandHelper\__init__.py:99
+#: addon\globalPlugins\commandHelper\__init__.py:377
+msgid "Command Helper settings"
+msgstr "إعدادات مساعدة الأوامر"
+
+#: addon\globalPlugins\commandHelper\__init__.py:159
 msgid "Available commands"
 msgstr "الأوامر المتوفرة"
 
-#: addon\globalPlugins\commandHelper\__init__.py:84
-msgid ""
-"Use right and left arrows to navigate categories, up and down arrows to "
-"select a script and enter to run the selected."
-msgstr ""
-"استخدم الأسهم لليمين ولليسار للتنقل بين الفئات ولأعلى ولأسفل لتحديد الإختصار "
-"ومفتاح الدخول لتشغيل الإختصار المحدد."
-
-#: addon\globalPlugins\commandHelper\__init__.py:89
-#: addon\globalPlugins\commandHelper\__init__.py:143
+#: addon\globalPlugins\commandHelper\__init__.py:166
+#: addon\globalPlugins\commandHelper\__init__.py:238
 msgid "Failed to retrieve scripts."
 msgstr "فشل تشغيل الإختصار."
 
-#: addon\globalPlugins\commandHelper\__init__.py:93
-#: addon\globalPlugins\commandHelper\__init__.py:94
+#: addon\globalPlugins\commandHelper\__init__.py:170
+#: addon\globalPlugins\commandHelper\__init__.py:171
 msgid "Recents"
 msgstr "الأخيرة"
 
 #. TRANSLATORS: message shown in Input gestures dialog for this script
-#: addon\globalPlugins\commandHelper\__init__.py:99
+#: addon\globalPlugins\commandHelper\__init__.py:177
 msgid ""
 "Provides a virtual menu where you can select any command to be executed "
 "without having to press its gesture."
@@ -51,28 +50,100 @@ msgstr ""
 "يوفر قائمة افتراضية حيث يمكنك تحديد أي أمر ليتم تنفيذه دون الحاجة إلى الضغط "
 "على إيماءته."
 
-#: addon\globalPlugins\commandHelper\__init__.py:123
-#: addon\globalPlugins\commandHelper\__init__.py:171
+#: addon\globalPlugins\commandHelper\__init__.py:218
+#: addon\globalPlugins\commandHelper\__init__.py:267
 msgid "Select a command using up or down arrows"
 msgstr "حدد أمرًا باستخدام الأسهم لأعلى أو لأسفل"
 
-#: addon\globalPlugins\commandHelper\__init__.py:136
+#: addon\globalPlugins\commandHelper\__init__.py:231
 msgid "Can't run this script here"
 msgstr "لا يمكن تشغيل هذا الإختصارهنا"
 
-#: addon\globalPlugins\commandHelper\__init__.py:180
+#: addon\globalPlugins\commandHelper\__init__.py:276
 msgid "There is no gesture"
 msgstr "لا يوجد إختصار."
 
-#: addon\globalPlugins\commandHelper\__init__.py:184
-msgid "Leaving the command hhelper"
-msgstr "الخروج من مساعدة الأوامر"
+#: addon\globalPlugins\commandHelper\__init__.py:280
+#, python-format
+msgid ""
+"Use right and left arrows to navigate categories, up and down arrows to "
+"select a script and enter to run the selected. %s to exit."
+msgstr ""
+"استخدم الأسهم الأيمن والأيسر للتنقل في الفئات والأسهم لأعلى ولأسفل لتحديد "
+"برنامج نصي ولإدخال لتشغيل المحدد. %s للخروج."
 
+#: addon\globalPlugins\commandHelper\__init__.py:283
+msgid "Leaving the command hhelper"
+msgstr "الخروج من مساعد الأوامر"
+
+#. TRANSLATORS: Checkbox to enable or disable helper launching by control key
+#: addon\globalPlugins\commandHelper\__init__.py:318
+msgid "Control key launches the helper"
+msgstr "×مفتاح الكنترول لتشغيل مساعد الأوامر"
+
+#: addon\globalPlugins\commandHelper\__init__.py:321
+msgid ""
+"With the control key activated, it is recommended to reduce the keyboard "
+"repetition speed. See more information in the addon documentation."
+msgstr ""
+"مع تنشيط مفتاح التحكم ، يوصى بتقليل سرعة تكرار لوحة المفاتيح. انظر المزيد "
+"من المعلومات في وثائق الملحق."
+
+#: addon\globalPlugins\commandHelper\__init__.py:324
+msgid "Windows keyboard settings"
+msgstr "إعدادات لوحة مفاتيح للويندوز"
+
+#: addon\globalPlugins\commandHelper\__init__.py:326
+msgid "Open the Windows control panel to adjust keyboard parameters"
+msgstr "افتح لوحة تحكم Windows لضبط معلمات لوحة المفاتيح"
+
+#: addon\globalPlugins\commandHelper\__init__.py:330
+msgid "Key to leave the keyboard command layer"
+msgstr "مفتاح الطبقة لمغادرة المساعد"
+
+#: addon\globalPlugins\commandHelper\__init__.py:330
+msgid "escape"
+msgstr "الهروب"
+
+#: addon\globalPlugins\commandHelper\__init__.py:330
+msgid "backspace"
+msgstr "backspace "
+
+#: addon\globalPlugins\commandHelper\__init__.py:332
+msgid "Choose which key to use to exit the helper."
+msgstr "اختر المفتاح الذي يجب استخدامه للخروج من المساعد."
+
+#: addon\globalPlugins\commandHelper\__init__.py:334
+msgid "Key to report the gesture assigned to a command"
+msgstr "الإبلاغ عن مفتاح الإيماءة المخصصة للأمر"
+
+#: addon\globalPlugins\commandHelper\__init__.py:334
+msgid "F1"
+msgstr "f1"
+
+#: addon\globalPlugins\commandHelper\__init__.py:334
+msgid "F12"
+msgstr "f12"
+
+#: addon\globalPlugins\commandHelper\__init__.py:336
+msgid ""
+"Choose which key to use to announce the gesture assigned to the command."
+msgstr "اختر المفتاح الذي تريد استخدامه للإعلان عن الإيماءة المخصصة للأمر."
+
+#: addon\globalPlugins\commandHelper\__init__.py:338
+msgid "Use numpad in the keyboard command layer"
+msgstr "استخدم numpad في طبقة أوامر لوحة المفاتيح"
+
+#: addon\globalPlugins\commandHelper\__init__.py:340
+msgid "Use the numeric keyboard in the command layer."
+msgstr "استخدم لوحة المفاتيح الرقمية في طبقة الأوامر."
+
+#. TRANSLATORS: Settings panel title
 #. Add-on summary, usually the user visible name of the addon.
 #. Translators: Summary for this add-on to be shown on installation and add-on information.
-#: buildVars.py:17
+#: addon\globalPlugins\commandHelper\__init__.py:364 buildVars.py:17
 msgid "Command Helper"
-msgstr "مساعدةللأوامر"
+msgstr "مساعد للأوامر"
 
 #. Add-on description
 #. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
@@ -83,3 +154,17 @@ msgid ""
 msgstr ""
 "أداة إضافية ل NVDA توفر طريقة بديلة لتنفيذ البرامج النصية للأشخاص الذين "
 "يجدون صعوبة في الضغط على مجموعات مفاتيح معقدة."
+
+msgid ""
+"Use right and left arrows to navigate categories, up and down arrows to "
+"select a script and enter to run the selected. Escape to exit."
+msgstr ""
+"استخدم السهمين الأيمن والأيسر للتنقل بين الفئات ، والسهام لأعلى ولأسفل "
+"لتحديد برنامج نصي والدخول لتشغيل المحدد. الهروب للخروج."
+
+#~ msgid ""
+#~ "Use right and left arrows to navigate categories, up and down arrows to "
+#~ "select a script and enter to run the selected."
+#~ msgstr ""
+#~ "استخدم الأسهم لليمين ولليسار للتنقل بين الفئات ولأعلى ولأسفل لتحديد "
+#~ "الإختصار ومفتاح الدخول لتشغيل الإختصار المحدد."
