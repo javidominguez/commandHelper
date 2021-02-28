@@ -34,7 +34,7 @@ Con esta opción activada se  invoca el ayudante pulsando cinco veces seguidas l
 
 Con esta opción activada se puede usar el ayudante con las teclas del teclado numérico. 
 
-* 4 y6 para elegir una categoría. 
+* 4 y 6 para elegir una categoría. 
 * 2 y 8 para seleccionar una orden de la categoría elegida. 
 * 5 para informar del gesto correspondiente a la órden seleccionada. 
 * Enter para ejecutar la orden. 

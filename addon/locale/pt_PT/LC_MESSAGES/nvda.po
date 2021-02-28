@@ -2,48 +2,41 @@ msgid ""
 msgstr ""
 "Project-Id-Version: commandHelper\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
-"POT-Creation-Date: 2021-01-23 11:52+0100\n"
-"PO-Revision-Date: 2021-01-23 11:53+0100\n"
-"Last-Translator: Rémy Ruiz <remyruiz@gmail.com>\n"
+"POT-Creation-Date: 2021-02-22 22:06+0000\n"
+"PO-Revision-Date: 2021-02-22 23:02+0000\n"
+"Last-Translator: Ângelo Abrantes <ampa4374@gmail.com>\n"
 "Language-Team: Equipa portuguesa do NVDA\n"
 "Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.12\n"
-"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 2.4.2\n"
+"X-Poedit-Basepath: ../../../globalPlugins\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
 
-#: addon\globalPlugins\commandHelper\__init__.py:47
+#: commandHelper/__init__.py:90
 msgid "Command helper"
 msgstr "Ajuda de comandos"
 
-#: addon\globalPlugins\commandHelper\__init__.py:82
+#: commandHelper/__init__.py:99 commandHelper/__init__.py:410
+msgid "Command Helper settings"
+msgstr "Configurações do ajuda de comandos"
+
+#: commandHelper/__init__.py:181
 msgid "Available commands"
 msgstr "Comandos disponíveis"
 
-#: addon\globalPlugins\commandHelper\__init__.py:84
-msgid ""
-"Use right and left arrows to navigate categories, up and down arrows to "
-"select a script and enter to run the selected."
-msgstr ""
-"Use seta direita e esquerda para navegar por categorias, setas para cima e "
-"para baixo para seleccionar um comando e Enter para executar o script "
-"seleccionado."
-
-#: addon\globalPlugins\commandHelper\__init__.py:89
-#: addon\globalPlugins\commandHelper\__init__.py:143
+#: commandHelper/__init__.py:188 commandHelper/__init__.py:271
 msgid "Failed to retrieve scripts."
 msgstr "Erro ao recuperar o script"
 
-#: addon\globalPlugins\commandHelper\__init__.py:93
-#: addon\globalPlugins\commandHelper\__init__.py:94
+#: commandHelper/__init__.py:192 commandHelper/__init__.py:193
 msgid "Recents"
 msgstr "Recentes"
 
-#. TRANSLATORS: message shown in Input gestures dialog for this script
-#: addon\globalPlugins\commandHelper\__init__.py:99
+#: commandHelper/__init__.py:199
 msgid ""
 "Provides a virtual menu where you can select any command to be executed "
 "without having to press its gesture."
@@ -51,35 +44,105 @@ msgstr ""
 "Fornece um menu virtual onde pode seleccionar qualquer comando a ser "
 "executado sem ter que pressionar o seu atalho."
 
-#: addon\globalPlugins\commandHelper\__init__.py:123
-#: addon\globalPlugins\commandHelper\__init__.py:171
+#: commandHelper/__init__.py:251 commandHelper/__init__.py:300
 msgid "Select a command using up or down arrows"
 msgstr "Seleccione um comando com setas para cima e para baixo."
 
-#: addon\globalPlugins\commandHelper\__init__.py:136
+#: commandHelper/__init__.py:264
 msgid "Can't run this script here"
 msgstr "Não se pode executar este script aqui."
 
-#: addon\globalPlugins\commandHelper\__init__.py:180
+#: commandHelper/__init__.py:309
 msgid "There is no gesture"
 msgstr "Sem atalho"
 
-#: addon\globalPlugins\commandHelper\__init__.py:184
+#: commandHelper/__init__.py:313
+#, fuzzy, python-format
+#| msgid ""
+#| "Use right and left arrows to navigate categories, up and down arrows to "
+#| "select a script and enter to run the selected."
+msgid ""
+"Use right and left arrows to navigate categories, up and down arrows to "
+"select a script and enter to run the selected. %s to exit."
+msgstr ""
+"Use seta direita e esquerda para navegar por categorias, setas para cima e "
+"para baixo para seleccionar um comando e Enter para executar o script "
+"seleccionado."
+
+#: commandHelper/__init__.py:316
 msgid "Leaving the command hhelper"
 msgstr "A sair da ajuda de comandos"
 
-#. Add-on summary, usually the user visible name of the addon.
-#. Translators: Summary for this add-on to be shown on installation and add-on information.
-#: buildVars.py:17
+#: commandHelper/__init__.py:351
+msgid "Control key launches the helper"
+msgstr "A tecla ctrl activa o extra."
+
+#: commandHelper/__init__.py:354
+msgid ""
+"With the control key activated, it is recommended to reduce the keyboard "
+"repetition speed. See more information in the addon documentation."
+msgstr ""
+"Com a tecla de controlo activada, é recomendado reduzir a velocidade de "
+"repetição do teclado. Veja mais informações na documentação do addon."
+
+#: commandHelper/__init__.py:357
+msgid "Windows keyboard settings"
+msgstr "Configurações de teclado do Windows"
+
+#: commandHelper/__init__.py:359
+msgid "Open the Windows control panel to adjust keyboard parameters"
+msgstr ""
+"Abra o painel de controlo do Windows para ajustar os parâmetros do teclado"
+
+#: commandHelper/__init__.py:363
+msgid "Key to leave the keyboard command layer"
+msgstr "Tecla para sair dos comandos em camada"
+
+#: commandHelper/__init__.py:363
+#, fuzzy
+msgid "escape"
+msgstr "escape"
+
+#: commandHelper/__init__.py:363
+msgid "backspace"
+msgstr "Retrocesso"
+
+#: commandHelper/__init__.py:365
+msgid "Choose which key to use to exit the helper."
+msgstr "Escolha a tecla para sair do addon"
+
+#: commandHelper/__init__.py:367
+msgid "Key to report the gesture assigned to a command"
+msgstr "Tecla para indicar o atalho atribuído ao comando."
+
+#: commandHelper/__init__.py:367
+msgid "F1"
+msgstr "F1"
+
+#: commandHelper/__init__.py:367
+msgid "F12"
+msgstr "F12"
+
+#: commandHelper/__init__.py:369
+msgid ""
+"Choose which key to use to announce the gesture assigned to the command."
+msgstr "Escolha a tecla para dizer o atalho atribuído ao comando"
+
+#: commandHelper/__init__.py:371
+msgid "Use numpad in the keyboard command layer"
+msgstr "Use o bloco numérico nos comandos em camada"
+
+#: commandHelper/__init__.py:373
+msgid "Use the numeric keyboard in the command layer."
+msgstr "Use o teclado numérico nos comandos em camada."
+
+#: commandHelper/__init__.py:397
 msgid "Command Helper"
 msgstr "Ajuda de comandos"
 
-#. Add-on description
-#. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
-#: buildVars.py:20
-msgid ""
-"Provides a alternative method for executing scripts for people who have "
-"difficulty pressing complicated key combinations."
-msgstr ""
-"Fornece um método alternativo de execução de scripts para pessoas que têm "
-"dificuldade em pressionar combinações complicadas de teclado."
+#~ msgid ""
+#~ "Provides a alternative method for executing scripts for people who have "
+#~ "difficulty pressing complicated key combinations."
+#~ msgstr ""
+#~ "Fornece um método alternativo de execução de scripts para pessoas que têm "
+#~ "dificuldade em pressionar combinações complicadas de teclado."
