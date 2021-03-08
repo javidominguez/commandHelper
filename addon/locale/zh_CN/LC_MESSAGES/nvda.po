@@ -2,71 +2,145 @@ msgid ""
 msgstr ""
 "Project-Id-Version: commandHelper\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
-"POT-Creation-Date: 2021-01-23 11:41+0100\n"
-"PO-Revision-Date: 2021-01-29 23:22+0800\n"
+"POT-Creation-Date: 2021-02-22 14:27+0100\n"
+"PO-Revision-Date: 2021-03-09 00:48+0800\n"
+"Last-Translator: Michael Tsai <huanlin.tsai@gmail.com>\n"
 "Language-Team: Javi Domínguez\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.4.2\n"
 "X-Poedit-Basepath: .\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Last-Translator: Michael Tsai <huanlin.tsai@gmail.com>\n"
-"Language: zh_TW\n"
 
-#: addon\globalPlugins\commandHelper\__init__.py:47
+#: addon\globalPlugins\commandHelper\__init__.py:90
 msgid "Command helper"
 msgstr "指令协助员"
 
-#: addon\globalPlugins\commandHelper\__init__.py:82
+#. TRANSLATORS: The configuration option in NVDA Preferences menu
+#. TRANSLATORS: Settings dialog title
+#: addon\globalPlugins\commandHelper\__init__.py:99
+#: addon\globalPlugins\commandHelper\__init__.py:410
+msgid "Command Helper settings"
+msgstr "指令协助员的设定"
+
+#: addon\globalPlugins\commandHelper\__init__.py:181
 msgid "Available commands"
-msgstr "可用之命令"
+msgstr "可用之指令"
 
-#: addon\globalPlugins\commandHelper\__init__.py:84
-msgid ""
-"Use right and left arrows to navigate categories, up and down arrows to "
-"select a script and enter to run the selected."
-msgstr ""
-"使用左右箭头来切换分类，上下箭头选择脚本（script），然后"
-"按 Enter 键来执行选取的项目。"
-
-#: addon\globalPlugins\commandHelper\__init__.py:89
-#: addon\globalPlugins\commandHelper\__init__.py:143
+#: addon\globalPlugins\commandHelper\__init__.py:188
+#: addon\globalPlugins\commandHelper\__init__.py:271
 msgid "Failed to retrieve scripts."
 msgstr "无法取得脚本（scripts）。"
 
-#: addon\globalPlugins\commandHelper\__init__.py:93
-#: addon\globalPlugins\commandHelper\__init__.py:94
+#: addon\globalPlugins\commandHelper\__init__.py:192
+#: addon\globalPlugins\commandHelper\__init__.py:193
 msgid "Recents"
-msgstr "最近的项目"
+msgstr "最近的指令"
 
 #. TRANSLATORS: message shown in Input gestures dialog for this script
-#: addon\globalPlugins\commandHelper\__init__.py:99
+#: addon\globalPlugins\commandHelper\__init__.py:199
 msgid ""
 "Provides a virtual menu where you can select any command to be executed "
 "without having to press its gesture."
-msgstr "提供一个虚拟选单来让你选择任何想要执行的命令，而无须特定操作。"
+msgstr ""
+"提供一个虚拟选单来让你选择任何想要执行的指令，而无须特定之操作按键。"
 
-#: addon\globalPlugins\commandHelper\__init__.py:123
-#: addon\globalPlugins\commandHelper\__init__.py:171
+#: addon\globalPlugins\commandHelper\__init__.py:251
+#: addon\globalPlugins\commandHelper\__init__.py:300
 msgid "Select a command using up or down arrows"
-msgstr "使用上下箭头来选择命令"
+msgstr "使用上下箭头来选择指令"
 
-#: addon\globalPlugins\commandHelper\__init__.py:136
+#: addon\globalPlugins\commandHelper\__init__.py:264
 msgid "Can't run this script here"
 msgstr "无法在此处执行脚本（script）"
 
-#: addon\globalPlugins\commandHelper\__init__.py:180
+#: addon\globalPlugins\commandHelper\__init__.py:309
 msgid "There is no gesture"
 msgstr "没有操作按键（gesture）"
 
-#: addon\globalPlugins\commandHelper\__init__.py:184
-msgid "Leaving the command helper"
+#: addon\globalPlugins\commandHelper\__init__.py:313
+#, python-format
+msgid ""
+"Use right and left arrows to navigate categories, up and down arrows to "
+"select a script and enter to run the selected. %s to exit."
+msgstr ""
+"使用左右箭头来切换分类，上下箭头选择指令，然后按 Enter 键来执行选取的"
+"项目。%s 离开。"
+
+#: addon\globalPlugins\commandHelper\__init__.py:316
+#, fuzzy
+#| msgid "Leaving the command helper"
+msgid "Leaving the command hhelper"
 msgstr "离开指令协助员"
 
+#. TRANSLATORS: Checkbox to enable or disable helper launching by control key
+#: addon\globalPlugins\commandHelper\__init__.py:351
+msgid "Control key launches the helper"
+msgstr "使用 Control 键来启动协助员"
+
+#: addon\globalPlugins\commandHelper\__init__.py:354
+msgid ""
+"With the control key activated, it is recommended to reduce the keyboard "
+"repetition speed. See more information in the addon documentation."
+msgstr ""
+"若使用 control 键来启动，建议把键盘的重复速度降低一些。详情参见此附加组件"
+"的说明文件。"
+
+#: addon\globalPlugins\commandHelper\__init__.py:357
+msgid "Windows keyboard settings"
+msgstr "Windows 键盘设定"
+
+#: addon\globalPlugins\commandHelper\__init__.py:359
+msgid "Open the Windows control panel to adjust keyboard parameters"
+msgstr "开启 Windows 控制面板，以便调整键盘参数"
+
+#: addon\globalPlugins\commandHelper\__init__.py:363
+msgid "Key to leave the keyboard command layer"
+msgstr "离开指令协助模式"
+
+#: addon\globalPlugins\commandHelper\__init__.py:363
+msgid "escape"
+msgstr "Esc 键"
+
+#: addon\globalPlugins\commandHelper\__init__.py:363
+msgid "backspace"
+msgstr "退格键"
+
+#: addon\globalPlugins\commandHelper\__init__.py:365
+msgid "Choose which key to use to exit the helper."
+msgstr "指定用来离开协助员的按键。"
+
+#: addon\globalPlugins\commandHelper\__init__.py:367
+msgid "Key to report the gesture assigned to a command"
+msgstr "用来报读与指令关联之手势的按键"
+
+#: addon\globalPlugins\commandHelper\__init__.py:367
+msgid "F1"
+msgstr "F1"
+
+#: addon\globalPlugins\commandHelper\__init__.py:367
+msgid "F12"
+msgstr "F12"
+
+#: addon\globalPlugins\commandHelper\__init__.py:369
+msgid ""
+"Choose which key to use to announce the gesture assigned to the command."
+msgstr "选择特定按键来报读与指令关联之手势的按键。"
+
+#: addon\globalPlugins\commandHelper\__init__.py:371
+msgid "Use numpad in the keyboard command layer"
+msgstr "在键盘指令层中使用数字键盘"
+
+#: addon\globalPlugins\commandHelper\__init__.py:373
+msgid "Use the numeric keyboard in the command layer."
+msgstr "在指令层中使用数字键盘。"
+
+#. TRANSLATORS: Settings panel title
 #. Add-on summary, usually the user visible name of the addon.
 #. Translators: Summary for this add-on to be shown on installation and add-on information.
-#: buildVars.py:17
+#: addon\globalPlugins\commandHelper\__init__.py:397 buildVars.py:17
 msgid "Command Helper"
 msgstr "指令协助员"
 
@@ -76,4 +150,4 @@ msgstr "指令协助员"
 msgid ""
 "Provides a alternative method for executing scripts for people who have "
 "difficulty pressing complicated key combinations."
-msgstr "提供另一个方法来执行脚本（scripts），以便让不方便按复杂按键的人使用。"
+msgstr "提供另一个方法来执行指令，好让不方便按复杂按键的人使用。"
