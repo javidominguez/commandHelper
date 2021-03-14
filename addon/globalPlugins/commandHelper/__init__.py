@@ -154,6 +154,14 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				script.__self__.bindGesture(key, script.__name__[7:])
 
 	def script_commandsHelper(self, gesture):
+		if inputCore.manager._captureFunc and not inputCore.manager._captureFunc(gesture):
+			# Prevents the helper was launched when the keyboard is locked by the InputLock addon
+			return
+		if inputCore.manager.isInputHelpActive:
+			# Prevents the helper was launched when the keyboard help mode is active, instead it speaks the script help message.
+			if config.conf["commandHelper"]["controlKey"]:
+				ui.message(self.script_commandsHelper.__doc__)
+			return
 		if self.toggling:
 			self.script_exit(gesture)
 			self.finish()
