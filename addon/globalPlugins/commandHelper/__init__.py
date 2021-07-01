@@ -22,13 +22,12 @@ import globalPluginHandler
 import globalPlugins
 import gui
 import inputCore
-import re
 import scriptHandler
 import speech
 import subprocess
 import time
 import tones
-import ui
+import braille
 import wx
 
 # Settings compatibility with older versions of NVDA
@@ -62,6 +61,15 @@ def finally_(func, final):
 				final()
 		return new
 	return wrap(final)
+
+def menuMessage(message):
+	tether = braille.handler.TETHER_AUTO if config.conf["braille"]["autoTether"] else config.conf["braille"]["tetherTo"]
+	braille.handler.setTether("review")
+	speech.speakMessage(message)
+	braille.handler.message(message)
+	if braille.handler._messageCallLater:
+		braille.handler._messageCallLater .Stop()
+	braille.handler.setTether(tether)
 
 class Trigger():
 
@@ -131,7 +139,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			# Launch of the helper by repeating a modifier key (in this case control).
 			gesture.speechEffectWhenExecuted = None
 			script = self.script_commandsHelper(gesture)
-		if not self.toggling or re.match("br(\(.+\))?", gesture.normalizedIdentifiers[0]):
+		if not self.toggling or isinstance(gesture, braille.BrailleDisplayGesture):
 			return globalPluginHandler.GlobalPlugin.getScript(self, gesture)
 		script = globalPluginHandler.GlobalPlugin.getScript(self, gesture)
 		if not script:
@@ -157,7 +165,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		if inputCore.manager.isInputHelpActive:
 			# Prevents the helper was launched when the keyboard help mode is active, instead it speaks the script help message.
 			if config.conf["commandHelper"]["controlKey"]:
-				ui.message(self.script_commandsHelper.__doc__)
+				menuMessage(self.script_commandsHelper.__doc__)
 			return
 		elif inputCore.manager._captureFunc and not inputCore.manager._captureFunc(gesture):
 			# Prevents the helper was launched when the keyboard is locked by the InputLock addon
@@ -186,14 +194,16 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			self.bindGesture("kb:"+c, "skipToCategory")
 		self.bindGesture("kb:"+config.conf["commandHelper"]["reportGestureKey"], "AnnounceGestures")
 		self.toggling = True
-		ui.message(_("Available commands"))
+		menuMessage(_("Available commands"))
+		voiceOnly = True
 		if self.firstTime:
 			self.script_speechHelp(None)
 			self.firstTime = False
+			if braille.handler._messageCallLater: voiceOnly = False
 		try:
 			self.gestures = inputCore.manager.getAllGestureMappings(obj=gui.mainFrame.prevFocus, ancestors=gui.mainFrame.prevFocusAncestors)
 		except:
-			ui.message(_("Failed to retrieve scripts."))
+			menuMessage(_("Failed to retrieve scripts."))
 		self.categories = sorted(self.gestures)
 		self.categories.remove(self.scriptCategory)
 		if self.recentCommands:
@@ -201,22 +211,22 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			self.gestures[_("Recents")] = self.recentCommands
 		#3 Implement another category with a list of the most used commands in order of frequency.
 		self.catIndex = -1
-		self.script_nextCategory(None)
+		self.script_nextCategory(None, voiceOnly)
 		self.cancelSpeech = True
 	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_commandsHelper.__doc__ = _("Provides a virtual menu where you can select any command to be executed without having to press its gesture.")
 
-	def script_nextCategory(self, gesture):
+	def script_nextCategory(self, gesture, verbose=True):
 		self.cancelSpeech = False
 		self.catIndex = self.catIndex+1 if self.catIndex < len(self.categories)-1 else 0
-		ui.message(self.categories[self.catIndex])
+		if verbose: menuMessage(self.categories[self.catIndex])
 		self.commandIndex = -1
 		self.commands = sorted(self.gestures[self.categories[self.catIndex]])
 
 	def script_previousCategory(self, gesture):
 		self.cancelSpeech = False
 		self.catIndex = self.catIndex -1 if self.catIndex > 0 else len(self.categories)-1
-		ui.message(self.categories[self.catIndex])
+		menuMessage(self.categories[self.catIndex])
 		self.commandIndex = -1
 		self.commands = sorted(self.gestures[self.categories[self.catIndex]])
 
@@ -232,13 +242,13 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				self.script_nextCategory(None)
 			except IndexError:
 				if self.categories[self.catIndex][0].lower() == gesture.mainKeyName:
-					ui.message(self.categories[self.catIndex])
+					menuMessage(self.categories[self.catIndex])
 				else:
 					tones.beep(200, 30)
 		# End of compatibility with Python 2
 		except StopIteration:
 			if self.categories[self.catIndex][0].lower() == gesture.mainKeyName:
-				ui.message(self.categories[self.catIndex])
+				menuMessage(self.categories[self.catIndex])
 			else:
 				tones.beep(200, 30)
 		else:
@@ -247,16 +257,16 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	def script_nextCommand(self, gesture):
 		self.cancelSpeech = False
 		self.commandIndex = self.commandIndex + 1 if self.commandIndex < len(self.commands)-1 else 0
-		ui.message(self.commands[self.commandIndex])
+		menuMessage(self.commands[self.commandIndex])
 
 	def script_previousCommand(self, gesture):
 		self.cancelSpeech = False
 		self.commandIndex = self.commandIndex-1 if self.commandIndex > 0 else len(self.commands)-1
-		ui.message(self.commands[self.commandIndex])
+		menuMessage(self.commands[self.commandIndex])
 
 	def script_executeCommand(self, gesture):
 		if self.commandIndex < 0:
-			ui.message(_("Select a command using up or down arrows"))
+			menuMessage(_("Select a command using up or down arrows"))
 			return
 		commandInfo = self.gestures[self.categories[self.catIndex]][self.commands[self.commandIndex]]
 		try:
@@ -269,14 +279,14 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				try:
 					script = getattr(api.getForegroundObject().appModule , "script_"+commandInfo.scriptName)
 				except:
-					ui.message(_("Can't run this script here"))
+					menuMessage(_("Can't run this script here"))
 					return
 			else:
 				self.finish()
 				raise RuntimeError("Failed to retrieve scripts. Not found in known modules.")
 		except:
 			self.finish()
-			ui.message(_("Failed to retrieve scripts."))
+			menuMessage(_("Failed to retrieve scripts."))
 			raise
 		try:
 			g = inputCore._getGestureClsForIdentifier(commandInfo.gestures[0])
@@ -305,23 +315,26 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	def script_AnnounceGestures(self, gesture):
 		self.cancelSpeech = False
 		if self.commandIndex < 0:
-			ui.message(_("Select a command using up or down arrows"))
+			menuMessage(_("Select a command using up or down arrows"))
 			return
 		commandInfo = self.gestures[self.categories[self.catIndex]][self.commands[self.commandIndex]]
 		if commandInfo.gestures:
 			try:
-				ui.message(".\n".join([": ".join(KeyboardInputGesture.getDisplayTextForIdentifier(g)) for g in commandInfo.gestures]))
+				menuMessage(".\n".join([": ".join(KeyboardInputGesture.getDisplayTextForIdentifier(g)) for g in commandInfo.gestures]))
 			except:
-				ui.message("\n".join(commandInfo.gestures))
+				menuMessage("\n".join(commandInfo.gestures))
 		else:
-			ui.message(_("There is no gesture"))
+			menuMessage(_("There is no gesture"))
 		#9 Search for keyboard conflicts and announce them
 
 	def script_speechHelp(self, gesture):
-		ui.message(_("Use right and left arrows to navigate categories, up and down arrows to select a script and enter to run the selected. %s to exit.") % _(config.conf["commandHelper"]["exitKey"]))
+		menuMessage(_("Use right and left arrows to navigate categories, up and down arrows to select a script and enter to run the selected. %s to exit.") % _(config.conf["commandHelper"]["exitKey"]))
 
 	def script_exit(self, gesture):
-		ui.message(_("Leaving the command hhelper"))
+		menuMessage(_("Leaving the command hhelper"))
+		if braille.handler._messageCallLater:
+			braille.handler._messageCallLater.Restart()
+		braille.handler.handleGainFocus(api.getFocusObject())
 
 	__CHGestures = {
 	"kb:rightArrow": "nextCategory",
@@ -397,7 +410,7 @@ class Settings():
 
 	def onControlKeyEnabledCheckBoxChanged(self, evt):
 		if self.controlKeyEnabledCheckBox.GetValue() and self.warningMessageFlag:
-			ui.message(self.warningMessage)
+			menuMessage(self.warningMessage)
 			self.warningMessageFlag = False
 
 class CommandHelperPanel(SettingsPanel, Settings):
