@@ -116,6 +116,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.firstTime = True
 		self.__trigger__ = Trigger(("rightControl","leftControl"))
 		self.cancelSpeech = True
+		self.allowedBrailleGestures = set()
 		self.oldGestureBindings = {}
 
 	def onCommandHelperMenu(self, evt):
@@ -140,7 +141,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			# Launch of the helper by repeating a modifier key (in this case control).
 			gesture.speechEffectWhenExecuted = None
 			script = self.script_commandHelper(gesture)
-		if not self.toggling or isinstance(gesture, braille.BrailleDisplayGesture):
+		if not self.toggling or True in [gID.lower() in self.allowedBrailleGestures for gID in gesture.identifiers]:
 			return globalPluginHandler.GlobalPlugin.getScript(self, gesture)
 		script = globalPluginHandler.GlobalPlugin.getScript(self, gesture)
 		if not script:
@@ -161,6 +162,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			script = self.oldGestureBindings[key]
 			if hasattr(script.__self__, script.__name__):
 				script.__self__.bindGesture(key, script.__name__[7:])
+		if braille.handler._messageCallLater:
+			braille.handler._messageCallLater.Notify()
+		braille.handler.handleGainFocus(api.getFocusObject())
 
 	def script_commandHelper(self, gesture):
 		if inputCore.manager.isInputHelpActive:
@@ -211,6 +215,30 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			self.categories.insert(0, _("Recents"))
 			self.gestures[_("Recents")] = self.recentCommands
 		#3 Implement another category with a list of the most used commands in order of frequency.
+		# Braille gestures that will be allowed:
+		try:
+			for brGesture in\
+			self.gestures[globalCommands.SCRCAT_BRAILLE][globalCommands.GlobalCommands.script_braille_scrollForward.__doc__].gestures\
+			+self.gestures[globalCommands.SCRCAT_BRAILLE][globalCommands.GlobalCommands.script_braille_scrollBack.__doc__].gestures:
+				self.allowedBrailleGestures.add(brGesture)
+		except KeyError:
+			pass
+		# Braille gestures remapped:
+		try:
+			for brGesture in self.gestures[globalCommands.SCRCAT_BRAILLE][globalCommands.GlobalCommands.script_braille_nextLine.__doc__].gestures:
+				self.bindGesture(brGesture, "nextCommand")
+		except KeyError:
+			pass
+		try:
+			for brGesture in self.gestures[globalCommands.SCRCAT_BRAILLE][globalCommands.GlobalCommands.script_braille_previousLine.__doc__].gestures:
+				self.bindGesture(brGesture, "previousCommand")
+		except KeyError:
+			pass
+		try:
+			for brGesture in self.gestures[globalCommands.SCRCAT_OBJECTNAVIGATION][globalCommands.GlobalCommands.script_review_activate.__doc__].gestures:
+				self.bindGesture(brGesture, "executeCommand")
+		except KeyError:
+			pass
 		self.catIndex = -1
 		self.script_nextCategory(None, voiceOnly)
 		self.cancelSpeech = True
@@ -298,10 +326,10 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		except:
 			raise
 		else:
-			if gesture.modifierNames == ["shift"] or gesture.mainKeyName == "numpadPlus":
+			if not isinstance(gesture, braille.BrailleDisplayGesture) and (gesture.modifierNames == ["shift"] or gesture.mainKeyName == "numpadPlus"):
 				speech.cancelSpeech()
 				scriptHandler.executeScript(script, g)
-			elif gesture.modifierNames == ["control"]  or gesture.mainKeyName == "numpadMinus":
+			elif not isinstance(gesture, braille.BrailleDisplayGesture) and (gesture.modifierNames == ["control"]  or gesture.mainKeyName == "numpadMinus"):
 				speech.cancelSpeech()
 				scriptHandler.executeScript(script, g)
 				speech.cancelSpeech()
@@ -343,9 +371,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 	def script_exit(self, gesture):
 		menuMessage(_("Leaving the command hhelper"))
-		if braille.handler._messageCallLater:
-			braille.handler._messageCallLater.Restart()
-		braille.handler.handleGainFocus(api.getFocusObject())
 
 	__CHGestures = {
 	"kb:rightArrow": "nextCategory",
