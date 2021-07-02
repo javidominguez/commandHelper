@@ -11,6 +11,7 @@ Provides a virtual menu where you can select any command to be executed without 
 
 from functools import wraps
 from keyboardHandler import KeyboardInputGesture
+from logHandler import log
 from string import ascii_uppercase
 import addonHandler
 import api
@@ -138,7 +139,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		if config.conf["commandHelper"]["controlKey"] and not self.toggling and self.__trigger__(gesture):
 			# Launch of the helper by repeating a modifier key (in this case control).
 			gesture.speechEffectWhenExecuted = None
-			script = self.script_commandsHelper(gesture)
+			script = self.script_commandHelper(gesture)
 		if not self.toggling or isinstance(gesture, braille.BrailleDisplayGesture):
 			return globalPluginHandler.GlobalPlugin.getScript(self, gesture)
 		script = globalPluginHandler.GlobalPlugin.getScript(self, gesture)
@@ -161,11 +162,11 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			if hasattr(script.__self__, script.__name__):
 				script.__self__.bindGesture(key, script.__name__[7:])
 
-	def script_commandsHelper(self, gesture):
+	def script_commandHelper(self, gesture):
 		if inputCore.manager.isInputHelpActive:
 			# Prevents the helper was launched when the keyboard help mode is active, instead it speaks the script help message.
 			if config.conf["commandHelper"]["controlKey"]:
-				menuMessage(self.script_commandsHelper.__doc__)
+				menuMessage(self.script_commandHelper.__doc__)
 			return
 		elif inputCore.manager._captureFunc and not inputCore.manager._captureFunc(gesture):
 			# Prevents the helper was launched when the keyboard is locked by the InputLock addon
@@ -214,7 +215,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.script_nextCategory(None, voiceOnly)
 		self.cancelSpeech = True
 	#TRANSLATORS: message shown in Input gestures dialog for this script
-	script_commandsHelper.__doc__ = _("Provides a virtual menu where you can select any command to be executed without having to press its gesture.")
+	script_commandHelper.__doc__ = _("Provides a virtual menu where you can select any command to be executed without having to press its gesture.")
 
 	def script_nextCategory(self, gesture, verbose=True):
 		self.cancelSpeech = False
@@ -318,13 +319,23 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			menuMessage(_("Select a command using up or down arrows"))
 			return
 		commandInfo = self.gestures[self.categories[self.catIndex]][self.commands[self.commandIndex]]
+		gestureDisplayText = ""
 		if commandInfo.gestures:
 			try:
-				menuMessage(".\n".join([": ".join(KeyboardInputGesture.getDisplayTextForIdentifier(g)) for g in commandInfo.gestures]))
+				gestureDisplayText = ".\n".join([": ".join(KeyboardInputGesture.getDisplayTextForIdentifier(g)) for g in commandInfo.gestures])
+				menuMessage(gestureDisplayText)
 			except:
-				menuMessage("\n".join(commandInfo.gestures))
+				gestureDisplayText = "\n".join(commandInfo.gestures)
+				menuMessage(gestureDisplayText)
 		else:
-			menuMessage(_("There is no gesture"))
+			gestureDisplayText = _("There is no gesture")
+			menuMessage(gestureDisplayText)
+		log.info("%s on %s.%s\n%s\n%s" % (
+		commandInfo.scriptName,
+		commandInfo.moduleName,
+		commandInfo.className,
+		self.commands[self.commandIndex],
+		gestureDisplayText))
 		#9 Search for keyboard conflicts and announce them
 
 	def script_speechHelp(self, gesture):
@@ -360,7 +371,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	}
 
 	__gestures = {
-	"kb:NVDA+H": "commandsHelper"
+	"kb:NVDA+H": "commandHelper"
 	}
 
 class Settings():
