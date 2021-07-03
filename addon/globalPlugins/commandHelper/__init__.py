@@ -17,6 +17,7 @@ import addonHandler
 import api
 import appModuleHandler
 import appModules
+import brailleInput
 import config
 import globalCommands
 import globalPluginHandler
@@ -141,7 +142,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			# Launch of the helper by repeating a modifier key (in this case control).
 			gesture.speechEffectWhenExecuted = None
 			script = self.script_commandHelper(gesture)
-		if not self.toggling or True in [gID.lower() in self.allowedBrailleGestures for gID in gesture.identifiers]:
+		if not self.toggling or isinstance(gesture, brailleInput.BrailleInputGesture) or True in [gID.lower() in self.allowedBrailleGestures for gID in gesture.identifiers]:
 			return globalPluginHandler.GlobalPlugin.getScript(self, gesture)
 		script = globalPluginHandler.GlobalPlugin.getScript(self, gesture)
 		if not script:
