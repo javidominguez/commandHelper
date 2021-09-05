@@ -9,7 +9,6 @@ The keyboard command layer takes code from the Instant Translate addon by Alexy 
 Provides a virtual menu where you can select any command to be executed without having to press its gesture.
 """
 
-from . import speech_recognition
 from functools import wraps
 from keyboardHandler import KeyboardInputGesture
 from logHandler import log
@@ -33,6 +32,15 @@ import time
 import tones
 import braille
 import wx
+
+try:
+	from . import speech_recognition
+	log.info("Module speech_recognition version %s succesfully loaded\n(C) %s > license %s" % (speech_recognition.__version__, speech_recognition.__author__, speech_recognition.__license__))
+except ImportError:
+	speech_recognition = None
+	log.warning("Import of the speech_recognition module failed. The speech recognition feature will not be available.")
+except AttributeError:
+	pass
 
 # Settings compatibility with older versions of NVDA
 from gui import settingsDialogs
@@ -376,6 +384,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		menuMessage(_("Leaving the command hhelper"))
 
 	def script_speechRecognition(self, gesture):
+		if not speech_recognition:
+			raise RuntimeError("The speech recognition feature is not available because the speech_recognition module could not be loaded.")
 		mic = speech_recognition.Microphone()
 		recognizer = speech_recognition.Recognizer()
 		with mic:
