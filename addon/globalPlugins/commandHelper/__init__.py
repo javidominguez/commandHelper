@@ -9,6 +9,7 @@ The keyboard command layer takes code from the Instant Translate addon by Alexy 
 Provides a virtual menu where you can select any command to be executed without having to press its gesture.
 """
 
+from . import speech_recognition
 from functools import wraps
 from keyboardHandler import KeyboardInputGesture
 from logHandler import log
@@ -24,6 +25,7 @@ import globalPluginHandler
 import globalPlugins
 import gui
 import inputCore
+import locale
 import scriptHandler
 import speech
 import subprocess
@@ -373,6 +375,26 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	def script_exit(self, gesture):
 		menuMessage(_("Leaving the command hhelper"))
 
+	def script_speechRecognition(self, gesture):
+		mic = speech_recognition.Microphone()
+		recognizer = speech_recognition.Recognizer()
+		with mic:
+			speech.speakMessage(_("Say something"))
+			try:
+				audio = recognizer.listen(mic, timeout=3)
+			except speech_recognition.WaitTimeoutError:
+				speech.speakMessage(_("Nothing was heard. Make sure the microphone is connected and try again."))
+				return
+			try:
+				recognizedText = recognizer.recognize_google(audio, language=locale.getlocale()[0].split("_")[0])
+			except speech_recognition.UnknownValueError:
+				speech.speakMessage(_("Unable to recognize"))
+				return
+			except speech_recognition.RequestError:
+				speech.speakMessage(_("Could not connect. Check your internet connection."))
+				return
+			speech.speakMessage(_("You said: %s") % recognizedText)
+
 	__CHGestures = {
 	"kb:rightArrow": "nextCategory",
 	"kb:leftArrow": "previousCategory",
@@ -397,7 +419,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	}
 
 	__gestures = {
-	"kb:NVDA+H": "commandHelper"
+	"kb:NVDA+H": "commandHelper",
+	"kb:NVDA+shift+R": "speechRecognition"
 	}
 
 class Settings():
