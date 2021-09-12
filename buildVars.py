@@ -19,7 +19,7 @@ addon_info = {
 	# Translators: Long description to be shown for this add-on on add-on information from add-ons manager
 	"addon_description" : _("""Provides a alternative method for executing scripts for people who have difficulty pressing complicated key combinations."""),
 	# version
-	"addon_version" : "STT_dev20210905",
+	"addon_version" : "STT_dev20210912",
 	# Author(s)
 	"addon_author" : u"Javi Dominguez <fjavids@gmail.com>",
 	# URL for the add-on documentation support

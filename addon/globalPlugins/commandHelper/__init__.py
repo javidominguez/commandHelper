@@ -12,6 +12,7 @@ Provides a virtual menu where you can select any command to be executed without 
 from functools import wraps
 from keyboardHandler import KeyboardInputGesture
 from logHandler import log
+from . import parser
 from string import ascii_uppercase
 import addonHandler
 import api
@@ -129,6 +130,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.cancelSpeech = True
 		self.allowedBrailleGestures = set()
 		self.oldGestureBindings = {}
+		self.flagFilter = False
 
 	def onCommandHelperMenu(self, evt):
 		# Compatibility with older versions of NVDA
@@ -164,6 +166,12 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		return script
 
 	def finish(self):
+		if self.flagFilter:
+			if "speechFilter" in self.categories: self.categories.pop(self.categories.index("speechFilter"))
+			if "speechFilter" in self.gestures: self.gestures.pop("speechFilter")
+			self.flagFilter = False
+			self.script_nextCategory(None)
+			return
 		self.toggling = False
 		self.cancelSpeech = False
 		self.clearGestureBindings()
@@ -209,7 +217,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		for c in ascii_uppercase:
 			self.bindGesture("kb:"+c, "skipToCategory")
 		self.bindGesture("kb:"+config.conf["commandHelper"]["reportGestureKey"], "AnnounceGestures")
+		self.bindGesture("kb:space", "speechRecognition")
 		self.toggling = True
+		self.flagFilter = False
 		menuMessage(_("Available commands"))
 		voiceOnly = True
 		if self.firstTime:
@@ -257,6 +267,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	script_commandHelper.__doc__ = _("Provides a virtual menu where you can select any command to be executed without having to press its gesture.")
 
 	def script_nextCategory(self, gesture, verbose=True):
+		if self.flagFilter:
+			self.script_speechHelp(None)
+			return
 		self.cancelSpeech = False
 		self.catIndex = self.catIndex+1 if self.catIndex < len(self.categories)-1 else 0
 		if verbose: menuMessage(self.categories[self.catIndex])
@@ -264,6 +277,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.commands = sorted(self.gestures[self.categories[self.catIndex]])
 
 	def script_previousCategory(self, gesture):
+		if self.flagFilter:
+			self.script_speechHelp(None)
+			return
 		self.cancelSpeech = False
 		self.catIndex = self.catIndex -1 if self.catIndex > 0 else len(self.categories)-1
 		menuMessage(self.categories[self.catIndex])
@@ -271,6 +287,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.commands = sorted(self.gestures[self.categories[self.catIndex]])
 
 	def script_skipToCategory(self, gesture):
+		if self.flagFilter:
+			self.script_speechHelp(None)
+			return
 		self.cancelSpeech = False
 		categories = (self.categories[self.catIndex+1:] if self.catIndex+1 < len(self.categories) else []) + (self.categories[:self.catIndex])
 		try:
@@ -350,6 +369,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				if commandInfo.className == "AppModule":
 					key = "%s: %s" % (self.categories[self.catIndex], key)
 				self.recentCommands[key] = commandInfo
+		self.flagFilter = False
 		self.finish()
 
 	def script_AnnounceGestures(self, gesture):
@@ -378,10 +398,16 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		#9 Search for keyboard conflicts and announce them
 
 	def script_speechHelp(self, gesture):
-		menuMessage(_("Use right and left arrows to navigate categories, up and down arrows to select a script and enter to run the selected. %s to exit.") % _(config.conf["commandHelper"]["exitKey"]))
+		if self.flagFilter:
+			menuMessage(_("Use up and down arrows to select a script and enter to run the selected. %s to clear filter and return to full menu. Press space to perform another voice search.") % _(config.conf["commandHelper"]["exitKey"]))
+		else:
+			menuMessage(_("Use right and left arrows to navigate categories, up and down arrows to select a script and enter to run the selected. %s to exit.") % _(config.conf["commandHelper"]["exitKey"]))
 
 	def script_exit(self, gesture):
-		menuMessage(_("Leaving the command hhelper"))
+		if self.flagFilter:
+			menuMessage(_("Returning to the full menu"))
+		else:
+			menuMessage(_("Leaving the command hhelper"))
 
 	def script_speechRecognition(self, gesture):
 		if not speech_recognition:
@@ -403,7 +429,30 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			except speech_recognition.RequestError:
 				speech.speakMessage(_("Could not connect. Check your internet connection."))
 				return
-			speech.speakMessage(_("You said: %s") % recognizedText)
+		string = ""
+		for cat in self.categories:
+			for com in self.gestures[cat]:
+				string = "%s %s" % (string, com)
+		p = parser.Parser(dictionary=string)
+		candidates = []
+		candidatesInfo = {}
+		self.categories.append("speechFilter")
+		self.gestures["speechFilter"] = {}
+		for cat in self.categories:
+			for com in self.gestures[cat]:
+				if cat == _("Recents") or cat == "speechFilter": continue
+				s = p.match(recognizedText, com)
+				if s>0:
+					candidates.append((s, com))
+					candidatesInfo[com] = self.gestures[cat][com]
+		self.gestures["speechFilter"] = candidatesInfo
+		candidates.sort(reverse=True)
+		speech.speakMessage(_("%d matches found for %s") % (len(candidates), recognizedText))
+		self.catIndex = self.categories.index("speechFilter")
+		self.commands = [i[1] for i in candidates]
+		self.commandIndex = -1
+		self.script_nextCommand(None)
+		self.flagFilter = True
 
 	__CHGestures = {
 	"kb:rightArrow": "nextCategory",
@@ -429,8 +478,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	}
 
 	__gestures = {
-	"kb:NVDA+H": "commandHelper",
-	"kb:NVDA+shift+R": "speechRecognition"
+	"kb:NVDA+H": "commandHelper"
 	}
 
 class Settings():
