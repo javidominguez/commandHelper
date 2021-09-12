@@ -32,30 +32,31 @@ class Parser():
 		stringWords = self._preprocess(string)
 		readPointer = -1
 		score = 1
+		increment = len(stringWords)
+		decrement = len(stringWords)*2//3
 		for word in patternWords:
 			try:
 				index = stringWords.index(word)
-				#@ if readPointer<0: readPointer=index
 				if index >= readPointer:
-					score = score<<(32-(index-readPointer)) if score > 0 else 1<<(32-(index-readPointer))
+					score = score<<(increment-(index-readPointer)) if score > 0 else 1<<(increment-(index-readPointer))
 					readPointer = index+1
 				else:
-					score = score>>8
+					score = score>>decrement
 			except ValueError:
-				if len(word)>6:
+				if len(word)>5:
 					try:
 						index = [w[:6] if len(w)>6 else w for w in stringWords].index(word[:6])
 						if index >= readPointer:
-							score = score<<(24-(index-readPointer)) if score > 0 else 1<<(24-(index-readPointer))
+							score = score<<(increment-(index-readPointer)) if score > 0 else 1<<(increment-(index-readPointer))
 							readPointer = index+1
 					except ValueError:
 						if word in self.dictionary:
 							return 0
 						else:
-							score = score>>48
+							score = score>>decrement
 				else:
 					if word in self.dictionary:
 						return 0
 					else:
-						score = score>>48
+						score = score>>decrement
 		return score

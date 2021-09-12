@@ -170,6 +170,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			if "speechFilter" in self.categories: self.categories.pop(self.categories.index("speechFilter"))
 			if "speechFilter" in self.gestures: self.gestures.pop("speechFilter")
 			self.flagFilter = False
+			self.catIndex = -1
 			self.script_nextCategory(None)
 			return
 		self.toggling = False
@@ -314,11 +315,17 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			self.script_nextCategory(None)
 
 	def script_nextCommand(self, gesture):
+		if self.flagFilter and not self.commands:
+			menuMessage(_("No matches found. Press the space bar to perform another search or escape to return to the full menu."))
+			return
 		self.cancelSpeech = False
 		self.commandIndex = self.commandIndex + 1 if self.commandIndex < len(self.commands)-1 else 0
 		menuMessage(self.commands[self.commandIndex])
 
 	def script_previousCommand(self, gesture):
+		if self.flagFilter and not self.commands:
+			menuMessage(_("No results. Press the space bar to perform another search or escape to return to the full menu."))
+			return
 		self.cancelSpeech = False
 		self.commandIndex = self.commandIndex-1 if self.commandIndex > 0 else len(self.commands)-1
 		menuMessage(self.commands[self.commandIndex])
@@ -436,7 +443,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		p = parser.Parser(dictionary=string)
 		candidates = []
 		candidatesInfo = {}
-		self.categories.append("speechFilter")
+		if "speechFilter" not in self.categories: self.categories.append("speechFilter")
 		self.gestures["speechFilter"] = {}
 		for cat in self.categories:
 			for com in self.gestures[cat]:
@@ -445,13 +452,17 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				if s>0:
 					candidates.append((s, com))
 					candidatesInfo[com] = self.gestures[cat][com]
-		self.gestures["speechFilter"] = candidatesInfo
-		candidates.sort(reverse=True)
-		speech.speakMessage(_("%d matches found for %s") % (len(candidates), recognizedText))
-		self.catIndex = self.categories.index("speechFilter")
-		self.commands = [i[1] for i in candidates]
-		self.commandIndex = -1
-		self.script_nextCommand(None)
+		if candidates:
+			speech.speakMessage(_("%d matches found for %s") % (len(candidates), recognizedText))
+			self.gestures["speechFilter"] = candidatesInfo
+			candidates.sort(reverse=True)
+			self.catIndex = self.categories.index("speechFilter")
+			self.commands = [i[1] for i in candidates]
+			self.commandIndex = -1
+			self.script_nextCommand(None)
+		else:
+			speech.speakMessage(_("No matches found for %s") % recognizedText)
+			self.commands = []
 		self.flagFilter = True
 
 	__CHGestures = {
