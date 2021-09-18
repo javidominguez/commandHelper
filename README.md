@@ -3,10 +3,13 @@ An addon for NVDA that provides a alternative method for executing scripts for p
 
 ### USAGE 
 
-Pressing NVDA+H activates a layer of keyboard commands with the following options: 
+First you need to configure a method to invoke the wizard. A keyboard gesture can be assigned in NVDA preferences> Input gestures. You can also configure the control key in the addon preferences (see below).
+
+When the wizard is invoked a layer of keyboard commands is activated with the following options: 
 
 * Right and left arrows to select a category. 
 * Up and down arrows to select a command from the selected category. 
+* Space bar to apply a filter by voice. 
 * Enter to execute the command. 
 * Shift+enter runs the command as if its gesture had been pressed twice quickly. 
 * Control+enter runs the command as if its gesture had been pressed three times. 
@@ -43,5 +46,11 @@ With this option enabled, the helper can be used with the numeric keypad keys.
 * Plus  runs the command as if its gesture had been pressed twice quickly. 
 * Minus  runs the command as if its gesture had been pressed three times. 
 * Delete leaves the command layer and restores normal keyboard functionality. 
+
+#### Filter through voice
+ 
+In the virtual menu, press the space bar and speak to the microphone. The menu will show only the commands that match the spoken words. If the result is not satisfactory, press space again to perform another search or escape to return to the full menu.
+ 
+for it to work it is necessary to have an internet connection.
 
 Note about compatibility: The addon is ready to work with previous versions of NVDA. The oldest one that has been tested is 2018.1 but it should work with even older ones. However, no future support will be provided for specific issues that may arise in those versions. 

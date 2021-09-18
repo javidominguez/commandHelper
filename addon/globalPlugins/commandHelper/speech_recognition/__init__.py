@@ -18,7 +18,10 @@ import threading
 import platform
 import stat
 import hashlib
-import hmac
+try:
+	import hmac
+except:
+	pass
 import time
 import uuid
 

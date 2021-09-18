@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: commandHelper\n"
 "Report-Msgid-Bugs-To: nvda-translations@groups.io\n"
-"POT-Creation-Date: 2021-09-18 17:42+0200\n"
-"PO-Revision-Date: 2021-09-18 17:42+0200\n"
+"POT-Creation-Date: 2021-09-18 19:02+0200\n"
+"PO-Revision-Date: 2021-09-18 19:02+0200\n"
 "Last-Translator: Rémy Ruiz <remyruiz@gmail.com>\n"
 "Language-Team: Javi Domínguez\n"
 "Language: es\n"
@@ -21,7 +21,7 @@ msgstr "Ayudante de órdenes"
 #. TRANSLATORS: The configuration option in NVDA Preferences menu
 #. TRANSLATORS: Settings dialog title
 #: addon\globalPlugins\commandHelper\__init__.py:122
-#: addon\globalPlugins\commandHelper\__init__.py:562
+#: addon\globalPlugins\commandHelper\__init__.py:564
 msgid "Command Helper settings"
 msgstr "Preferencias del asistente de órdenes"
 
@@ -36,7 +36,7 @@ msgstr "Error al recuperar el script"
 
 #: addon\globalPlugins\commandHelper\__init__.py:239
 #: addon\globalPlugins\commandHelper\__init__.py:240
-#: addon\globalPlugins\commandHelper\__init__.py:452
+#: addon\globalPlugins\commandHelper\__init__.py:453
 msgid "Recents"
 msgstr "Recientes"
 
@@ -107,39 +107,43 @@ msgstr "Volviendo al menú completo"
 msgid "Leaving the command hhelper"
 msgstr "Saliendo del ayudante de órdenes"
 
-#: addon\globalPlugins\commandHelper\__init__.py:427
+#: addon\globalPlugins\commandHelper\__init__.py:423
+msgid "Unavailable feature"
+msgstr "Opción no disponible"
+
+#: addon\globalPlugins\commandHelper\__init__.py:428
 msgid "Speak now"
 msgstr "Hable ahora"
 
-#: addon\globalPlugins\commandHelper\__init__.py:431
+#: addon\globalPlugins\commandHelper\__init__.py:432
 msgid "Nothing was heard. Make sure the microphone is connected and try again."
 msgstr ""
 "No se escuchó nada. Asegúrese de que el micrófono esté conectado y vuelva a "
 "intentarlo."
 
-#: addon\globalPlugins\commandHelper\__init__.py:436
+#: addon\globalPlugins\commandHelper\__init__.py:437
 msgid "Unable to recognize"
 msgstr "No se pudo reconocer"
 
-#: addon\globalPlugins\commandHelper\__init__.py:439
+#: addon\globalPlugins\commandHelper\__init__.py:440
 msgid "Could not connect. Check your internet connection."
 msgstr "No se pudo conectar. Compruebe su conexión a Internet."
 
-#: addon\globalPlugins\commandHelper\__init__.py:458
+#: addon\globalPlugins\commandHelper\__init__.py:460
 msgid "%d matches found for %s"
 msgstr "Se hallaron %d coincidencias para %s"
 
-#: addon\globalPlugins\commandHelper\__init__.py:466
+#: addon\globalPlugins\commandHelper\__init__.py:468
 #, python-format
 msgid "No matches found for %s"
 msgstr "No se hallaron coincidencias para %s"
 
 #. TRANSLATORS: Checkbox to enable or disable helper launching by control key
-#: addon\globalPlugins\commandHelper\__init__.py:503
+#: addon\globalPlugins\commandHelper\__init__.py:505
 msgid "Control key launches the helper"
 msgstr "La tecla control lanza el asistente"
 
-#: addon\globalPlugins\commandHelper\__init__.py:506
+#: addon\globalPlugins\commandHelper\__init__.py:508
 msgid ""
 "With the control key activated, it is recommended to reduce the keyboard "
 "repetition speed. See more information in the addon documentation."
@@ -148,60 +152,60 @@ msgstr ""
 "repetición del teclado. Consulte más información en la documentación del "
 "complemento."
 
-#: addon\globalPlugins\commandHelper\__init__.py:509
+#: addon\globalPlugins\commandHelper\__init__.py:511
 msgid "Windows keyboard settings"
 msgstr "Ajustes de Windows para el teclado"
 
-#: addon\globalPlugins\commandHelper\__init__.py:511
+#: addon\globalPlugins\commandHelper\__init__.py:513
 msgid "Open the Windows control panel to adjust keyboard parameters"
 msgstr ""
 "Abre el panel de control de Windows para ajustar los parámetros del teclado"
 
-#: addon\globalPlugins\commandHelper\__init__.py:515
+#: addon\globalPlugins\commandHelper\__init__.py:517
 msgid "Key to leave the keyboard command layer"
 msgstr "Tecla para salir de la capa de órdenes de teclado"
 
-#: addon\globalPlugins\commandHelper\__init__.py:515
+#: addon\globalPlugins\commandHelper\__init__.py:517
 msgid "escape"
 msgstr "escape"
 
-#: addon\globalPlugins\commandHelper\__init__.py:515
+#: addon\globalPlugins\commandHelper\__init__.py:517
 msgid "backspace"
 msgstr "retroceso"
 
-#: addon\globalPlugins\commandHelper\__init__.py:517
+#: addon\globalPlugins\commandHelper\__init__.py:519
 msgid "Choose which key to use to exit the helper."
 msgstr "Elija qué tecla usar para salir del asistente."
 
-#: addon\globalPlugins\commandHelper\__init__.py:519
+#: addon\globalPlugins\commandHelper\__init__.py:521
 msgid "Key to report the gesture assigned to a command"
 msgstr "Tecla para informar del gesto asignado a un comando"
 
-#: addon\globalPlugins\commandHelper\__init__.py:519
+#: addon\globalPlugins\commandHelper\__init__.py:521
 msgid "F1"
 msgstr "F1"
 
-#: addon\globalPlugins\commandHelper\__init__.py:519
+#: addon\globalPlugins\commandHelper\__init__.py:521
 msgid "F12"
 msgstr "F12"
 
-#: addon\globalPlugins\commandHelper\__init__.py:521
+#: addon\globalPlugins\commandHelper\__init__.py:523
 msgid ""
 "Choose which key to use to announce the gesture assigned to the command."
 msgstr "Elija qué tecla usar para anunciar el gesto asignado al comando."
 
-#: addon\globalPlugins\commandHelper\__init__.py:523
+#: addon\globalPlugins\commandHelper\__init__.py:525
 msgid "Use numpad in the keyboard command layer"
 msgstr "Usar el teclado numérico en la capa de órdenes de teclado"
 
-#: addon\globalPlugins\commandHelper\__init__.py:525
+#: addon\globalPlugins\commandHelper\__init__.py:527
 msgid "Use the numeric keyboard in the command layer."
 msgstr "Usar el teclado numérico en la capa de órdenes de teclado"
 
 #. TRANSLATORS: Settings panel title
 #. Add-on summary, usually the user visible name of the addon.
 #. Translators: Summary for this add-on to be shown on installation and add-on information.
-#: addon\globalPlugins\commandHelper\__init__.py:549 buildVars.py:17
+#: addon\globalPlugins\commandHelper\__init__.py:551 buildVars.py:17
 msgid "Command Helper"
 msgstr "Ayudante de órdenes"
 

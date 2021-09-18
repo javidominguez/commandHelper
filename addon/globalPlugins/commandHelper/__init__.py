@@ -420,6 +420,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 	def script_speechRecognition(self, gesture):
 		if not speech_recognition:
+			menuMessage(_("Unavailable feature"))
 			raise RuntimeError("The speech recognition feature is not available because the speech_recognition module could not be loaded.")
 		mic = speech_recognition.Microphone()
 		recognizer = speech_recognition.Recognizer()
@@ -455,7 +456,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 					candidates.append((s, com))
 					candidatesInfo[com] = self.gestures[cat][com]
 		if candidates:
-			menuMessage(_("%d matches found for %s") % (len(candidates), recognizedText))
+			if len(candidates)>1:
+				speech.speakMessage(_("%d matches found for %s") % (len(candidates), recognizedText))
 			self.gestures["speechFilter"] = candidatesInfo
 			candidates.sort(reverse=True)
 			self.catIndex = self.categories.index("speechFilter")
