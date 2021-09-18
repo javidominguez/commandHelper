@@ -1,4 +1,6 @@
+#!/usr/bin/python
 #-coding: UTF-8 -*-
+
 """
 command helper- NVDA addon
 This file is covered by the GNU General Public License.
