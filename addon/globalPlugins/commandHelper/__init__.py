@@ -422,7 +422,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		mic = speech_recognition.Microphone()
 		recognizer = speech_recognition.Recognizer()
 		with mic:
-			speech.speakMessage(_("Say something"))
+			speech.speakMessage(_("Speak now"))
 			try:
 				audio = recognizer.listen(mic, timeout=3)
 			except speech_recognition.WaitTimeoutError:
@@ -440,7 +440,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		for cat in self.categories:
 			for com in self.gestures[cat]:
 				string = "%s %s" % (string, com)
-		p = parser.Parser(dictionary=string)
+		textParser = parser.Parser(dictionary=string)
 		candidates = []
 		candidatesInfo = {}
 		if "speechFilter" not in self.categories: self.categories.append("speechFilter")
@@ -448,12 +448,12 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		for cat in self.categories:
 			for com in self.gestures[cat]:
 				if cat == _("Recents") or cat == "speechFilter": continue
-				s = p.match(recognizedText, com)
+				s = textParser.match(recognizedText, com)
 				if s>0:
 					candidates.append((s, com))
 					candidatesInfo[com] = self.gestures[cat][com]
 		if candidates:
-			speech.speakMessage(_("%d matches found for %s") % (len(candidates), recognizedText))
+			menuMessage(_("%d matches found for %s") % (len(candidates), recognizedText))
 			self.gestures["speechFilter"] = candidatesInfo
 			candidates.sort(reverse=True)
 			self.catIndex = self.categories.index("speechFilter")
@@ -461,7 +461,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			self.commandIndex = -1
 			self.script_nextCommand(None)
 		else:
-			speech.speakMessage(_("No matches found for %s") % recognizedText)
+			menuMessage(_("No matches found for %s") % recognizedText)
 			self.commands = []
 		self.flagFilter = True
 

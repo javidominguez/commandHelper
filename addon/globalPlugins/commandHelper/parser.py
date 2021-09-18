@@ -12,51 +12,47 @@ punctuationMarks = {
 "es": '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~¿¡'
 }
 
+diacritics = {
+"es": {"á":"a", "é":"e", "í":"i", "ó":"o", "ú":"u", "ü":"u", "ñ":"n"}
+}
+
 class Parser():
 
 	def __init__(self, dictionary=None):
 		language = locale.getlocale()[0].split("_")[0]
-		self.excludedWords = excludedWords[language]
-		self.punctuationMarks = punctuationMarks[language]
+		self.excludedWords = excludedWords[language] if language in excludedWords else ()
+		self.punctuationMarks = punctuationMarks[language] if language in punctuationMarks else punctuationMarks["en"]
+		self.diacritics = diacritics[language] if language in diacritics else {}
 		self.dictionary = set(self._preprocess(dictionary)) if dictionary else set()
 
-	def _preprocess(self, text):
-		text.replace("\n", " ")
+	def _preprocess(self, text, maxWordLenght=6):
+		text = text.lower()
+		text = text.replace("\n", " ")
 		for c in self.punctuationMarks:
-			text = text.lower().replace(c, "")
+			text = text.replace(c, "")
+		for c in self.diacritics:
+			text = text.replace(c, self.diacritics[c])
 		words = text.split()
-		return list(filter(lambda w: w not in self.excludedWords, words))
+		words = list(filter(lambda w: w not in self.excludedWords, words))
+		words = [w[:maxWordLenght] if len(w)>maxWordLenght else w for w in words]
+		return words
 
 	def match(self, pattern, string):
 		patternWords = self._preprocess(pattern)
+		sPatternWords = set(patternWords)
 		stringWords = self._preprocess(string)
-		readPointer = -1
-		score = 1
-		increment = len(stringWords)
-		decrement = len(stringWords)*2//3
+		sStringWords = set(stringWords)
+		if len(sPatternWords-self.dictionary) > 1: return 0
+		if len((sPatternWords-(sPatternWords-self.dictionary))-sStringWords) > 0: return 0
+		readPointer = 0
+		score = 0
+		increment = 32
 		for word in patternWords:
 			try:
 				index = stringWords.index(word)
 				if index >= readPointer:
 					score = score<<(increment-(index-readPointer)) if score > 0 else 1<<(increment-(index-readPointer))
 					readPointer = index+1
-				else:
-					score = score>>decrement
 			except ValueError:
-				if len(word)>5:
-					try:
-						index = [w[:6] if len(w)>6 else w for w in stringWords].index(word[:6])
-						if index >= readPointer:
-							score = score<<(increment-(index-readPointer)) if score > 0 else 1<<(increment-(index-readPointer))
-							readPointer = index+1
-					except ValueError:
-						if word in self.dictionary:
-							return 0
-						else:
-							score = score>>decrement
-				else:
-					if word in self.dictionary:
-						return 0
-					else:
-						score = score>>decrement
+				pass
 		return score
