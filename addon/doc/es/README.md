@@ -2,13 +2,16 @@
 
 Proporciona un método alternativo de ejecutar scripts para personas que tienen dificultades al pulsar combinaciones de teclado complicadas.
 
-### Modo de uso
+### Modo de uso 
 
-Al pulsar NVDA+H se activa una capa de órdenes de teclado con las siguientes opciones: 
+En primer lugar es necesario configurar un método para invocar el asistente. Se puede asignar un gesto de teclado en preferencias de NVDA > Gestos de entrada. También se puede configurar la tecla control en las preferencias del complemento (ver más adelante).
+
+Cuando se invoca el asistente se activa una capa de órdenes de teclado con las siguientes opciones: 
 
 * Flechas izquierda y derecha para elegir una categoría. 
 * Cualquier letra de la A a la Z para saltar a la categoría con esa inicial. 
 * Flechas arriba y abajo para seleccionar una orden de la categoría elegida. 
+* Barra espaciadora para aplicar un filtro mediante voz. 
 * Enter para ejecutar la orden. 
 * Mayúsculas+enter para ejecutar la órden como si se hubiera pulsado su combinación de teclas dos veces rápidamente. 
 * Control+enter para ejecutar la órden como si se hubiese pulsado su combinación de teclas tres veces. 
@@ -41,6 +44,12 @@ Con esta opción activada se puede usar el ayudante con las teclas del teclado n
 * Signo más para ejecutar la órden como si se hubiera pulsado su combinación de teclas dos veces rápidamente. 
 * Signo menos para ejecutar la órden como si se hubiese pulsado su combinación de teclas tres veces. 
 *  Suprimir abandona la capa de órdenes y restaura la funcionalidad normal del teclado.  
+
+#### Filtro por voz 
+ 
+En el menú virtual pulsa la barra espaciadora y habla al micrófono. El menú  mostrará sólo los comandos que coincidan con las palabras habladas. Si el resultado no es satisfactorio, pulsa espacio de nuevo para realizar otra búsqueda o escape para regresar al menú completo.
+ 
+para que funcione es necesario tener conexión a internet. 
 
 Nota sobre compativilidad: El complemento está preparado para funcionar con versiones previas de NVDA. La más antigua con la que se ha probado es la 2018.1 pero debería funcionar con otras aún más antiguas. Sin embargo no se proporcionará soporte futuro para problemas específicos que puedan surgir en esas versiones. 
 

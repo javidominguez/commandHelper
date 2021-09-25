@@ -1,4 +1,6 @@
+#!/usr/bin/python
 #-coding: UTF-8 -*-
+
 """
 command helper- NVDA addon
 This file is covered by the GNU General Public License.
@@ -12,6 +14,7 @@ Provides a virtual menu where you can select any command to be executed without 
 from functools import wraps
 from keyboardHandler import KeyboardInputGesture
 from logHandler import log
+from . import parser
 from string import ascii_uppercase
 import addonHandler
 import api
@@ -24,6 +27,7 @@ import globalPluginHandler
 import globalPlugins
 import gui
 import inputCore
+import locale
 import scriptHandler
 import speech
 import subprocess
@@ -31,6 +35,15 @@ import time
 import tones
 import braille
 import wx
+
+try:
+	from . import speech_recognition
+	log.info("Module speech_recognition version %s succesfully loaded\n(C) %s > license %s" % (speech_recognition.__version__, speech_recognition.__author__, speech_recognition.__license__))
+except ImportError:
+	speech_recognition = None
+	log.warning("Import of the speech_recognition module failed. The speech recognition feature will not be available.")
+except AttributeError:
+	pass
 
 # Settings compatibility with older versions of NVDA
 from gui import settingsDialogs
@@ -119,6 +132,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.cancelSpeech = True
 		self.allowedBrailleGestures = set()
 		self.oldGestureBindings = {}
+		self.flagFilter = False
 
 	def onCommandHelperMenu(self, evt):
 		# Compatibility with older versions of NVDA
@@ -154,6 +168,13 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		return script
 
 	def finish(self):
+		if self.flagFilter:
+			if "speechFilter" in self.categories: self.categories.pop(self.categories.index("speechFilter"))
+			if "speechFilter" in self.gestures: self.gestures.pop("speechFilter")
+			self.flagFilter = False
+			self.catIndex = -1
+			self.script_nextCategory(None)
+			return
 		self.toggling = False
 		self.cancelSpeech = False
 		self.clearGestureBindings()
@@ -199,7 +220,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		for c in ascii_uppercase:
 			self.bindGesture("kb:"+c, "skipToCategory")
 		self.bindGesture("kb:"+config.conf["commandHelper"]["reportGestureKey"], "AnnounceGestures")
+		self.bindGesture("kb:space", "speechRecognition")
 		self.toggling = True
+		self.flagFilter = False
 		menuMessage(_("Available commands"))
 		voiceOnly = True
 		if self.firstTime:
@@ -247,6 +270,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	script_commandHelper.__doc__ = _("Provides a virtual menu where you can select any command to be executed without having to press its gesture.")
 
 	def script_nextCategory(self, gesture, verbose=True):
+		if self.flagFilter:
+			self.script_speechHelp(None)
+			return
 		self.cancelSpeech = False
 		self.catIndex = self.catIndex+1 if self.catIndex < len(self.categories)-1 else 0
 		if verbose: menuMessage(self.categories[self.catIndex])
@@ -254,6 +280,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.commands = sorted(self.gestures[self.categories[self.catIndex]])
 
 	def script_previousCategory(self, gesture):
+		if self.flagFilter:
+			self.script_speechHelp(None)
+			return
 		self.cancelSpeech = False
 		self.catIndex = self.catIndex -1 if self.catIndex > 0 else len(self.categories)-1
 		menuMessage(self.categories[self.catIndex])
@@ -261,6 +290,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.commands = sorted(self.gestures[self.categories[self.catIndex]])
 
 	def script_skipToCategory(self, gesture):
+		if self.flagFilter:
+			self.script_speechHelp(None)
+			return
 		self.cancelSpeech = False
 		categories = (self.categories[self.catIndex+1:] if self.catIndex+1 < len(self.categories) else []) + (self.categories[:self.catIndex])
 		try:
@@ -285,11 +317,17 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			self.script_nextCategory(None)
 
 	def script_nextCommand(self, gesture):
+		if self.flagFilter and not self.commands:
+			menuMessage(_("No matches found. Press the space bar to perform another search or escape to return to the full menu."))
+			return
 		self.cancelSpeech = False
 		self.commandIndex = self.commandIndex + 1 if self.commandIndex < len(self.commands)-1 else 0
 		menuMessage(self.commands[self.commandIndex])
 
 	def script_previousCommand(self, gesture):
+		if self.flagFilter and not self.commands:
+			menuMessage(_("No results. Press the space bar to perform another search or escape to return to the full menu."))
+			return
 		self.cancelSpeech = False
 		self.commandIndex = self.commandIndex-1 if self.commandIndex > 0 else len(self.commands)-1
 		menuMessage(self.commands[self.commandIndex])
@@ -340,6 +378,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				if commandInfo.className == "AppModule":
 					key = "%s: %s" % (self.categories[self.catIndex], key)
 				self.recentCommands[key] = commandInfo
+		self.flagFilter = False
 		self.finish()
 
 	def script_AnnounceGestures(self, gesture):
@@ -368,10 +407,67 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		#9 Search for keyboard conflicts and announce them
 
 	def script_speechHelp(self, gesture):
-		menuMessage(_("Use right and left arrows to navigate categories, up and down arrows to select a script and enter to run the selected. %s to exit.") % _(config.conf["commandHelper"]["exitKey"]))
+		if self.flagFilter:
+			menuMessage(_("Use up and down arrows to select a script and enter to run the selected. %s to clear filter and return to full menu. Press space to perform another voice search.") % _(config.conf["commandHelper"]["exitKey"]))
+		else:
+			menuMessage(_("Use right and left arrows to navigate categories, up and down arrows to select a script and enter to run the selected. %s to exit.") % _(config.conf["commandHelper"]["exitKey"]))
 
 	def script_exit(self, gesture):
-		menuMessage(_("Leaving the command hhelper"))
+		if self.flagFilter:
+			menuMessage(_("Returning to the full menu"))
+		else:
+			menuMessage(_("Leaving the command hhelper"))
+
+	def script_speechRecognition(self, gesture):
+		if not speech_recognition:
+			menuMessage(_("Unavailable feature"))
+			raise RuntimeError("The speech recognition feature is not available because the speech_recognition module could not be loaded.")
+		mic = speech_recognition.Microphone()
+		recognizer = speech_recognition.Recognizer()
+		with mic:
+			speech.speakMessage(_("Speak now"))
+			try:
+				audio = recognizer.listen(mic, timeout=3)
+			except speech_recognition.WaitTimeoutError:
+				speech.speakMessage(_("Nothing was heard. Make sure the microphone is connected and try again."))
+				return
+			try:
+				recognizedText = recognizer.recognize_google(audio, language=locale.getlocale()[0].split("_")[0])
+			except speech_recognition.UnknownValueError:
+				speech.speakMessage(_("Unable to recognize"))
+				return
+			except speech_recognition.RequestError:
+				speech.speakMessage(_("Could not connect. Check your internet connection."))
+				return
+		string = ""
+		for cat in self.categories:
+			for com in self.gestures[cat]:
+				string = "%s %s" % (string, com)
+		textParser = parser.Parser(dictionary=string)
+		candidates = []
+		candidatesInfo = {}
+		if "speechFilter" not in self.categories: self.categories.append("speechFilter")
+		self.gestures["speechFilter"] = {}
+		for cat in self.categories:
+			for com in self.gestures[cat]:
+				if cat == _("Recents") or cat == "speechFilter": continue
+				s = textParser.match(recognizedText, com)
+				if s>0:
+					candidates.append((s, com))
+					candidatesInfo[com] = self.gestures[cat][com]
+		if candidates:
+			if len(candidates)>1:
+				speech.speakMessage(_("%d matches found for %s") % (len(candidates), recognizedText))
+			self.gestures["speechFilter"] = candidatesInfo
+			candidates.sort(reverse=True)
+			self.catIndex = self.categories.index("speechFilter")
+			self.commands = [i[1] for i in candidates]
+			self.commandIndex = -1
+			self.script_nextCommand(None)
+		else:
+			menuMessage(_("No matches found for %s") % recognizedText)
+			self.commands = []
+		self.flagFilter = True
 
 	__CHGestures = {
 	"kb:rightArrow": "nextCategory",
