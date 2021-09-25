@@ -4,11 +4,14 @@ Fournit une autre méthode d'exécution de scripts pour les personnes qui ont de
 
 ### Mode d'utilisation 
 
-En appuyant sur NVDA+h une couche de commandes clavier est activée avec les options suivantes: 
+Vous devez d'abord configurer une méthode pour invoquer l'assistant. Vous pouvez attribuer un raccourci clavier dans le menu Préférences de NVDA > Gestes de commandes. Vous pouvez également configurer la touche contrôle dans les préférences de l'extension (voir ci-dessous).
+
+Lorsque l'assistant est invoqué une couche de commandes clavier est activée avec les options suivantes: 
 
 * Flèches gauche et droite pour choisir une catégorie. 
 * Toute lettre de A à Z pour sauter à la catégorie avec cette initiale. 
 * Flèches haut et bas pour sélectionner une commande de la catégorie choisie. 
+* Barre d'espace pour appliquer un filtre par la voix. 
 * Entrée pour exécuter la commande. 
 * Majuscule+entrée pour exécuter la commande comme si sa combinaison de touches avait été appuyée deux fois rapidement. 
 * Contrôle+entrée pour exécuter la commande comme si sa combinaison de touches avait été appuyée trois fois. 
@@ -21,7 +24,7 @@ La combinaison de touches permettant d'activer l'assistant de commandes peut êt
 
 Certaines autres touches peuvent être personnalisées dans le menu Préférences de NVDA > Paramètres > Assistant de commandes. 
 
-* Activer/désactiver l'utilisation de la touche contrôle pour invoquer l'assistant. 
+* Activer/désactiver l'utilisation de la touche contrôle pour invoquer l'assistant de commandes. 
 * Sélectionner avec quelle touche l'assistant est abandonné. 
 * Sélectionner avec quelle touche le geste associé à une commande est annoncé.
 * Activer/désactiver la gestion de l'assistant via le pavé numérique. 
@@ -41,6 +44,12 @@ Avec cette option activée, vous pouvez utiliser l'assistant avec les touches du
 * Signe plus pour exécuter la commande comme si sa combinaison de touches avait été appuyée deux fois rapidement. 
 * signe moins pour exécuter la commande comme si sa combinaison de touches avait été appuyée trois fois. 
 * Effacement abandonne la couche de commandes et restaure la fonctionnalité normale du clavier. 
+
+#### Filtre par la voix 
+ 
+Dans le menu virtuel, appuyer sur la barre d'espace et parler au microphone. Le menu ne montrera que les commandes correspondant aux mots parlés. Si le résultat n'est pas satisfaisant, appuyez à nouveau sur espace pour effectuer une autre recherche ou échap  pour revenir au menu complet.
+ 
+Pour qu'il fonctionne, il est nécessaire d'avoir une connexion Internet. 
 
 Remarque sur la compatibilité: L'extension est prête à fonctionner avec les versions précédentes de NVDA. La plus ancienne avec laquelle il a été testée est la 2018.1 mais cela devrait fonctionner avec d'autres même plus anciennes. Cependant ne sera pas fourni le support futur pour des problèmes spécifiques pouvant survenir dans ces versions. 
 
