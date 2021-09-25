@@ -23,7 +23,7 @@ diacritics = {
 class Parser():
 
 	def __init__(self, dictionary=None):
-		language = locale.getlocale()[0].split("_")[0]
+		language = locale.normalize(locale.getlocale()[0].split("_")[0]).split("_")[0]
 		self.excludedWords = excludedWords[language] if language in excludedWords else ()
 		self.punctuationMarks = punctuationMarks[language] if language in punctuationMarks else punctuationMarks["en"]
 		self.diacritics = diacritics[language] if language in diacritics else {}

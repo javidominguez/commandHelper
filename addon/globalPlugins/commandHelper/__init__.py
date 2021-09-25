@@ -432,7 +432,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				speech.speakMessage(_("Nothing was heard. Make sure the microphone is connected and try again."))
 				return
 			try:
-				recognizedText = recognizer.recognize_google(audio, language=locale.getlocale()[0].split("_")[0])
+				recognizedText = recognizer.recognize_google(audio, language=locale.normalize(locale.getlocale()[0].split("_")[0]).split("_")[0])
 			except speech_recognition.UnknownValueError:
 				speech.speakMessage(_("Unable to recognize"))
 				return
