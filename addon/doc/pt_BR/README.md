@@ -4,8 +4,9 @@ Fornece um método alternativo de execução de scripts para pessoas que têm di
 
 ### Modo de uso 
 
-Pressionar NVDA + h ativa uma camada de comandos do teclado com as seguintes opções: 
+Em primeiro lugar, é necessário atribuir um comando para que o extra seja iniciado, o que pode fazer-se no "gestor de comandos." Também se pode associar o CTRL, nas configurações deste addon.
 
+Quando se chama o extra, activam-se os comandos em camada, com as seguintes opções:
 * Setas para a esquerda e direita para escolher uma categoria. 
 * Cualquer letra de A a Z para saltar para a categoria con essa inicial. 
 * Setas para cima e para baixo para seleccionar um pedido da categoria escolhida. 
@@ -14,7 +15,7 @@ Pressionar NVDA + h ativa uma camada de comandos do teclado com as seguintes op�
 * control+enter executa o script como se a sua combinação de teclas tivesse sido pressionada três vezes. 
 * F1 para dizer a tecla de atalho do script seleccionado. 
 * Escape deixa os comandos em camada e restaura a funcionalidade normal do teclado.
-
+* Barra de espaço, para fazer uma pesquisa por voz.
 ### Configuração
 
 A combinação de teclas para activar o extra pode ser modificada nas preferências do NVDA> Definir Comandos.
@@ -41,5 +42,11 @@ Com esta opção activada, pode usar o extra com as teclas do teclado numérico.
 * Sinal de mais para executar o comando como se a sua combinação de teclas tivesse sido pressionada duas vezes rapidamente.
 * Sinal de menos para executar o comando como se a sua combinação de teclas tivesse sido pressionada três vezes.
 * Escape deixa a camada de comando e restaura a funcionalidade normal do teclado.
+
+#### Pesquisa por voz 
+
+No menu virtual, pressiona a barra de espaço e fala ao microfone. O menu mostrará apenas os comandos que coincidam com as palavras ditas. Se o resultado não for satisfatório, pressiona espaço, novamente, para realizar outra pesquisa ou escape para regressar ao menu completo.
+
+Para que esta funcionalidade seja executada, é necessário ter uma ligação à internet.
 
 Nota sobre compatibilidade: O plugin está pronto para funcionar com versões anteriores do NVDA. O mais antigo testado é 2018.1, mas deve funcionar com os mais antigos. No entanto, nenhum suporte futuro será fornecido para problemas específicos que possam surgir nessas versões.

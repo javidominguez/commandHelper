@@ -2,41 +2,43 @@ msgid ""
 msgstr ""
 "Project-Id-Version: commandHelper\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
-"POT-Creation-Date: 2021-02-22 22:06+0000\n"
-"PO-Revision-Date: 2021-02-22 23:02+0000\n"
+"POT-Creation-Date: 2021-09-25 16:40+0100\n"
+"PO-Revision-Date: 2021-09-25 16:44+0100\n"
 "Last-Translator: Ângelo Abrantes <ampa4374@gmail.com>\n"
-"Language-Team: Equipa portuguesa do NVDA\n"
+"Language-Team: Equipa Portuguesa do NVDA: Ângelo Abrantes <ampa4374@gmail."
+"com> e Rui Fontes <Rui Fontes <rui.fontes@tiflotecnia.com>\n"
 "Language: pt_PT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.0\n"
 "X-Poedit-Basepath: ../../../globalPlugins\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: commandHelper/__init__.py:90
+#: commandHelper/__init__.py:113
 msgid "Command helper"
 msgstr "Ajuda de comandos"
 
-#: commandHelper/__init__.py:99 commandHelper/__init__.py:410
+#: commandHelper/__init__.py:122 commandHelper/__init__.py:564
 msgid "Command Helper settings"
 msgstr "Configurações do ajuda de comandos"
 
-#: commandHelper/__init__.py:181
+#: commandHelper/__init__.py:226
 msgid "Available commands"
 msgstr "Comandos disponíveis"
 
-#: commandHelper/__init__.py:188 commandHelper/__init__.py:271
+#: commandHelper/__init__.py:235 commandHelper/__init__.py:357
 msgid "Failed to retrieve scripts."
 msgstr "Erro ao recuperar o script"
 
-#: commandHelper/__init__.py:192 commandHelper/__init__.py:193
+#: commandHelper/__init__.py:239 commandHelper/__init__.py:240
+#: commandHelper/__init__.py:453
 msgid "Recents"
 msgstr "Recentes"
 
-#: commandHelper/__init__.py:199
+#: commandHelper/__init__.py:270
 msgid ""
 "Provides a virtual menu where you can select any command to be executed "
 "without having to press its gesture."
@@ -44,40 +46,100 @@ msgstr ""
 "Fornece um menu virtual onde pode seleccionar qualquer comando a ser "
 "executado sem ter que pressionar o seu atalho."
 
-#: commandHelper/__init__.py:251 commandHelper/__init__.py:300
+#: commandHelper/__init__.py:321
+msgid ""
+"No matches found. Press the space bar to perform another search or escape to "
+"return to the full menu."
+msgstr ""
+"Não foram encontradas correspondências. Pressione a barra de espaço para "
+"efectuar outra pesquisa ou escape para regressar ao menu completo."
+
+#: commandHelper/__init__.py:329
+msgid ""
+"No results. Press the space bar to perform another search or escape to "
+"return to the full menu."
+msgstr ""
+"Sem resultados. Pressione a barra de espaço para efectuar outra pesquisa ou "
+"escape para regressar ao menu completo."
+
+#: commandHelper/__init__.py:337 commandHelper/__init__.py:387
 msgid "Select a command using up or down arrows"
 msgstr "Seleccione um comando com setas para cima e para baixo."
 
-#: commandHelper/__init__.py:264
+#: commandHelper/__init__.py:350
 msgid "Can't run this script here"
 msgstr "Não se pode executar este script aqui."
 
-#: commandHelper/__init__.py:309
+#: commandHelper/__init__.py:399
 msgid "There is no gesture"
 msgstr "Sem atalho"
 
-#: commandHelper/__init__.py:313
-#, fuzzy, python-format
-#| msgid ""
-#| "Use right and left arrows to navigate categories, up and down arrows to "
-#| "select a script and enter to run the selected."
+#: commandHelper/__init__.py:411
+#, python-format
+msgid ""
+"Use up and down arrows to select a script and enter to run the selected. %s "
+"to clear filter and return to full menu. Press space to perform another "
+"voice search."
+msgstr ""
+"Utilizar setas para cima e para baixo para seleccionar um comando e enter "
+"para executar o seleccionado. %s para limpar o filtro e voltar ao menu "
+"completo. Prima espaço para efectuar outra pesquisa de voz."
+
+#: commandHelper/__init__.py:413
+#, python-format
 msgid ""
 "Use right and left arrows to navigate categories, up and down arrows to "
 "select a script and enter to run the selected. %s to exit."
 msgstr ""
 "Use seta direita e esquerda para navegar por categorias, setas para cima e "
 "para baixo para seleccionar um comando e Enter para executar o script "
-"seleccionado."
+"seleccionado. %s para sair."
 
-#: commandHelper/__init__.py:316
+#: commandHelper/__init__.py:417
+msgid "Returning to the full menu"
+msgstr "A voltar ao menu completo"
+
+#: commandHelper/__init__.py:419
 msgid "Leaving the command hhelper"
 msgstr "A sair da ajuda de comandos"
 
-#: commandHelper/__init__.py:351
+#: commandHelper/__init__.py:423
+msgid "Unavailable feature"
+msgstr "Funcionalidade indisponível."
+
+#: commandHelper/__init__.py:428
+msgid "Speak now"
+msgstr "Fale agora"
+
+#: commandHelper/__init__.py:432
+msgid "Nothing was heard. Make sure the microphone is connected and try again."
+msgstr ""
+"Nada foi ouvido. Certifique-se de que o microfone está ligado e tente "
+"novamente."
+
+#: commandHelper/__init__.py:437
+msgid "Unable to recognize"
+msgstr "Incapaz de reconhecer"
+
+#: commandHelper/__init__.py:440
+msgid "Could not connect. Check your internet connection."
+msgstr "Não foi possível ligar. Verifique a sua ligação à Internet."
+
+#: commandHelper/__init__.py:460
+#, python-format
+msgid "%d matches found for %s"
+msgstr "%d correspondências encontradas para %s"
+
+#: commandHelper/__init__.py:468
+#, python-format
+msgid "No matches found for %s"
+msgstr "Não foram encontradas correspondências para %s"
+
+#: commandHelper/__init__.py:505
 msgid "Control key launches the helper"
 msgstr "A tecla ctrl activa o extra."
 
-#: commandHelper/__init__.py:354
+#: commandHelper/__init__.py:508
 msgid ""
 "With the control key activated, it is recommended to reduce the keyboard "
 "repetition speed. See more information in the addon documentation."
@@ -85,58 +147,57 @@ msgstr ""
 "Com a tecla de controlo activada, é recomendado reduzir a velocidade de "
 "repetição do teclado. Veja mais informações na documentação do addon."
 
-#: commandHelper/__init__.py:357
+#: commandHelper/__init__.py:511
 msgid "Windows keyboard settings"
 msgstr "Configurações de teclado do Windows"
 
-#: commandHelper/__init__.py:359
+#: commandHelper/__init__.py:513
 msgid "Open the Windows control panel to adjust keyboard parameters"
 msgstr ""
 "Abra o painel de controlo do Windows para ajustar os parâmetros do teclado"
 
-#: commandHelper/__init__.py:363
+#: commandHelper/__init__.py:517
 msgid "Key to leave the keyboard command layer"
 msgstr "Tecla para sair dos comandos em camada"
 
-#: commandHelper/__init__.py:363
-#, fuzzy
+#: commandHelper/__init__.py:517
 msgid "escape"
 msgstr "escape"
 
-#: commandHelper/__init__.py:363
+#: commandHelper/__init__.py:517
 msgid "backspace"
 msgstr "Retrocesso"
 
-#: commandHelper/__init__.py:365
+#: commandHelper/__init__.py:519
 msgid "Choose which key to use to exit the helper."
 msgstr "Escolha a tecla para sair do addon"
 
-#: commandHelper/__init__.py:367
+#: commandHelper/__init__.py:521
 msgid "Key to report the gesture assigned to a command"
 msgstr "Tecla para indicar o atalho atribuído ao comando."
 
-#: commandHelper/__init__.py:367
+#: commandHelper/__init__.py:521
 msgid "F1"
 msgstr "F1"
 
-#: commandHelper/__init__.py:367
+#: commandHelper/__init__.py:521
 msgid "F12"
 msgstr "F12"
 
-#: commandHelper/__init__.py:369
+#: commandHelper/__init__.py:523
 msgid ""
 "Choose which key to use to announce the gesture assigned to the command."
 msgstr "Escolha a tecla para dizer o atalho atribuído ao comando"
 
-#: commandHelper/__init__.py:371
+#: commandHelper/__init__.py:525
 msgid "Use numpad in the keyboard command layer"
 msgstr "Use o bloco numérico nos comandos em camada"
 
-#: commandHelper/__init__.py:373
+#: commandHelper/__init__.py:527
 msgid "Use the numeric keyboard in the command layer."
 msgstr "Use o teclado numérico nos comandos em camada."
 
-#: commandHelper/__init__.py:397
+#: commandHelper/__init__.py:551
 msgid "Command Helper"
 msgstr "Ajuda de comandos"
 
