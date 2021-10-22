@@ -349,6 +349,10 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				except:
 					menuMessage(_("Can't run this script here"))
 					return
+			elif commandInfo.className == "NVDAExtensionGlobalPlugin":
+			# Compatibility with the NVDAExtensionGlobalPlugin addon
+				i = [m.__module__ for m in globalPluginHandler .runningPlugins].index("globalPlugins.NVDAExtensionGlobalPlugin")
+				script = getattr(list(globalPluginHandler .runningPlugins)[i], "script_"+commandInfo.scriptName)
 			else:
 				self.finish()
 				raise RuntimeError("Failed to retrieve scripts. Not found in known modules.")
