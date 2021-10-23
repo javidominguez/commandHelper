@@ -3,12 +3,27 @@
 
 """
 command helper- NVDA addon
+
+Provides a virtual menu where you can select any command to be executed without having to press its gesture.
+
 This file is covered by the GNU General Public License.
 See the file COPYING.txt for more details.
 Copyright (C) 2021 Javi Dominguez <fjavids@gmail.com>
 The keyboard command layer takes code from the Instant Translate addon by Alexy Sadovoy, Beqa Gozalishvili, Mesar Hameed, Alberto Buffolino and other NVDA contributors.
 
-Provides a virtual menu where you can select any command to be executed without having to press its gesture.
+Third party licenses:
+
+Module speech_recognition version 3.8.1 under license BSD
+(C) Anthony Zhang (Uberi)
+https://github.com/Uberi/speech_recognition
+
+pyaudio, Python bindings for PortAudio, under the MIT License
+Copyright (c) 2006 Hubert Pham
+https://people.csail.mit.edu/hubert/pyaudio/#license
+
+PortAudio Portable Cross-platform Audio I/O API
+Copyright (c) 1999-2011 Ross Bencina and Phil Burk
+www.portaudio.com/license.html
 """
 
 from functools import wraps
@@ -38,7 +53,7 @@ import wx
 
 try:
 	from . import speech_recognition
-	log.info("Module speech_recognition version %s succesfully loaded\n(C) %s > license %s" % (speech_recognition.__version__, speech_recognition.__author__, speech_recognition.__license__))
+	log.info("Module speech_recognition version %s succesfully loaded\n(C) %s > license %s\nSee the source code for more copyright information." % (speech_recognition.__version__, speech_recognition.__author__, speech_recognition.__license__))
 except ImportError:
 	speech_recognition = None
 	log.warning("Import of the speech_recognition module failed. The speech recognition feature will not be available.")
