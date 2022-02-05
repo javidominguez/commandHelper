@@ -35,6 +35,7 @@ import addonHandler
 import api
 import appModuleHandler
 import appModules
+import braille
 import brailleInput
 import config
 import globalCommands
@@ -43,17 +44,18 @@ import globalPlugins
 import gui
 import inputCore
 import locale
+import mouseHandler
 import scriptHandler
 import speech
 import subprocess
 import time
 import tones
-import braille
 import wx
+import winInputHook
 
 try:
 	from . import speech_recognition
-	log.info("Module speech_recognition version %s succesfully loaded\n(C) %s > license %s\nSee the source code for more copyright information." % (speech_recognition.__version__, speech_recognition.__author__, speech_recognition.__license__))
+	log.info("Module speech_recognition version %s succesfully loaded\n(C) %s > license %s\nSee the file license.txt for more copyright details." % (speech_recognition.__version__, speech_recognition.__author__, speech_recognition.__license__))
 except ImportError:
 	speech_recognition = None
 	log.warning("Import of the speech_recognition module failed. The speech recognition feature will not be available.")
@@ -75,6 +77,8 @@ confspec = {
 	"numpad":"boolean(default=False)"
 }
 config.conf.spec["commandHelper"]=confspec
+
+mouseCallbackFunc = None
 
 addonHandler.initTranslation()
 
@@ -163,6 +167,22 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			pass
 		#1 store recents Upon leaving
 
+	def mouseCapture(self, msg, x, y, injected):
+		if msg in (513, 516, 519):
+			# Error tone if a mouse button is pressed.
+			tones.beep(200,30)
+		return
+
+	def lockMouse(self):
+		global mouseCallbackFunc
+		mouseCallbackFunc = winInputHook.mouseCallback
+		winInputHook.setCallbacks(mouse=self.mouseCapture)
+
+	def unlockMouse(self):
+		global mouseCallbackFunc
+		winInputHook.setCallbacks(mouse=mouseCallbackFunc)
+		mouseCallbackFunc = None
+
 	def getScript(self, gesture):
 		if self.toggling and gesture.identifiers in self.__trigger__.gestures and self.cancelSpeech:
 			# Prevents the voice from being muted when launching the helper. Otherwise nothing is spoken if the activation key is being pressed and the user does not know if the helper has been launched.
@@ -191,6 +211,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			self.script_nextCategory(None)
 			return
 		self.toggling = False
+		self.unlockMouse()
 		self.cancelSpeech = False
 		self.clearGestureBindings()
 		# Restore old bindings
@@ -238,6 +259,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.bindGesture("kb:space", "speechRecognition")
 		self.toggling = True
 		self.flagFilter = False
+		self.lockMouse()
 		menuMessage(_("Available commands"))
 		voiceOnly = True
 		if self.firstTime:
