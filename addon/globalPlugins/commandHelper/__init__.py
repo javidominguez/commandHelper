@@ -97,13 +97,8 @@ def finally_(func, final):
 	return wrap(final)
 
 def menuMessage(message):
-	tether = braille.handler.TETHER_AUTO if config.conf["braille"]["autoTether"] else config.conf["braille"]["tetherTo"]
-	braille.handler.setTether("review")
 	speech.speakMessage(message)
 	braille.handler.message(message)
-	if braille.handler._messageCallLater:
-		braille.handler._messageCallLater .Stop()
-	braille.handler.setTether(tether)
 
 class Trigger():
 
@@ -220,8 +215,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			script = self.oldGestureBindings[key]
 			if hasattr(script.__self__, script.__name__):
 				script.__self__.bindGesture(key, script.__name__[7:])
-		if braille.handler._messageCallLater:
-			braille.handler._messageCallLater.Notify()
 		braille.handler.handleGainFocus(api.getFocusObject())
 
 	def script_commandHelper(self, gesture):
@@ -260,6 +253,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.toggling = True
 		self.flagFilter = False
 		self.lockMouse()
+		self.brailleMessageTimeout = config.conf["braille"]["noMessageTimeout"]
+		config.conf["braille"]["noMessageTimeout"] = True
 		menuMessage(_("Available commands"))
 		voiceOnly = True
 		if self.firstTime:
@@ -457,6 +452,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		if self.flagFilter:
 			menuMessage(_("Returning to the full menu"))
 		else:
+			config.conf["braille"]["noMessageTimeout"] = self.brailleMessageTimeout
 			menuMessage(_("Leaving the command hhelper"))
 
 	def script_speechRecognition(self, gesture):
