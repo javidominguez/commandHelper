@@ -215,6 +215,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			script = self.oldGestureBindings[key]
 			if hasattr(script.__self__, script.__name__):
 				script.__self__.bindGesture(key, script.__name__[7:])
+				config.conf["braille"]["noMessageTimeout"] = self.brailleMessageTimeout
 		braille.handler.handleGainFocus(api.getFocusObject())
 
 	def script_commandHelper(self, gesture):
