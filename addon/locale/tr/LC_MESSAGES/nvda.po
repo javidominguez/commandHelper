@@ -1,0 +1,245 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: komutYardımcısı\n"
+"Report-Msgid-Bugs-To: nvda-translations@groups.io\n"
+"POT-Creation-Date: 2021-09-18 19:02+0200\n"
+"PO-Revision-Date: 2022-04-01 19:07+0300\n"
+"Last-Translator: Umut KORKMAZ <umutkork@gmail.com>\n"
+"Language-Team: Umut KORKMAZ<umutkork@gmail.com>\n"
+"Language: tr_TR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.0.1\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#: addon\globalPlugins\commandHelper\__init__.py:113
+msgid "Command helper"
+msgstr "Komut yardımcısı"
+
+#. TRANSLATORS: The configuration option in NVDA Preferences menu
+#. TRANSLATORS: Settings dialog title
+#: addon\globalPlugins\commandHelper\__init__.py:122
+#: addon\globalPlugins\commandHelper\__init__.py:564
+msgid "Command Helper settings"
+msgstr "Komut Yardımcısı ayarları"
+
+#: addon\globalPlugins\commandHelper\__init__.py:226
+msgid "Available commands"
+msgstr "Kullanılabilir komutlar"
+
+#: addon\globalPlugins\commandHelper\__init__.py:235
+#: addon\globalPlugins\commandHelper\__init__.py:357
+msgid "Failed to retrieve scripts."
+msgstr "Komut alınamadı."
+
+#: addon\globalPlugins\commandHelper\__init__.py:239
+#: addon\globalPlugins\commandHelper\__init__.py:240
+#: addon\globalPlugins\commandHelper\__init__.py:453
+msgid "Recents"
+msgstr "Son"
+
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\globalPlugins\commandHelper\__init__.py:270
+msgid ""
+"Provides a virtual menu where you can select any command to be executed "
+"without having to press its gesture."
+msgstr ""
+"Hareketine basmak zorunda kalmadan yürütülecek herhangi bir komutu "
+"seçebileceğiniz sanal bir menü sağlar."
+
+#: addon\globalPlugins\commandHelper\__init__.py:321
+msgid ""
+"No matches found. Press the space bar to perform another search or escape to "
+"return to the full menu."
+msgstr ""
+"Hiçbir şey bulunamadı. Başka bir arama yapmak için boşluk çubuğuna veya ana "
+"menüye dönmek için Escape tuşuna basın."
+
+#: addon\globalPlugins\commandHelper\__init__.py:329
+msgid ""
+"No results. Press the space bar to perform another search or escape to "
+"return to the full menu."
+msgstr ""
+"Bir şey bulunamadı. Başka bir arama yapmak için boşluk çubuğuna veya ana "
+"menüye dönmek için Escape tuşuna basın."
+
+#: addon\globalPlugins\commandHelper\__init__.py:337
+#: addon\globalPlugins\commandHelper\__init__.py:387
+msgid "Select a command using up or down arrows"
+msgstr "Yukarı veya aşağı ok tuşlarını kullanarak bir komut seçin"
+
+#: addon\globalPlugins\commandHelper\__init__.py:350
+msgid "Can't run this script here"
+msgstr "Bu komutu burada çalıştıramazsınız"
+
+#: addon\globalPlugins\commandHelper\__init__.py:399
+msgid "There is no gesture"
+msgstr "Tanımlı kısa yol yok."
+
+#: addon\globalPlugins\commandHelper\__init__.py:411
+#, python-format
+msgid ""
+"Use up and down arrows to select a script and enter to run the selected. %s "
+"to clear filter and return to full menu. Press space to perform another "
+"voice search."
+msgstr ""
+"Bir komut seçmek için yukarı ile aşağı ok tuşlarını kullanın ve seçileni "
+"çalıştırmak için enter'a basın. Filtreyi temizlemek ve tam menüye dönmek "
+"için %s. Başka bir sesli arama yapmak için boşluk tuşuna basın."
+
+#: addon\globalPlugins\commandHelper\__init__.py:413
+#, python-format
+msgid ""
+"Use right and left arrows to navigate categories, up and down arrows to "
+"select a script and enter to run the selected. %s to exit."
+msgstr ""
+"Kategoriler arasında  gezinmek için sağ sol okları, bir komut seçmek için "
+"yukarı aşağı okları ve seçileni çalıştırmak için enter'i kullanın. Çıkış "
+"için %s tuşunu kullanın."
+
+#: addon\globalPlugins\commandHelper\__init__.py:417
+msgid "Returning to the full menu"
+msgstr "Ana menüye dönüldü"
+
+#: addon\globalPlugins\commandHelper\__init__.py:419
+msgid "Leaving the command hhelper"
+msgstr "Komut yardımcısından çıkıldı"
+
+#: addon\globalPlugins\commandHelper\__init__.py:423
+msgid "Unavailable feature"
+msgstr "Bu özellik kullanılamıyor"
+
+#: addon\globalPlugins\commandHelper\__init__.py:428
+msgid "Speak now"
+msgstr "Şimdi konuşun"
+
+#: addon\globalPlugins\commandHelper\__init__.py:432
+msgid "Nothing was heard. Make sure the microphone is connected and try again."
+msgstr ""
+"Hiçbir şey duyulmadı. Mikrofonun bağlı olduğundan emin olun ve tekrar "
+"deneyin."
+
+#: addon\globalPlugins\commandHelper\__init__.py:437
+msgid "Unable to recognize"
+msgstr "tanınamadı"
+
+#: addon\globalPlugins\commandHelper\__init__.py:440
+msgid "Could not connect. Check your internet connection."
+msgstr "Bağlanamadı. İnternet bağlantınızı kontrol edin."
+
+#: addon\globalPlugins\commandHelper\__init__.py:460
+msgid "%d matches found for %s"
+msgstr "%s için %d eşleşme bulundu"
+
+#: addon\globalPlugins\commandHelper\__init__.py:468
+#, python-format
+msgid "No matches found for %s"
+msgstr "%s için eşleşme bulunamadı"
+
+#. TRANSLATORS: Checkbox to enable or disable helper launching by control key
+#: addon\globalPlugins\commandHelper\__init__.py:505
+msgid "Control key launches the helper"
+msgstr "Kontrol tuşu yardımcıyı başlatır"
+
+#: addon\globalPlugins\commandHelper\__init__.py:508
+msgid ""
+"With the control key activated, it is recommended to reduce the keyboard "
+"repetition speed. See more information in the addon documentation."
+msgstr ""
+"Kontrol tuşu etkinleştirildiğinde klavye tekrarlama hızının düşürülmesi "
+"önerilir. Eklenti belgelerinde daha fazla bilgi bulabilirsiniz."
+
+#: addon\globalPlugins\commandHelper\__init__.py:511
+msgid "Windows keyboard settings"
+msgstr "Windows klavye ayarları"
+
+#: addon\globalPlugins\commandHelper\__init__.py:513
+msgid "Open the Windows control panel to adjust keyboard parameters"
+msgstr "Klavye parametrelerini ayarlamak için Windows kontrol panelini açın"
+
+#: addon\globalPlugins\commandHelper\__init__.py:517
+msgid "Key to leave the keyboard command layer"
+msgstr "Klavye komut katmanını kapatma tuşu"
+
+#: addon\globalPlugins\commandHelper\__init__.py:517
+msgid "escape"
+msgstr "escape"
+
+#: addon\globalPlugins\commandHelper\__init__.py:517
+msgid "backspace"
+msgstr "Geri Sil tuşu"
+
+#: addon\globalPlugins\commandHelper\__init__.py:519
+msgid "Choose which key to use to exit the helper."
+msgstr "Yardımcıdan çıkmak için hangi tuşun kullanılacağını seçin."
+
+#: addon\globalPlugins\commandHelper\__init__.py:521
+msgid "Key to report the gesture assigned to a command"
+msgstr "Bir komuta atanan hareketi bildirme tuşu"
+
+#: addon\globalPlugins\commandHelper\__init__.py:521
+msgid "F1"
+msgstr "F1"
+
+#: addon\globalPlugins\commandHelper\__init__.py:521
+msgid "F12"
+msgstr "F12"
+
+#: addon\globalPlugins\commandHelper\__init__.py:523
+msgid ""
+"Choose which key to use to announce the gesture assigned to the command."
+msgstr ""
+"Komuta atanan hareketi duyurmak için hangi tuşun kullanılacağını seçin."
+
+#: addon\globalPlugins\commandHelper\__init__.py:525
+msgid "Use numpad in the keyboard command layer"
+msgstr "Klavye komut katmanında sayısal tuş takımını kullanın"
+
+#: addon\globalPlugins\commandHelper\__init__.py:527
+msgid "Use the numeric keyboard in the command layer."
+msgstr "Komut katmanında sayısal klavyeyi kullanın."
+
+#. TRANSLATORS: Settings panel title
+#. Add-on summary, usually the user visible name of the addon.
+#. Translators: Summary for this add-on to be shown on installation and add-on information.
+#: addon\globalPlugins\commandHelper\__init__.py:551 buildVars.py:17
+msgid "Command Helper"
+msgstr "Komut Yardımcısı"
+
+#. Add-on description
+#. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
+#: buildVars.py:20
+msgid ""
+"Provides a alternative method for executing scripts for people who have "
+"difficulty pressing complicated key combinations."
+msgstr ""
+"Karmaşık tuş kombinasyonlarına basmakta zorluk çeken kişiler için komutları "
+"yürütmek için alternatif bir yöntem sağlar."
+
+#~ msgid "%D matches found for %s"
+#~ msgstr "Se hallaron %d coincidencias para %s"
+
+#~ msgid "Say something"
+#~ msgstr "Diga algo"
+
+#~ msgid "You said: %s"
+#~ msgstr "usted dijo: %s"
+
+#~ msgid ""
+#~ "Use right and left arrows to navigate categories, up and down arrows to "
+#~ "select a script and enter to run the selected. Escape to exit."
+#~ msgstr ""
+#~ "Use flechas derecha e izquierda para navegar por categorías, flechas "
+#~ "arriba y abajo para seleccionar una órden y Enter para ejecutar la órden "
+#~ "seleccionada. Escape para salir."
+
+#~ msgid ""
+#~ "Use right and left arrows to navigate categories, up and down arrows to "
+#~ "select a script and enter to run the selected."
+#~ msgstr ""
+#~ "Use flechas derecha e izquierda para navegar por categorías, flechas "
+#~ "arriba y abajo para seleccionar una órden y Enter para ejecutar la órden "
+#~ "seleccionada."
