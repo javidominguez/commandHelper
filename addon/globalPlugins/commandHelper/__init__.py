@@ -30,7 +30,6 @@ from functools import wraps
 from keyboardHandler import KeyboardInputGesture
 from logHandler import log
 from . import parser
-from string import ascii_uppercase
 import addonHandler
 import api
 import appModuleHandler
@@ -247,8 +246,10 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.bindGestures(self.__CHGestures)
 		if config.conf["commandHelper"]["numpad"]:
 			self.bindGestures(self.__numpadGestures)
-		for c in ascii_uppercase:
-			self.bindGesture("kb:"+c, "skipToCategory")
+		for vk in range(65,91):
+			self.bindGesture(
+			KeyboardInputGesture(vkCode=vk, scanCode=0, isExtended=False, modifiers={}).identifiers[-1],
+			"skipToCategory")
 		self.bindGesture("kb:"+config.conf["commandHelper"]["reportGestureKey"], "AnnounceGestures")
 		self.bindGesture("kb:space", "speechRecognition")
 		self.toggling = True
