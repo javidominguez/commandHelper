@@ -246,9 +246,18 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.bindGestures(self.__CHGestures)
 		if config.conf["commandHelper"]["numpad"]:
 			self.bindGestures(self.__numpadGestures)
-		for vk in range(65,91):
+		scanCodes = [
+		# keyboard top row (1,2,3,4...)
+		sc for sc in range(2,14)]+[41]+[
+		# Second row (QWERT...)
+		sc for sc in range(16,28)]+[
+		# Third row (ASDF...)
+		sc for sc in range(30,41)]+[43]+[
+		# Bottom row (ZXCV...)
+		sc for sc in range(44,54)]+[86]
+		for sc in scanCodes:
 			self.bindGesture(
-			KeyboardInputGesture(vkCode=vk, scanCode=0, isExtended=False, modifiers={}).identifiers[-1],
+			KeyboardInputGesture(modifiers={}, vkCode=0, scanCode=sc, isExtended=False).identifiers[-1],
 			"skipToCategory")
 		self.bindGesture("kb:"+config.conf["commandHelper"]["reportGestureKey"], "AnnounceGestures")
 		self.bindGesture("kb:space", "speechRecognition")
