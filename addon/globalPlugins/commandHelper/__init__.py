@@ -188,6 +188,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		if not self.toggling or isinstance(gesture, brailleInput.BrailleInputGesture) or True in [gID.lower() in self.allowedBrailleGestures for gID in gesture.identifiers]:
 			return globalPluginHandler.GlobalPlugin.getScript(self, gesture)
 		script = globalPluginHandler.GlobalPlugin.getScript(self, gesture)
+		inputCore.manager._captureFunc = lambda self: not (gesture.isModifier and gesture.mainKeyName in (
+		"leftWindows", "rightWindows", "leftAlt"))
 		if not script:
 			if "kb:"+config.conf["commandHelper"]["exitKey"] in gesture.identifiers or (
 			config.conf["commandHelper"]["numpad"] and "kb:numpadDelete" in gesture.identifiers):
