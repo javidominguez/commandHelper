@@ -216,7 +216,11 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			script = self.oldGestureBindings[key]
 			if hasattr(script.__self__, script.__name__):
 				script.__self__.bindGesture(key, script.__name__[7:])
-				config.conf["braille"]["noMessageTimeout"] = self.brailleMessageTimeout
+				if "showMessages" in config.conf["braille"]:
+					#14233
+					config.conf["braille"]["showMessages"] = self.brailleMessageTimeout
+				else:
+					config.conf["braille"]["noMessageTimeout"] = self.brailleMessageTimeout
 		braille.handler.handleGainFocus(api.getFocusObject())
 
 	def script_commandHelper(self, gesture):
@@ -266,8 +270,13 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.toggling = True
 		self.flagFilter = False
 		self.lockMouse()
-		self.brailleMessageTimeout = config.conf["braille"]["noMessageTimeout"]
-		config.conf["braille"]["noMessageTimeout"] = True
+		if "showMessages" in config.conf["braille"]:
+			#14233
+			self.brailleMessageTimeout = config.conf["braille"]["showMessages"]
+			config.conf["braille"]["showMessages"] = 2
+		else:
+			self.brailleMessageTimeout = config.conf["braille"]["noMessageTimeout"]
+			config.conf["braille"]["noMessageTimeout"] = True
 		menuMessage(_("Available commands"))
 		voiceOnly = True
 		if self.firstTime:
@@ -465,7 +474,11 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		if self.flagFilter:
 			menuMessage(_("Returning to the full menu"))
 		else:
-			config.conf["braille"]["noMessageTimeout"] = self.brailleMessageTimeout
+			if "showMessages" in config.conf["braille"]:
+				#14233
+				config.conf["braille"]["showMessages"] = self.brailleMessageTimeout
+			else:
+				config.conf["braille"]["noMessageTimeout"] = self.brailleMessageTimeout
 			menuMessage(_("Leaving the command hhelper"))
 
 	def script_speechRecognition(self, gesture):
