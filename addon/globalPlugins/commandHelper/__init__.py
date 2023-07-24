@@ -287,7 +287,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			self.gestures = inputCore.manager.getAllGestureMappings(obj=gui.mainFrame.prevFocus, ancestors=gui.mainFrame.prevFocusAncestors)
 		except:
 			menuMessage(_("Failed to retrieve scripts."))
-		self.categories = sorted(self.gestures)
+		self.categories = sorted(self.gestures, key=locale.strxfrm)
 		self.categories.remove(self.scriptCategory)
 		if self.recentCommands:
 			self.categories.insert(0, _("Recents"))
@@ -331,7 +331,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.catIndex = self.catIndex+1 if self.catIndex < len(self.categories)-1 else 0
 		if verbose: menuMessage(self.categories[self.catIndex])
 		self.commandIndex = -1
-		self.commands = sorted(self.gestures[self.categories[self.catIndex]])
+		self.commands = sorted(self.gestures[self.categories[self.catIndex]], key=locale.strxfrm)
 
 	def script_previousCategory(self, gesture):
 		if self.flagFilter:
@@ -341,7 +341,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.catIndex = self.catIndex -1 if self.catIndex > 0 else len(self.categories)-1
 		menuMessage(self.categories[self.catIndex])
 		self.commandIndex = -1
-		self.commands = sorted(self.gestures[self.categories[self.catIndex]])
+		self.commands = sorted(self.gestures[self.categories[self.catIndex]], key=locale.strxfrm)
 
 	def script_skipToCategory(self, gesture):
 		if self.flagFilter:
@@ -522,7 +522,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			if len(candidates)>1:
 				speech.speakMessage(_("%d matches found for %s") % (len(candidates), recognizedText))
 			self.gestures["speechFilter"] = candidatesInfo
-			candidates.sort(reverse=True)
+			candidates.sort(reverse=True, key=locale.strxfrm)
 			self.catIndex = self.categories.index("speechFilter")
 			self.commands = [i[1] for i in candidates]
 			self.commandIndex = -1
