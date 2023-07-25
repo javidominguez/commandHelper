@@ -522,7 +522,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			if len(candidates)>1:
 				speech.speakMessage(_("%d matches found for %s") % (len(candidates), recognizedText))
 			self.gestures["speechFilter"] = candidatesInfo
-			candidates.sort(reverse=True, key=locale.strxfrm)
+			candidates.sort(reverse=True)
 			self.catIndex = self.categories.index("speechFilter")
 			self.commands = [i[1] for i in candidates]
 			self.commandIndex = -1
