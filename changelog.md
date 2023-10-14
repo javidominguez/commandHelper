@@ -1,3 +1,1 @@
-* Updated manifest:
-    * last tested NVDA version 2023.1
-    * changed version numbering scheme to fit addon-dataStore requirements.
+* Testing compatibility with NVDA 2024.1 API. So far everything is correct.
