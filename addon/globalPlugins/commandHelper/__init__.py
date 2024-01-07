@@ -26,6 +26,7 @@ Copyright (c) 1999-2011 Ross Bencina and Phil Burk
 www.portaudio.com/license.html
 """
 
+from tones import beep
 from functools import wraps
 from keyboardHandler import KeyboardInputGesture
 from logHandler import log
@@ -124,6 +125,8 @@ class Trigger():
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 	scriptCategory = _("Command helper")
+
+	speechOnDemand = {"speakOnDemand": True} if hasattr(speech.SpeechMode, "onDemand") else {}
 
 	def __init__(self, *args, **kwargs):
 		super(GlobalPlugin, self).__init__(*args, **kwargs)
@@ -278,6 +281,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			self.brailleMessageTimeout = config.conf["braille"]["noMessageTimeout"]
 			config.conf["braille"]["noMessageTimeout"] = True
 		menuMessage(_("Available commands"))
+		if speech.getState().speechMode == 3: beep(1500, 100)
 		voiceOnly = True
 		if self.firstTime:
 			self.script_speechHelp(None)
@@ -323,6 +327,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	#TRANSLATORS: message shown in Input gestures dialog for this script
 	script_commandHelper.__doc__ = _("Provides a virtual menu where you can select any command to be executed without having to press its gesture.")
 
+	@scriptHandler.script(**speechOnDemand)
 	def script_nextCategory(self, gesture, verbose=True):
 		if self.flagFilter:
 			self.script_speechHelp(None)
@@ -333,6 +338,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.commandIndex = -1
 		self.commands = sorted(self.gestures[self.categories[self.catIndex]], key=locale.strxfrm)
 
+	@scriptHandler.script(**speechOnDemand)
 	def script_previousCategory(self, gesture):
 		if self.flagFilter:
 			self.script_speechHelp(None)
@@ -343,6 +349,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.commandIndex = -1
 		self.commands = sorted(self.gestures[self.categories[self.catIndex]], key=locale.strxfrm)
 
+	@scriptHandler.script(**speechOnDemand)
 	def script_skipToCategory(self, gesture):
 		if self.flagFilter:
 			self.script_speechHelp(None)
@@ -370,6 +377,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		else:
 			self.script_nextCategory(None)
 
+	@scriptHandler.script(**speechOnDemand)
 	def script_nextCommand(self, gesture):
 		if self.flagFilter and not self.commands:
 			menuMessage(_("No matches found. Press the space bar to perform another search or escape to return to the full menu."))
@@ -378,6 +386,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.commandIndex = self.commandIndex + 1 if self.commandIndex < len(self.commands)-1 else 0
 		menuMessage(self.commands[self.commandIndex])
 
+	@scriptHandler.script(**speechOnDemand)
 	def script_previousCommand(self, gesture):
 		if self.flagFilter and not self.commands:
 			menuMessage(_("No results. Press the space bar to perform another search or escape to return to the full menu."))
@@ -386,6 +395,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.commandIndex = self.commandIndex-1 if self.commandIndex > 0 else len(self.commands)-1
 		menuMessage(self.commands[self.commandIndex])
 
+	@scriptHandler.script(**speechOnDemand)
 	def script_executeCommand(self, gesture):
 		if self.commandIndex < 0:
 			menuMessage(_("Select a command using up or down arrows"))
@@ -439,6 +449,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.flagFilter = False
 		self.finish()
 
+	@scriptHandler.script(**speechOnDemand)
 	def script_AnnounceGestures(self, gesture):
 		self.cancelSpeech = False
 		if self.commandIndex < 0:
@@ -464,6 +475,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		gestureDisplayText))
 		#9 Search for keyboard conflicts and announce them
 
+	@scriptHandler.script(**speechOnDemand)
 	def script_speechHelp(self, gesture):
 		if self.flagFilter:
 			menuMessage(_("Use up and down arrows to select a script and enter to run the selected. %s to clear filter and return to full menu. Press space to perform another voice search.") % _(config.conf["commandHelper"]["exitKey"]))
@@ -471,6 +483,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			menuMessage(_("Use right and left arrows to navigate categories, up and down arrows to select a script and enter to run the selected. %s to exit.") % _(config.conf["commandHelper"]["exitKey"]))
 
 	def script_exit(self, gesture):
+		if speech.getState().speechMode == 3: beep(800, 100)
 		if self.flagFilter:
 			menuMessage(_("Returning to the full menu"))
 		else:
@@ -480,7 +493,11 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			else:
 				config.conf["braille"]["noMessageTimeout"] = self.brailleMessageTimeout
 			menuMessage(_("Leaving the command hhelper"))
+			if speech.getState().speechMode == 3:
+				time.sleep(0.1)
+				beep(500, 60)
 
+	@scriptHandler.script(**speechOnDemand)
 	def script_speechRecognition(self, gesture):
 		if not speech_recognition:
 			menuMessage(_("Unavailable feature"))

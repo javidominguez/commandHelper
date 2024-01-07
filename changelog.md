@@ -1,1 +1,1 @@
-* Testing compatibility with NVDA 2024.1 API. So far everything is correct.
+* Speech on demand feature implemented. The virtual menu will be spoken with the on-demand mode activated.
