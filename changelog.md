@@ -1,1 +1,1 @@
-* Speech on demand feature implemented. The virtual menu will be spoken with the on-demand mode activated.
+* Localization updates
