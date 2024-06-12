@@ -1,0 +1,227 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the 'commandHelper' package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 'commandHelper' 'dev20220724'\n"
+"Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
+"POT-Creation-Date: 2022-09-04 17:11+0300\n"
+"PO-Revision-Date: 2024-05-13 00:57+0300\n"
+"Last-Translator: Danil Kostenkov <danilkostenkov38@gmail.com>\n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"X-Generator: Poedit 3.4.4\n"
+
+#: addon\globalPlugins\commandHelper\__init__.py:126
+msgid "Command helper"
+msgstr "Помощник выполнения команд"
+
+#. TRANSLATORS: The configuration option in NVDA Preferences menu
+#. TRANSLATORS: Settings dialog title
+#: addon\globalPlugins\commandHelper\__init__.py:135
+#: addon\globalPlugins\commandHelper\__init__.py:614
+msgid "Command Helper settings"
+msgstr "Настройка помощника выполнения команд"
+
+#: addon\globalPlugins\commandHelper\__init__.py:271
+msgid "Available commands"
+msgstr "Доступные команды"
+
+#: addon\globalPlugins\commandHelper\__init__.py:280
+#: addon\globalPlugins\commandHelper\__init__.py:406
+msgid "Failed to retrieve scripts."
+msgstr "Не удалось получить сценарии."
+
+#: addon\globalPlugins\commandHelper\__init__.py:284
+#: addon\globalPlugins\commandHelper\__init__.py:285
+#: addon\globalPlugins\commandHelper\__init__.py:503
+msgid "Recents"
+msgstr "Недавние"
+
+#. TRANSLATORS: message shown in Input gestures dialog for this script
+#: addon\globalPlugins\commandHelper\__init__.py:315
+msgid ""
+"Provides a virtual menu where you can select any command to be executed "
+"without having to press its gesture."
+msgstr ""
+"Открывает виртуальное меню, в котором вы можете выбрать любую команду для "
+"выполнения, не нажимая её жест."
+
+#: addon\globalPlugins\commandHelper\__init__.py:366
+msgid ""
+"No matches found. Press the space bar to perform another search or escape to "
+"return to the full menu."
+msgstr ""
+"Совпадений не найдено. Нажмите пробел, чтобы искать повторно, или escape, "
+"чтобы вернуться в Главное меню."
+
+#: addon\globalPlugins\commandHelper\__init__.py:374
+msgid ""
+"No results. Press the space bar to perform another search or escape to "
+"return to the full menu."
+msgstr ""
+"Нет результатов. Нажмите пробел, чтобы искать повторно, или Escape, чтобы "
+"вернуться в Главное меню."
+
+#: addon\globalPlugins\commandHelper\__init__.py:382
+#: addon\globalPlugins\commandHelper\__init__.py:436
+msgid "Select a command using up or down arrows"
+msgstr "Выберите команду с помощью стрелок вверх и вниз"
+
+#: addon\globalPlugins\commandHelper\__init__.py:395
+msgid "Can't run this script here"
+msgstr "Этот сценарий невозможно запустить здесь"
+
+#: addon\globalPlugins\commandHelper\__init__.py:448
+msgid "There is no gesture"
+msgstr "Нет жеста"
+
+#: addon\globalPlugins\commandHelper\__init__.py:460
+#, python-format
+msgid ""
+"Use up and down arrows to select a script and enter to run the selected. %s "
+"to clear filter and return to full menu. Press space to perform another "
+"voice search."
+msgstr ""
+"Используйте стрелки вверх и вниз для выбора сценария, Enter для запуска "
+"выбранного сценария. %s для очистки фильтра и возврата в Главное меню. Для "
+"возврата к голосовому поиску нажмите пробел."
+
+#: addon\globalPlugins\commandHelper\__init__.py:462
+#, python-format
+msgid ""
+"Use right and left arrows to navigate categories, up and down arrows to "
+"select a script and enter to run the selected. %s to exit."
+msgstr ""
+"Используйте стрелки влево и вправо для перемещения между категориями, "
+"стрелки вверх и вниз для выбора сценария, Enter для запуска выбранного "
+"сценария. %s для выхода."
+
+#: addon\globalPlugins\commandHelper\__init__.py:466
+msgid "Returning to the full menu"
+msgstr "Вернуться в Главное меню"
+
+#: addon\globalPlugins\commandHelper\__init__.py:469
+msgid "Leaving the command hhelper"
+msgstr "Выход из помощника выполнения команд"
+
+#: addon\globalPlugins\commandHelper\__init__.py:473
+msgid "Unavailable feature"
+msgstr "Недоступная функция"
+
+#: addon\globalPlugins\commandHelper\__init__.py:478
+msgid "Speak now"
+msgstr "Говорите"
+
+#: addon\globalPlugins\commandHelper\__init__.py:482
+msgid "Nothing was heard. Make sure the microphone is connected and try again."
+msgstr ""
+"Ничего не слышно. Убедитесь, что микрофон подключён, и повторите попытку."
+
+#: addon\globalPlugins\commandHelper\__init__.py:487
+msgid "Unable to recognize"
+msgstr "Невозможно распознать"
+
+#: addon\globalPlugins\commandHelper\__init__.py:490
+msgid "Could not connect. Check your internet connection."
+msgstr "Не удалось подключиться. Проверьте подключение к интернету."
+
+#: addon\globalPlugins\commandHelper\__init__.py:510
+#, python-format
+msgid "%d matches found for %s"
+msgstr "%d совпадений найдено для %s"
+
+#: addon\globalPlugins\commandHelper\__init__.py:518
+#, python-format
+msgid "No matches found for %s"
+msgstr "Совпадений для %s Не найдено"
+
+#. TRANSLATORS: Checkbox to enable or disable helper launching by control key
+#: addon\globalPlugins\commandHelper\__init__.py:555
+msgid "Control key launches the helper"
+msgstr "Клавиша Control запускает помощник"
+
+#: addon\globalPlugins\commandHelper\__init__.py:558
+msgid ""
+"With the control key activated, it is recommended to reduce the keyboard "
+"repetition speed. See more information in the addon documentation."
+msgstr ""
+"Если активирована клавиша control, рекомендуется уменьшить скорость "
+"повторения клавиатуры. Для получения дополнительных сведений см. "
+"документацию дополнения."
+
+#: addon\globalPlugins\commandHelper\__init__.py:561
+msgid "Windows keyboard settings"
+msgstr "Настройка клавиатуры Windows"
+
+#: addon\globalPlugins\commandHelper\__init__.py:563
+msgid "Open the Windows control panel to adjust keyboard parameters"
+msgstr ""
+"Открыть панель управления Windows, чтобы настроить параметры клавиатуры"
+
+#: addon\globalPlugins\commandHelper\__init__.py:567
+msgid "Key to leave the keyboard command layer"
+msgstr "Клавиша для выхода из слоя команд клавиатуры"
+
+#: addon\globalPlugins\commandHelper\__init__.py:567
+msgid "escape"
+msgstr "escape"
+
+#: addon\globalPlugins\commandHelper\__init__.py:567
+msgid "backspace"
+msgstr "backspace"
+
+#: addon\globalPlugins\commandHelper\__init__.py:569
+msgid "Choose which key to use to exit the helper."
+msgstr "Выберите, какую клавишу использовать для выхода из помощника."
+
+#: addon\globalPlugins\commandHelper\__init__.py:571
+msgid "Key to report the gesture assigned to a command"
+msgstr "Клавиша для сообщения о жесте, назначенном команде"
+
+#: addon\globalPlugins\commandHelper\__init__.py:571
+msgid "F1"
+msgstr "F1"
+
+#: addon\globalPlugins\commandHelper\__init__.py:571
+msgid "F12"
+msgstr "F12"
+
+#: addon\globalPlugins\commandHelper\__init__.py:573
+msgid ""
+"Choose which key to use to announce the gesture assigned to the command."
+msgstr ""
+"Выберите, какую клавишу использовать для объявления жеста, назначенного "
+"команде."
+
+#: addon\globalPlugins\commandHelper\__init__.py:575
+msgid "Use numpad in the keyboard command layer"
+msgstr "Использовать цифровой блок клавиатуры в слое команд"
+
+#: addon\globalPlugins\commandHelper\__init__.py:577
+msgid "Use the numeric keyboard in the command layer."
+msgstr "Использовать цифровой ряд  клавиатуры в слое команд."
+
+#. TRANSLATORS: Settings panel title
+#. Add-on summary, usually the user visible name of the addon.
+#. Translators: Summary for this add-on to be shown on installation and add-on information.
+#: addon\globalPlugins\commandHelper\__init__.py:601 buildVars.py:17
+msgid "Command Helper"
+msgstr "Помощник выполнения команд"
+
+#. Add-on description
+#. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
+#: buildVars.py:20
+msgid ""
+"Provides a alternative method for executing scripts for people who have "
+"difficulty pressing complicated key combinations."
+msgstr ""
+"Предоставляет альтернативный метод выполнения сценариев для людей, которым "
+"трудно нажимать сложные сочетания клавиш."
