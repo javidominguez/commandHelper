@@ -35,21 +35,25 @@ import addonHandler
 import api
 import appModuleHandler
 import appModules
+import baseObject
 import braille
 import brailleInput
 import config
 import globalCommands
 import globalPluginHandler
 import globalPlugins
+import treeInterceptorHandler
 import gui
 import inputCore
 import locale
 import mouseHandler
+import NVDAObjects
 import scriptHandler
 import speech
 import subprocess
 import time
 import tones
+import vision
 import wx
 import winInputHook
 
@@ -401,25 +405,92 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			menuMessage(_("Select a command using up or down arrows"))
 			return
 		commandInfo = self.gestures[self.categories[self.catIndex]][self.commands[self.commandIndex]]
+		script = None
 		try:
-			if commandInfo.className == "GlobalCommands":
-				script = getattr(globalCommands.commands, "script_"+commandInfo.scriptName)
-			elif commandInfo.className == "GlobalPlugin":
-				i = [m.__module__ for m in globalPluginHandler .runningPlugins].index(commandInfo.moduleName)
-				script = getattr(list(globalPluginHandler .runningPlugins)[i], "script_"+commandInfo.scriptName)
-			elif commandInfo.className == "AppModule":
+			# Handling all scriptable object in the same order as in scriptHandler._yieldObjectsForFindScript
+
+			# Gesture specific scriptable object
+			if commandInfo.scriptName.startswith("kb:"):
+				# Keypress emulation script
+				script = scriptHandler._makeKbEmulateScript(commandInfo.scriptName)
+
+			# Global plugins
+			if not script and issubclass(commandInfo.cls, globalPluginHandler.GlobalPlugin):
+				pluginPath = '.'.join(commandInfo.moduleName.split(".")[:2])
+				for m in globalPluginHandler.runningPlugins:
+					if m.__module__ == pluginPath:
+						plugin = m
+						break
+				script = getattr(plugin, "script_"+commandInfo.scriptName)
+
+			# App module
+			if not script and issubclass(commandInfo.cls, appModuleHandler.AppModule):
 				try:
 					script = getattr(api.getForegroundObject().appModule , "script_"+commandInfo.scriptName)
 				except:
 					menuMessage(_("Can't run this script here"))
 					return
-			elif commandInfo.className == "NVDAExtensionGlobalPlugin":
-			# Compatibility with the NVDAExtensionGlobalPlugin addon
-				i = [m.__module__ for m in globalPluginHandler .runningPlugins].index("globalPlugins.NVDAExtensionGlobalPlugin")
-				script = getattr(list(globalPluginHandler .runningPlugins)[i], "script_"+commandInfo.scriptName)
-			else:
+	
+			# Braille display
+			if not script and issubclass(commandInfo.cls, braille.BrailleDisplayDriver):
+				try:
+					script = getattr(braille.handler.display, "script_" + commandInfo.scriptName)
+				except AttributeError:
+					pass
+	
+			# Vision enhancement provider
+			if not script and issubclass(commandInfo.cls, vision.providerBase.VisionEnhancementProvider):
+				for provider in vision.handler.getActiveProviderInstances():
+					if isinstance(provider, baseObject.ScriptableObject):
+						script = getattr(provider, "script_"+commandInfo.scriptName, None)
+						if script:
+							break
+				else:
+					menuMessage(_("Can't run this script while the corresponding provider is not enabled"))
+					return
+
+			# Tree interceptor
+			if not script and issubclass(commandInfo.cls, treeInterceptorHandler.TreeInterceptor):
+				treeInterceptor = api.getFocusObject().treeInterceptor
+				if treeInterceptor and treeInterceptor.isReady:
+					script = getattr(treeInterceptor, "script_"+commandInfo.scriptName, None)
+					if script:
+						if treeInterceptor.passThrough and not getattr(script, "ignoreTreeInterceptorPassThrough", False):
+							menuMessage(_("Can't run this script while in focus mode"))
+							return
+					else:  # The current tree interceptor has not the requested script.
+						menuMessage(_("Can't run this script here"))
+						return
+				else:  # The focused object has no tree intereceptor or the tree interceptor is not ready.
+					menuMessage(_("Can't run this script here"))
+					return
+
+			# NVDAObject
+			if not script:
+				script = getattr(api.getFocusObject(), "script_" + commandInfo.scriptName, None)
+
+			# Focus ancestors
+			if not script:
+				for ancObj in reversed(api.getFocusAncestors()):
+					script = scriptHandler._getFocusAncestorScript(
+						getattr(ancObj, "script_" + commandInfo.scriptName, None),
+						ancObj,
+						None,
+					)
+					if script:
+						break
+
+			# Configuration profile activation scripts
+			if not script and issubclass(commandInfo.cls, globalCommands.ConfigProfileActivationCommands):
+				script = getattr(globalCommands.configProfileActivationCommands, "script_"+commandInfo.scriptName)
+
+			# Global commands
+			if not script and issubclass(commandInfo.cls, globalCommands.GlobalCommands):
+				script = getattr(globalCommands.commands, "script_"+commandInfo.scriptName)
+			
+			if not script:
 				self.finish()
-				raise RuntimeError("Failed to retrieve scripts. Not found in known modules.")
+				raise RuntimeError(f"Failed to retrieve scripts for '{commandInfo.className}'. Not found in known modules.")
 		except:
 			self.finish()
 			menuMessage(_("Failed to retrieve scripts."))
@@ -428,6 +499,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			g = inputCore._getGestureClsForIdentifier(commandInfo.gestures[0])
 		except:
 			g = KeyboardInputGesture
+		self.flagFilter = False
+		self.finish()
 		try:
 			scriptHandler.executeScript(script, g)
 		except:
@@ -446,8 +519,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				if commandInfo.className == "AppModule":
 					key = "%s: %s" % (self.categories[self.catIndex], key)
 				self.recentCommands[key] = commandInfo
-		self.flagFilter = False
-		self.finish()
 
 	@scriptHandler.script(**speechOnDemand)
 	def script_AnnounceGestures(self, gesture):
