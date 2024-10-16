@@ -432,11 +432,14 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 					return
 	
 			# Braille display
+			import globalVars as gv
+			gv.dbg = commandInfo
 			if not script and issubclass(commandInfo.cls, braille.BrailleDisplayDriver):
 				try:
 					script = getattr(braille.handler.display, "script_" + commandInfo.scriptName)
 				except AttributeError:
-					pass
+					menuMessage(_("Can't run this script while the corresponding braille driver is not active"))
+					return
 	
 			# Vision enhancement provider
 			if not script and issubclass(commandInfo.cls, vision.providerBase.VisionEnhancementProvider):
