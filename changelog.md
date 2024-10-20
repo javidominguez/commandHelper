@@ -1,1 +1,1 @@
-* Localization updates
+Suport more scriptable oBjects by Cyrille Bougot @CyrilleB79
