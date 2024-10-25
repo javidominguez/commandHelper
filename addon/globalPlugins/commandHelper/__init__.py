@@ -418,9 +418,11 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			if not script and issubclass(commandInfo.cls, globalPluginHandler.GlobalPlugin):
 				pluginPath = '.'.join(commandInfo.moduleName.split(".")[:2])
 				for m in globalPluginHandler.runningPlugins:
-					if m.__module__ == pluginPath:
+					if isinstance(m, commandInfo.cls):
 						plugin = m
 						break
+				else:
+					raise RuntimeError(f"Failed to retrieve scripts for '{commandInfo.className}'. Not found in global plugins.")
 				script = getattr(plugin, "script_"+commandInfo.scriptName)
 
 			# App module
@@ -432,8 +434,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 					return
 	
 			# Braille display
-			import globalVars as gv
-			gv.dbg = commandInfo
 			if not script and issubclass(commandInfo.cls, braille.BrailleDisplayDriver):
 				try:
 					script = getattr(braille.handler.display, "script_" + commandInfo.scriptName)
@@ -444,7 +444,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			# Vision enhancement provider
 			if not script and issubclass(commandInfo.cls, vision.providerBase.VisionEnhancementProvider):
 				for provider in vision.handler.getActiveProviderInstances():
-					if isinstance(provider, baseObject.ScriptableObject):
+					if isinstance(provider, commandInfo.cls):
 						script = getattr(provider, "script_"+commandInfo.scriptName, None)
 						if script:
 							break
