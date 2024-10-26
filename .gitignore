@@ -1,5 +1,6 @@
 addon/doc/*.css
-addon/doc/en/
+addon/doc/en/*
+!addon/doc/en/changelog.txt
 *_docHandler.py
 *.html
 *.ini
