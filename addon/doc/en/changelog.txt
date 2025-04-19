@@ -1,1 +1,1 @@
-Suport more scriptable oBjects by Cyrille Bougot @CyrilleB79
+Fixed #16 Unable to bind a new gesture in input gesture dialog 

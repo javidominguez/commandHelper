@@ -1,1 +1,1 @@
-Soporte para más tipos de scripts por Cyrille Bougot @CyrilleB79
+Solucionado #16 Unable to bind a new gesture in input gesture dialog 
