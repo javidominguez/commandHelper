@@ -1,1 +1,1 @@
-Fixed #16 Unable to bind a new gesture in input gesture dialog 
+Tested compatibility in NVDA 2025.1
