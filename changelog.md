@@ -1,1 +1,1 @@
-Tested compatibility in NVDA 2025.1
+* The speech recognition feature has been disabled in NVDA 2026.1 and later because the speech_recognition module has been deprecated and is no longer supported.

@@ -58,8 +58,13 @@ import wx
 import winInputHook
 
 try:
-	from . import speech_recognition
-	log.info("Module speech_recognition version %s succesfully loaded\n(C) %s > license %s\nSee the file license.txt for more copyright details." % (speech_recognition.__version__, speech_recognition.__author__, speech_recognition.__license__))
+	import versionInfo
+	if int(versionInfo.version_detailed.split(".")[0])<2026:
+		from . import speech_recognition
+		log.info("Module speech_recognition version %s succesfully loaded\n(C) %s > license %s\nSee the file license.txt for more copyright details." % (speech_recognition.__version__, speech_recognition.__author__, speech_recognition.__license__))
+	else:
+		speech_recognition = None
+		log.warning("The speech recognition feature is not available in NVDA 2026.1 and later because the speech_recognition module has been deprecated and is no longer supported.")
 except ImportError:
 	speech_recognition = None
 	log.warning("Import of the speech_recognition module failed. The speech recognition feature will not be available.")
@@ -185,9 +190,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		mouseCallbackFunc = None
 
 	def getScript(self, gesture):
-		if self.toggling:
-			inputCore.manager._captureFunc = lambda self: not (gesture.isModifier and gesture.mainKeyName in (
-			"leftWindows", "rightWindows", "leftAlt"))
 		if self.toggling and gesture.identifiers in self.__trigger__.gestures and self.cancelSpeech:
 			# Prevents the voice from being muted when launching the helper. Otherwise nothing is spoken if the activation key is being pressed and the user does not know if the helper has been launched.
 			gesture.speechEffectWhenExecuted = None
@@ -198,6 +200,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		if not self.toggling or isinstance(gesture, brailleInput.BrailleInputGesture) or True in [gID.lower() in self.allowedBrailleGestures for gID in gesture.identifiers]:
 			return globalPluginHandler.GlobalPlugin.getScript(self, gesture)
 		script = globalPluginHandler.GlobalPlugin.getScript(self, gesture)
+		inputCore.manager._captureFunc = lambda self: not (gesture.isModifier and gesture.mainKeyName in (
+		"leftWindows", "rightWindows", "leftAlt"))
 		if not script:
 			if "kb:"+config.conf["commandHelper"]["exitKey"] in gesture.identifiers or (
 			config.conf["commandHelper"]["numpad"] and "kb:numpadDelete" in gesture.identifiers):
@@ -558,7 +562,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			menuMessage(_("Use right and left arrows to navigate categories, up and down arrows to select a script and enter to run the selected. %s to exit.") % _(config.conf["commandHelper"]["exitKey"]))
 
 	def script_exit(self, gesture):
-		inputCore.manager._captureFunc = None
 		if speech.getState().speechMode == 3: beep(800, 100)
 		if self.flagFilter:
 			menuMessage(_("Returning to the full menu"))
