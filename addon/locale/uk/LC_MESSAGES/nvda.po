@@ -7,46 +7,46 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 'commandHelper' 'dev20220724'\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@groups.io'\n"
-"POT-Creation-Date: 2022-09-04 17:11+0300\n"
-"PO-Revision-Date: 2022-09-07 10:36+0300\n"
+"POT-Creation-Date: 2026-05-03 13:51+0300\n"
+"PO-Revision-Date: 2026-05-03 13:55+0300\n"
 "Last-Translator: Ukrainian NVDA Community <vp88.mobile@gmail.com>\n"
 "Language-Team: \n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
-"X-Generator: Poedit 3.1.1\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"X-Generator: Poedit 3.9\n"
 
-#: addon\globalPlugins\commandHelper\__init__.py:126
+#: addon\globalPlugins\commandHelper\__init__.py:136
 msgid "Command helper"
 msgstr "Помічник для команд"
 
 #. TRANSLATORS: The configuration option in NVDA Preferences menu
 #. TRANSLATORS: Settings dialog title
-#: addon\globalPlugins\commandHelper\__init__.py:135
-#: addon\globalPlugins\commandHelper\__init__.py:614
+#: addon\globalPlugins\commandHelper\__init__.py:147
+#: addon\globalPlugins\commandHelper\__init__.py:723
 msgid "Command Helper settings"
 msgstr "Налаштування помічника для команд"
 
-#: addon\globalPlugins\commandHelper\__init__.py:271
+#: addon\globalPlugins\commandHelper\__init__.py:292
 msgid "Available commands"
 msgstr "Доступні команди"
 
-#: addon\globalPlugins\commandHelper\__init__.py:280
-#: addon\globalPlugins\commandHelper\__init__.py:406
+#: addon\globalPlugins\commandHelper\__init__.py:302
+#: addon\globalPlugins\commandHelper\__init__.py:504
 msgid "Failed to retrieve scripts."
 msgstr "Не вдалося отримати сценарії."
 
-#: addon\globalPlugins\commandHelper\__init__.py:284
-#: addon\globalPlugins\commandHelper\__init__.py:285
-#: addon\globalPlugins\commandHelper\__init__.py:503
+#: addon\globalPlugins\commandHelper\__init__.py:306
+#: addon\globalPlugins\commandHelper\__init__.py:307
+#: addon\globalPlugins\commandHelper\__init__.py:612
 msgid "Recents"
 msgstr "Останні"
 
 #. TRANSLATORS: message shown in Input gestures dialog for this script
-#: addon\globalPlugins\commandHelper\__init__.py:315
+#: addon\globalPlugins\commandHelper\__init__.py:337
 msgid ""
 "Provides a virtual menu where you can select any command to be executed "
 "without having to press its gesture."
@@ -54,7 +54,7 @@ msgstr ""
 "Відкриває віртуальне меню, де ви можете вибрати будь-яку команду для "
 "виконання, не натискаючи її жест."
 
-#: addon\globalPlugins\commandHelper\__init__.py:366
+#: addon\globalPlugins\commandHelper\__init__.py:392
 msgid ""
 "No matches found. Press the space bar to perform another search or escape to "
 "return to the full menu."
@@ -62,7 +62,7 @@ msgstr ""
 "Збігів не знайдено. Натисніть пробіл, щоб виконати інший пошук, або escape, "
 "щоб повернутися до головного меню."
 
-#: addon\globalPlugins\commandHelper\__init__.py:374
+#: addon\globalPlugins\commandHelper\__init__.py:401
 msgid ""
 "No results. Press the space bar to perform another search or escape to "
 "return to the full menu."
@@ -70,20 +70,39 @@ msgstr ""
 "Немає результатів. Натисніть пробіл, щоб виконати інший пошук, або Escape, "
 "щоб повернутися до головного меню."
 
-#: addon\globalPlugins\commandHelper\__init__.py:382
-#: addon\globalPlugins\commandHelper\__init__.py:436
+#: addon\globalPlugins\commandHelper\__init__.py:410
+#: addon\globalPlugins\commandHelper\__init__.py:535
 msgid "Select a command using up or down arrows"
 msgstr "Виберіть команду за допомогою стрілок вгору або вниз"
 
-#: addon\globalPlugins\commandHelper\__init__.py:395
+#. The current tree interceptor has not the requested script.
+#. The focused object has no tree intereceptor or the tree interceptor is not ready.
+#: addon\globalPlugins\commandHelper\__init__.py:438
+#: addon\globalPlugins\commandHelper\__init__.py:470
+#: addon\globalPlugins\commandHelper\__init__.py:473
 msgid "Can't run this script here"
 msgstr "Неможливо запустити цей сценарій тут"
 
-#: addon\globalPlugins\commandHelper\__init__.py:448
+#: addon\globalPlugins\commandHelper\__init__.py:446
+msgid ""
+"Can't run this script while the corresponding braille driver is not active"
+msgstr ""
+"Неможливо запустити цей сценарій, доки відповідний драйвер Брайля не активний"
+
+#: addon\globalPlugins\commandHelper\__init__.py:457
+msgid "Can't run this script while the corresponding provider is not enabled"
+msgstr ""
+"Не можна запустити цей сценарій, доки відповідний постачальник не увімкнений"
+
+#: addon\globalPlugins\commandHelper\__init__.py:467
+msgid "Can't run this script while in focus mode"
+msgstr "Неможливо запустити цей сценарій у режимі фокусування"
+
+#: addon\globalPlugins\commandHelper\__init__.py:547
 msgid "There is no gesture"
 msgstr "Немає жодного жесту"
 
-#: addon\globalPlugins\commandHelper\__init__.py:460
+#: addon\globalPlugins\commandHelper\__init__.py:560
 #, python-format
 msgid ""
 "Use up and down arrows to select a script and enter to run the selected. %s "
@@ -94,7 +113,7 @@ msgstr ""
 "вибраного сценарію. %s для очищення фільтра та повернення до головного меню. "
 "Натисніть пробіл, щоб виконати інший голосовий пошук."
 
-#: addon\globalPlugins\commandHelper\__init__.py:462
+#: addon\globalPlugins\commandHelper\__init__.py:562
 #, python-format
 msgid ""
 "Use right and left arrows to navigate categories, up and down arrows to "
@@ -104,52 +123,52 @@ msgstr ""
 "стрілки вгору або вниз для вибору сценарію, Enter для запуску вибраного "
 "сценарію. %s для виходу."
 
-#: addon\globalPlugins\commandHelper\__init__.py:466
+#: addon\globalPlugins\commandHelper\__init__.py:567
 msgid "Returning to the full menu"
 msgstr "Повернення до головного меню"
 
-#: addon\globalPlugins\commandHelper\__init__.py:469
+#: addon\globalPlugins\commandHelper\__init__.py:574
 msgid "Leaving the command hhelper"
 msgstr "Вихід з помічника для команд"
 
-#: addon\globalPlugins\commandHelper\__init__.py:473
+#: addon\globalPlugins\commandHelper\__init__.py:582
 msgid "Unavailable feature"
 msgstr "Недоступна функція"
 
-#: addon\globalPlugins\commandHelper\__init__.py:478
+#: addon\globalPlugins\commandHelper\__init__.py:587
 msgid "Speak now"
 msgstr "Говоріть зараз"
 
-#: addon\globalPlugins\commandHelper\__init__.py:482
+#: addon\globalPlugins\commandHelper\__init__.py:591
 msgid "Nothing was heard. Make sure the microphone is connected and try again."
 msgstr ""
 "Нічого не було чути. Переконайтеся, що мікрофон підключено, і повторіть "
 "спробу."
 
-#: addon\globalPlugins\commandHelper\__init__.py:487
+#: addon\globalPlugins\commandHelper\__init__.py:596
 msgid "Unable to recognize"
 msgstr "Неможливо розпізнати"
 
-#: addon\globalPlugins\commandHelper\__init__.py:490
+#: addon\globalPlugins\commandHelper\__init__.py:599
 msgid "Could not connect. Check your internet connection."
 msgstr "Не вдалося підключитися. Перевірте підключення до Інтернету."
 
-#: addon\globalPlugins\commandHelper\__init__.py:510
+#: addon\globalPlugins\commandHelper\__init__.py:619
 #, python-format
 msgid "%d matches found for %s"
 msgstr "%d збігів знайдено для %s"
 
-#: addon\globalPlugins\commandHelper\__init__.py:518
+#: addon\globalPlugins\commandHelper\__init__.py:627
 #, python-format
 msgid "No matches found for %s"
 msgstr "Не знайдено збігів для %s"
 
 #. TRANSLATORS: Checkbox to enable or disable helper launching by control key
-#: addon\globalPlugins\commandHelper\__init__.py:555
+#: addon\globalPlugins\commandHelper\__init__.py:664
 msgid "Control key launches the helper"
 msgstr "Клавіша Control запускає помічник"
 
-#: addon\globalPlugins\commandHelper\__init__.py:558
+#: addon\globalPlugins\commandHelper\__init__.py:667
 msgid ""
 "With the control key activated, it is recommended to reduce the keyboard "
 "repetition speed. See more information in the addon documentation."
@@ -158,62 +177,62 @@ msgstr ""
 "повторення клавіатури. Для отримання додаткових відомостей див. документацію "
 "до додатка."
 
-#: addon\globalPlugins\commandHelper\__init__.py:561
+#: addon\globalPlugins\commandHelper\__init__.py:670
 msgid "Windows keyboard settings"
 msgstr "Налаштування клавіатури Windows"
 
-#: addon\globalPlugins\commandHelper\__init__.py:563
+#: addon\globalPlugins\commandHelper\__init__.py:672
 msgid "Open the Windows control panel to adjust keyboard parameters"
 msgstr ""
 "Відкрити панель керування Windows, щоб налаштувати параметри клавіатури"
 
-#: addon\globalPlugins\commandHelper\__init__.py:567
+#: addon\globalPlugins\commandHelper\__init__.py:676
 msgid "Key to leave the keyboard command layer"
 msgstr "Клавіша для виходу з шару команд клавіатури"
 
-#: addon\globalPlugins\commandHelper\__init__.py:567
+#: addon\globalPlugins\commandHelper\__init__.py:676
 msgid "escape"
 msgstr "escape"
 
-#: addon\globalPlugins\commandHelper\__init__.py:567
+#: addon\globalPlugins\commandHelper\__init__.py:676
 msgid "backspace"
 msgstr "бекспейс"
 
-#: addon\globalPlugins\commandHelper\__init__.py:569
+#: addon\globalPlugins\commandHelper\__init__.py:678
 msgid "Choose which key to use to exit the helper."
 msgstr "Виберіть, яку клавішу використовувати для виходу з помічника."
 
-#: addon\globalPlugins\commandHelper\__init__.py:571
+#: addon\globalPlugins\commandHelper\__init__.py:680
 msgid "Key to report the gesture assigned to a command"
 msgstr "Клавіша для повідомлення про жест, призначений команді"
 
-#: addon\globalPlugins\commandHelper\__init__.py:571
+#: addon\globalPlugins\commandHelper\__init__.py:680
 msgid "F1"
 msgstr "F1"
 
-#: addon\globalPlugins\commandHelper\__init__.py:571
+#: addon\globalPlugins\commandHelper\__init__.py:680
 msgid "F12"
 msgstr "F12"
 
-#: addon\globalPlugins\commandHelper\__init__.py:573
+#: addon\globalPlugins\commandHelper\__init__.py:682
 msgid ""
 "Choose which key to use to announce the gesture assigned to the command."
 msgstr ""
 "Виберіть, яку клавішу використовувати для оголошення жесту, призначеного "
 "команді."
 
-#: addon\globalPlugins\commandHelper\__init__.py:575
+#: addon\globalPlugins\commandHelper\__init__.py:684
 msgid "Use numpad in the keyboard command layer"
 msgstr "Використовувати цифрову клавіатуру в шарі команд клавіатури"
 
-#: addon\globalPlugins\commandHelper\__init__.py:577
+#: addon\globalPlugins\commandHelper\__init__.py:686
 msgid "Use the numeric keyboard in the command layer."
 msgstr "Використовуйте цифрову клавіатуру в шарі команд."
 
 #. TRANSLATORS: Settings panel title
 #. Add-on summary, usually the user visible name of the addon.
 #. Translators: Summary for this add-on to be shown on installation and add-on information.
-#: addon\globalPlugins\commandHelper\__init__.py:601 buildVars.py:17
+#: addon\globalPlugins\commandHelper\__init__.py:710 buildVars.py:17
 msgid "Command Helper"
 msgstr "Помічник для команд"
 
