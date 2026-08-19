@@ -10,7 +10,11 @@ import wave
 from . import aifc
 from . import pyaudio
 import math
-import audioop
+try:
+    import audioop
+except ImportError:
+    # PEP 594 removed it in Python 3.13, which is what NVDA 2026.1 runs.
+    from . import audioop
 import collections
 import json
 import base64
