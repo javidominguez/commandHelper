@@ -586,7 +586,6 @@ class ActualizadorRecursos:
 	def _resolverTagReleaseAutomatico(self) -> str:
 		"""Resuelve la etiqueta de recursos automáticamente desde la versión del addon instalado."""
 		version = self._obtenerVersionAddonInstalada()
-		log.info(f"ActualizadorRecursos: DEBUG: versión obtenida = '{version}'") 
 		return construirEtiquetaRecursos(addon_version=version, dir_base=self._ruta_complemento)
 
 	def _obtenerVersionAddonDesdeBuildVars(self) -> str:
