@@ -26,6 +26,7 @@ Copyright (c) 1999-2011 Ross Bencina and Phil Burk
 www.portaudio.com/license.html
 """
 
+from .actualizadorRecursos import ActualizadorRecursos
 from tones import beep
 from functools import wraps
 from keyboardHandler import KeyboardInputGesture
@@ -151,12 +152,14 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self.allowedBrailleGestures = set()
 		self.oldGestureBindings = {}
 		self.flagFilter = False
+		self._actualizador = ActualizadorRecursos("javidominguez", "commandHelper", rama="master", intervalo_horas=12)
 
 	def onCommandHelperMenu(self, evt):
 		# Compatibility with older versions of NVDA
 		gui.mainFrame._popupSettingsDialog(CommandHelperSettings)
 
 	def terminate(self):
+		self._actualizador.detener()
 		try:
 			if hasattr(settingsDialogs, 'SettingsPanel'):
 				NVDASettingsDialog.categoryClasses.remove(CommandHelperPanel)

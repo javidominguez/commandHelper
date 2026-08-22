@@ -1,1 +1,2 @@
-* The speech recognition feature has been disabled in NVDA 2026.1 and later because the speech_recognition module has been deprecated and is no longer supported.
+- Voice recognition works again thanks to @serrebidev
+- Implemented @hxebolax resource updater. Translations will now be automatically updated as soon as they are available.
