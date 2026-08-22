@@ -58,18 +58,11 @@ import wx
 import winInputHook
 
 try:
-	import versionInfo
-	if int(versionInfo.version_detailed.split(".")[0])<2026:
-		from . import speech_recognition
-		log.info("Module speech_recognition version %s succesfully loaded\n(C) %s > license %s\nSee the file license.txt for more copyright details." % (speech_recognition.__version__, speech_recognition.__author__, speech_recognition.__license__))
-	else:
-		speech_recognition = None
-		log.warning("The speech recognition feature is not available in NVDA 2026.1 and later because the speech_recognition module has been deprecated and is no longer supported.")
+	from . import speech_recognition
+	log.info("Module speech_recognition version %s succesfully loaded\n(C) %s > license %s\nSee the file license.txt for more copyright details." % (speech_recognition.__version__, speech_recognition.__author__, speech_recognition.__license__))
 except ImportError:
 	speech_recognition = None
 	log.warning("Import of the speech_recognition module failed. The speech recognition feature will not be available.")
-except AttributeError:
-	pass
 
 # Settings compatibility with older versions of NVDA
 from gui import settingsDialogs
