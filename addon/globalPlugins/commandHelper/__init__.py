@@ -657,7 +657,7 @@ class Settings():
 	def makeSettings(self, sizer):
 		controlKeySizer = gui.guiHelper.BoxSizerHelper(self, orientation=wx.HORIZONTAL)
 		#TRANSLATORS: Checkbox to enable or disable helper launching by control key
-		self.controlKeyEnabledCheckBox=wx.CheckBox(self, wx.NewId(), label=_("Control key launches the helper"))
+		self.controlKeyEnabledCheckBox=wx.CheckBox(self, id=wx.ID_ANY, label=_("Control key launches the helper"))
 		self.controlKeyEnabledCheckBox.Bind(wx.EVT_CHECKBOX, self.onControlKeyEnabledCheckBoxChanged)
 		self.controlKeyEnabledCheckBox.SetValue(config.conf["commandHelper"]["controlKey"])
 		self.warningMessage= _("With the control key activated, it is recommended to reduce the keyboard repetition speed. See more information in the addon documentation.")
@@ -677,7 +677,7 @@ class Settings():
 		self.reportGestureKeyRadioBox .SetStringSelection(config.conf["commandHelper"]["reportGestureKey"])
 		self.reportGestureKeyRadioBox.SetToolTipString(_("Choose which key to use to announce the gesture assigned to the command."))
 		otherKeysSizer.addItem(self.reportGestureKeyRadioBox)
-		self.numpadKeysEnabledCheckBox=wx.CheckBox(self, wx.NewId(), label=_("Use numpad in the keyboard command layer"))
+		self.numpadKeysEnabledCheckBox=wx.CheckBox(self, id=wx.ID_ANY, label=_("Use numpad in the keyboard command layer"))
 		self.numpadKeysEnabledCheckBox.SetValue(config.conf["commandHelper"]["numpad"])
 		self.numpadKeysEnabledCheckBox.SetToolTipString(_("Use the numeric keyboard in the command layer."))
 		otherKeysSizer.addItem(self.numpadKeysEnabledCheckBox)

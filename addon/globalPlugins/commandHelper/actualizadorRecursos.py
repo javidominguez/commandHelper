@@ -957,9 +957,8 @@ class ActualizadorRecursos:
 			
 			# Agregar item de menú con el nombre completo del complemento (summary)
 			nombre_complemento = self._obtenerNombrePublico()
-			item_id = wx.NewId()
-			submenu_actualizar.Append(
-				item_id,
+			item = submenu_actualizar.Append(
+				wx.ID_ANY,
 				nombre_complemento,
 				f"Actualizar recursos de {nombre_complemento}"
 			)
@@ -968,7 +967,7 @@ class ActualizadorRecursos:
 			gui.mainFrame.sysTrayIcon.Bind(
 				wx.EVT_MENU,
 				lambda evt: self._actualizarDesdeMenu(),
-				id=item_id
+				id=item.GetId()
 			)
 			
 			log.info(f"ActualizadorRecursos: item de menú '{nombre_complemento}' agregado")
