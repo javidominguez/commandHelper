@@ -38,7 +38,15 @@ import appModuleHandler
 import appModules
 import baseObject
 import braille
-import brailleInput
+try:
+	# NVDA 2026.3 and later
+	from braille.display.driver import BrailleDisplayDriver
+	from braille.display.gesture import BrailleDisplayGesture
+	from braille.input.gesture import BrailleInputGesture
+except ImportError:
+	# NVDA 2026.2 and earlier
+	from braille import BrailleDisplayDriver, BrailleDisplayGesture
+	from brailleInput import BrailleInputGesture
 import config
 import globalCommands
 import globalPluginHandler
@@ -193,7 +201,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			# Launch of the helper by repeating a modifier key (in this case control).
 			gesture.speechEffectWhenExecuted = None
 			script = self.script_commandHelper(gesture)
-		if not self.toggling or isinstance(gesture, brailleInput.BrailleInputGesture) or True in [gID.lower() in self.allowedBrailleGestures for gID in gesture.identifiers]:
+		if not self.toggling or isinstance(gesture, BrailleInputGesture) or True in [gID.lower() in self.allowedBrailleGestures for gID in gesture.identifiers]:
 			return globalPluginHandler.GlobalPlugin.getScript(self, gesture)
 		script = globalPluginHandler.GlobalPlugin.getScript(self, gesture)
 		inputCore.manager._captureFunc = lambda self: not (gesture.isModifier and gesture.mainKeyName in (
@@ -435,7 +443,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 					return
 	
 			# Braille display
-			if not script and issubclass(commandInfo.cls, braille.BrailleDisplayDriver):
+			if not script and issubclass(commandInfo.cls, BrailleDisplayDriver):
 				try:
 					script = getattr(braille.handler.display, "script_" + commandInfo.scriptName)
 				except AttributeError:
@@ -510,10 +518,10 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		except:
 			raise
 		else:
-			if not isinstance(gesture, braille.BrailleDisplayGesture) and (gesture.modifierNames == ["shift"] or gesture.mainKeyName == "numpadPlus"):
+			if not isinstance(gesture, BrailleDisplayGesture) and (gesture.modifierNames == ["shift"] or gesture.mainKeyName == "numpadPlus"):
 				speech.cancelSpeech()
 				scriptHandler.executeScript(script, g)
-			elif not isinstance(gesture, braille.BrailleDisplayGesture) and (gesture.modifierNames == ["control"]  or gesture.mainKeyName == "numpadMinus"):
+			elif not isinstance(gesture, BrailleDisplayGesture) and (gesture.modifierNames == ["control"]  or gesture.mainKeyName == "numpadMinus"):
 				speech.cancelSpeech()
 				scriptHandler.executeScript(script, g)
 				speech.cancelSpeech()
