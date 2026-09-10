@@ -69,9 +69,9 @@ import winInputHook
 try:
 	from . import speech_recognition
 	log.info("Module speech_recognition version %s succesfully loaded\n(C) %s > license %s\nSee the file license.txt for more copyright details." % (speech_recognition.__version__, speech_recognition.__author__, speech_recognition.__license__))
-except ImportError:
+except Exception:
 	speech_recognition = None
-	log.warning("Import of the speech_recognition module failed. The speech recognition feature will not be available.")
+	log.warning("Import of the speech_recognition module failed. The speech recognition feature will not be available.", exc_info=True)
 
 # Settings compatibility with older versions of NVDA
 from gui import settingsDialogs
