@@ -38,9 +38,15 @@ import appModuleHandler
 import appModules
 import baseObject
 import braille
-import brailleInput
-from braille.display.gesture import BrailleDisplayGesture
-from braille.input.gesture import BrailleInputGesture
+try:
+	# NVDA 2026.3 and later
+	from braille.display.driver import BrailleDisplayDriver
+	from braille.display.gesture import BrailleDisplayGesture
+	from braille.input.gesture import BrailleInputGesture
+except ImportError:
+	# NVDA 2026.2 and earlier
+	from braille import BrailleDisplayDriver, BrailleDisplayGesture
+	from brailleInput import BrailleInputGesture
 import config
 import globalCommands
 import globalPluginHandler
@@ -437,7 +443,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 					return
 	
 			# Braille display
-			if not script and issubclass(commandInfo.cls, braille.BrailleDisplayDriver):
+			if not script and issubclass(commandInfo.cls, BrailleDisplayDriver):
 				try:
 					script = getattr(braille.handler.display, "script_" + commandInfo.scriptName)
 				except AttributeError:
