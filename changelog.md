@@ -1,2 +1,1 @@
-- Voice recognition works again thanks to @serrebidev
-- Implemented @hxebolax resource updater. Translations will now be automatically updated as soon as they are available.
+* Some fixes. Thanks to @serrebidev and @CyrilleB79
